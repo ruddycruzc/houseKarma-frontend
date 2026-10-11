@@ -3,6 +3,7 @@ import { LucideUserRound } from '@lucide/angular';
 
 @Component({
   selector: 'app-landing-header',
+  
   imports: [LucideUserRound],
   templateUrl: './landing-header.html',
   styleUrl: './landing-header.css',

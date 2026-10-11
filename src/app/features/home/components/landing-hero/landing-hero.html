@@ -1,0 +1,83 @@
+<section class="hero" aria-label="Descubre HouseKarma">
+  <div class="hero-content">
+    <div class="hero-copy" aria-live="polite" aria-atomic="true">
+      <p class="eyebrow">{{ currentSlide().eyebrow }}</p>
+
+      <h1>{{ currentSlide().title }}</h1>
+
+      <p class="description">{{ currentSlide().description }}</p>
+
+      <a class="hero-cta" href="#como-funciona">
+        <span>{{ currentSlide().cta }}</span>
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-visual">
+      <figure class="hero-image">
+        <img
+          [src]="currentSlide().image"
+          alt="Fotografía de una vivienda relacionada con una experiencia de alquiler"
+          [attr.fetchpriority]="activeIndex() === 0 ? 'high' : 'auto'"
+          [attr.loading]="activeIndex() === 0 ? 'eager' : 'lazy'"
+          decoding="async"
+          (error)="onImageError($event)"
+        />
+
+        <figcaption>Fotografía · {{ currentSlide().credit }}</figcaption>
+      </figure>
+
+      <div class="hero-cards" aria-label="Información destacada">
+        @for (card of currentSlide().cards; track card.title) {
+          <article class="hero-card">
+            <p class="card-eyebrow">{{ card.eyebrow }}</p>
+            <h2>{{ card.title }}</h2>
+            <p class="card-description">{{ card.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <p class="slide-count" aria-live="polite">
+      <strong>{{ (activeIndex() + 1).toString().padStart(2, '0') }}</strong>
+      <span>/ {{ slides.length.toString().padStart(2, '0') }}</span>
+    </p>
+
+    <div
+      class="slide-progress"
+      role="progressbar"
+      [attr.aria-valuenow]="activeIndex() + 1"
+      [attr.aria-valuemin]="1"
+      [attr.aria-valuemax]="slides.length"
+      aria-label="Progreso de diapositivas"
+    >
+      <span [style.width.%]="((activeIndex() + 1) / slides.length) * 100"></span>
+    </div>
+
+    <div class="slide-controls">
+      <button type="button" aria-label="Diapositiva anterior" (click)="previous()">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 12H5m7 7-7-7 7-7" />
+        </svg>
+      </button>
+
+      <button type="button" aria-label="Diapositiva siguiente" (click)="next()">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14m-7-7 7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

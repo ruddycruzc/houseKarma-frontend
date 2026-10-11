@@ -1,0 +1,361 @@
+
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.hero {
+  padding: clamp(1.5rem, 5vw, 4.5rem) clamp(1rem, 3.4vw, 3rem) 0;
+  overflow: hidden;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.hero-copy {
+  padding-block: clamp(1.5rem, 5vw, 4rem);
+}
+
+.eyebrow,
+.card-eyebrow {
+  margin: 0;
+  font-size: clamp(0.7rem, 0.9vw, 0.875rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.hero-copy h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(2.75rem, 5.8vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 0.96;
+}
+
+@supports (text-wrap: balance) {
+  .hero-copy h1 {
+    text-wrap: balance;
+  }
+}
+
+.description {
+  max-width: 28rem;
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  line-height: 1.55;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: fit-content;
+  min-width: min(100%, 18rem);
+  min-height: 4rem;
+  margin-top: clamp(1.75rem, 3.5vw, 3rem);
+  padding: 0.9rem 1.4rem;
+  border-radius: 0.65rem;
+  background: var(--primary);
+  color: var(--dark);
+  font-size: clamp(0.95rem, 1.3vw, 1.125rem);
+  font-weight: 600;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.hero-cta svg {
+  flex-shrink: 0;
+  transition: transform 180ms ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+}
+
+.hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-visual {
+  position: relative;
+  min-width: 0;
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.hero-image {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 0.96;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-image figcaption {
+  position: absolute;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  color: white;
+  font-size: clamp(0.7rem, 1vw, 0.875rem);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 5px rgb(0 0 0 / 45%);
+}
+
+.image-unavailable {
+  visibility: hidden;
+}
+
+.hero-cards {
+  position: absolute;
+  right: clamp(0.75rem, 3vw, 3rem);
+  bottom: 0;
+  left: clamp(-1.5rem, -2vw, -0.5rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+
+.hero-card {
+  min-width: 0;
+  min-height: clamp(10rem, 16vw, 13.5rem);
+  padding: clamp(1rem, 2vw, 1.75rem);
+  border: 1px solid var(--border);
+  border-radius: clamp(0.6rem, 1vw, 0.9rem);
+  background: var(--surface);
+}
+
+.hero-card:nth-child(2) {
+  transform: translateY(-1.5rem);
+}
+
+.card-eyebrow {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.hero-card h2 {
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0.5rem;
+  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.card-description {
+  margin: 0;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  line-height: 1.5;
+}
+
+.hero-footer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3.5rem);
+  margin-top: clamp(3rem, 6vw, 5rem);
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.slide-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.slide-count strong {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+}
+
+.slide-count span {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.slide-progress {
+  height: 3px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.slide-progress span {
+  display: block;
+  height: 100%;
+  background: var(--landlord);
+  transition: width 250ms ease;
+}
+
+.slide-controls {
+  display: flex;
+  border: 1px solid var(--border);
+}
+
+.slide-controls button {
+  display: grid;
+  width: clamp(2.75rem, 4vw, 3.5rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--dark);
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.slide-controls button + button {
+  border-left: 1px solid var(--border);
+}
+
+.slide-controls button:hover {
+  background: var(--surface);
+}
+
+.slide-controls svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero a:focus-visible,
+.slide-controls button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    padding: clamp(1rem, 4vw, 2rem) 0 0;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(2rem, 6vw, 3rem);
+  }
+
+  .hero-visual {
+    display: contents;
+  }
+
+  .hero-image {
+    order: 0;
+    margin-inline: clamp(1rem, 4.7vw, 2rem);
+    aspect-ratio: 0.84;
+  }
+
+  .hero-copy {
+    order: 1;
+    padding: 0 clamp(1rem, 4.7vw, 2rem);
+  }
+
+  .eyebrow {
+    margin-bottom: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .hero-copy h1 {
+    max-width: 14ch;
+    font-size: clamp(2.75rem, 8.8vw, 4.5rem);
+    letter-spacing: -0.07em;
+    line-height: 0.96;
+  }
+
+  .description {
+    max-width: 36rem;
+    margin-top: clamp(1.25rem, 4vw, 2rem);
+    font-size: clamp(1.05rem, 3.7vw, 1.5rem);
+  }
+
+  .hero-cta {
+    width: 100%;
+    min-height: clamp(3.5rem, 12vw, 4.25rem);
+    margin-top: clamp(1.5rem, 5vw, 2.25rem);
+    padding-inline: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .hero-cards {
+    order: 2;
+    position: static;
+    display: flex;
+    gap: 1rem;
+    padding: 0 clamp(1rem, 4.7vw, 2rem);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+  }
+
+  .hero-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  @supports (scrollbar-width: none) {
+    .hero-cards {
+      scrollbar-width: none;
+    }
+  }
+
+  .hero-card {
+    flex: 0 0 min(84%, 31rem);
+    min-height: 13rem;
+    padding: clamp(1.25rem, 5vw, 2rem);
+    scroll-snap-align: start;
+  }
+
+  .hero-card:nth-child(2) {
+    transform: none;
+  }
+
+  .hero-card h2 {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  .card-description {
+    font-size: clamp(0.9rem, 3.5vw, 1.125rem);
+  }
+
+  .hero-footer {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+    margin-top: clamp(2rem, 7vw, 3.5rem);
+    padding: 1rem clamp(1rem, 4.7vw, 2rem);
+  }
+
+  .slide-controls button {
+    width: clamp(2.5rem, 10vw, 3.25rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta,
+  .hero-cta svg,
+  .slide-progress span,
+  .slide-controls button {
+    transition: none;
+  }
+}

@@ -18,23 +18,6 @@
   --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Integración con Tailwind CSS v4 */
-@theme inline {
-  --font-sans: var(--font);
-  --font-mono: var(--font);
-  --font-display: var(--font);
-
-  --color-primary: var(--primary);
-  --color-dark: var(--dark);
-  --color-tenant: var(--tenant);
-  --color-landlord: var(--landlord);
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-text: var(--text);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-}
-
 /* Base global */
 *,
 *::before,
