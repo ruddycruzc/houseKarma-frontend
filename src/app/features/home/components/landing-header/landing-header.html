@@ -1,11 +1,5 @@
-
 <header class="header">
-  <a
-    class="logo"
-    href="#inicio"
-    aria-label="HouseKarma, ir al inicio"
-    (click)="closeMenu()"
-  >
+  <a class="logo" href="#inicio" aria-label="HouseKarma, ir al inicio" (click)="closeMenu()">
     House<span>Karma</span>
   </a>
 
@@ -34,13 +28,17 @@
     <a href="#caseros" (click)="closeMenu()">Para caseros</a>
 
     <div class="actions">
-      <a class="login-link" href="/login" (click)="closeMenu()">
-        Iniciar sesión
+      <a
+        class="login-link"
+        href="/login"
+        aria-label="Iniciar sesión"
+        title="Iniciar sesión"
+        (click)="closeMenu()"
+      >
+        <svg lucideUserRound class="user-icon" aria-hidden="true"></svg>
       </a>
 
-      <a class="register-link" href="/register" (click)="closeMenu()">
-        Registrarse
-      </a>
+      <a class="register-link" href="/register" (click)="closeMenu()"> Registrarse </a>
     </div>
   </nav>
 </header>
