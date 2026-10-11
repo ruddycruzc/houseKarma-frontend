@@ -1,0 +1,225 @@
+
+:host {
+  display: block;
+  position: relative;
+  z-index: 20;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding-inline: 1rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  flex-shrink: 0;
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  transition: opacity 180ms ease;
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.logo:hover {
+  opacity: 0.75;
+}
+
+/* Menú móvil con animación al clickear*/
+
+
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 11px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 180ms ease;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  flex-shrink: 0;
+  background: var(--primary);
+  transform-origin: center;
+  transition:
+    transform 200ms ease,
+    width 200ms ease;
+}
+
+.menu-toggle span:last-child {
+  width: 12px;
+}
+
+.menu-toggle[aria-expanded="true"] {
+  gap: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span:first-child {
+  transform: translateY(0.75px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:last-child {
+  width: 18px;
+  transform: translateY(-0.75px) rotate(-45deg);
+}
+
+/* Navegación móvil */
+
+.navigation {
+  position: absolute;
+  top: calc(100% + 1px);
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem 1rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    visibility 220ms;
+}
+
+.navigation--open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.navigation > a,
+.login-link {
+  position: relative;
+  width: fit-content;
+  font-size: 0.875rem;
+}
+
+.navigation > a::after,
+.login-link::after {
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  left: 0;
+  height: 1px;
+  background: var(--primary);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+}
+
+.navigation > a:hover::after,
+.login-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Acciones */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.login-link,
+.register-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.65rem 1rem;
+}
+
+.register-link {
+  align-self: flex-start;
+  border: 1px solid var(--border-strong, var(--border));
+  border-radius: 2px 12px 2px 12px;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.register-link:hover {
+  color: var(--text-inverse, #fff);
+  background: var(--dark);
+  border-color: var(--primary);
+}
+
+/* Escritorio */
+
+@media (min-width: 900px) {
+  .header {
+    min-height: 72px;
+    padding-inline: 3rem;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .navigation {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: 0;
+    border: 0;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    transition: none;
+  }
+
+  .actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .login-link,
+  .register-link {
+    min-height: 36px;
+  }
+}
+
+/* Accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .menu-toggle,
+  .menu-toggle span,
+  .navigation,
+  .navigation > a::after,
+  .login-link::after,
+  .register-link {
+    transition: none;
+  }
+}

@@ -88,3 +88,20 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Contexto visual por rol */
+:root {
+  --role: var(--primary);
+}
+
+[data-role="tenant"] {
+  --role: var(--tenant);
+}
+
+[data-role="landlord"] {
+  --role: var(--landlord);
+}
+
+[data-role="admin"] {
+  --role: var(--dark);
+}
