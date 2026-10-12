@@ -1,13 +1,12 @@
+
 :host {
   display: block;
-
   --experience-background: #fdf9f4;
   --experience-text: #493d34;
   --experience-muted: #a1978f;
   --experience-border: #d8ccc1;
   --experience-accent: #e69a96;
   --experience-status: #9b3931;
-
   color: var(--experience-text);
   background: var(--experience-background);
 }
@@ -19,8 +18,8 @@
 .experience__header {
   display: grid;
   grid-template-columns: minmax(13rem, 0.7fr) minmax(0, 1.3fr);
-  gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
+  gap: clamp(2rem, 4vw, 4rem);
 }
 
 .experience__eyebrow {
@@ -51,8 +50,6 @@
   letter-spacing: -0.065em;
   line-height: 0.98;
 }
-
-/* Ficha */
 
 .experience-card {
   margin-top: clamp(5rem, 9vw, 8rem);
@@ -92,8 +89,8 @@
 .experience-card__details {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 3rem;
   align-items: center;
+  gap: 3rem;
   min-height: 20rem;
   padding: 3.5rem clamp(2rem, 5vw, 3.5rem);
   border-bottom: 1px solid var(--experience-border);
@@ -125,8 +122,8 @@
 .experience-card__people {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 1.25rem;
   align-items: center;
+  gap: 1.25rem;
 }
 
 .experience-card__person-name {
@@ -143,13 +140,11 @@
   font-weight: 400;
 }
 
-/* Fechas */
-
 .experience-card__timeline {
   display: grid;
   grid-template-columns: auto minmax(2rem, 1fr) auto;
-  gap: 2rem;
   align-items: center;
+  gap: 2rem;
   min-height: 8rem;
   padding: 2rem clamp(2rem, 5vw, 3.5rem);
   border-bottom: 1px solid var(--experience-border);
@@ -170,8 +165,6 @@
 .experience-card__date--end {
   text-align: right;
 }
-
-/* CTA */
 
 .experience-card__footer {
   display: flex;
@@ -197,8 +190,8 @@
   padding: 1rem 1.25rem;
   border: 1px solid transparent;
   border-radius: 0.55rem;
-  color: var(--experience-text);
   background: var(--experience-accent);
+  color: var(--experience-text);
   font: inherit;
   font-size: 1rem;
   font-weight: 700;
@@ -220,8 +213,6 @@
   opacity: 0.6;
 }
 
-/* Tablet */
-
 @media (max-width: 850px) {
   .experience__header {
     grid-template-columns: 1fr;
@@ -242,8 +233,6 @@
     max-width: 32rem;
   }
 }
-
-/* Móvil */
 
 @media (max-width: 600px) {
   .experience {

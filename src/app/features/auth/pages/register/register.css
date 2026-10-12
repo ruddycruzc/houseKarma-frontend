@@ -168,18 +168,13 @@
 }
 
 .role-option.landlord.selected {
-  border-color: #7F2D28;
-  background: #E69A96;
-  color: #493D34;
+  border-color: #7f2d28;
+  background: #e69a96;
+  color: #493d34;
 }
 
 .role-option.landlord.selected .role-status {
-  color: #7F2D28;
-}
-
-.role-option.landlord.selected {
-  border-color: #7f2d28;
-  background: #e69a96;
+  color: #7f2d28;
 }
 
 .role-status {
@@ -304,6 +299,6 @@
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
+    transition: none !important;
   }
 }
