@@ -1,0 +1,109 @@
+<section
+  class="experience"
+  aria-labelledby="experience-title"
+>
+  <header class="experience__header">
+    <div class="experience__eyebrow">
+      <p>La unidad de confianza</p>
+    </div>
+
+    <h2 id="experience-title" class="experience__title">
+      Una experiencia conecta la historia completa.
+    </h2>
+  </header>
+
+  <article class="experience-card">
+    <header class="experience-card__header">
+      <p class="experience-card__reference">
+        Experiencia HK — {{ experience.reference }}
+      </p>
+
+      <span class="experience-card__status">
+        {{ experience.status }}
+      </span>
+    </header>
+
+    <div class="experience-card__details">
+      <div class="experience-card__property">
+        <p class="experience-card__label">Vivienda</p>
+
+        <h3 class="experience-card__address">
+          {{ experience.property.address }}
+        </h3>
+
+        <p class="experience-card__location">
+          {{ experience.property.city }}
+          · {{ experience.property.duration }}
+        </p>
+      </div>
+
+      <div class="experience-card__people">
+        <div class="experience-card__person">
+          <p class="experience-card__label">Inquilina</p>
+          <p class="experience-card__person-name">
+            {{ experience.tenant }}
+          </p>
+        </div>
+
+        <span class="experience-card__connection" aria-hidden="true">
+          +
+        </span>
+
+        <div class="experience-card__person">
+          <p class="experience-card__label">Casero</p>
+          <p class="experience-card__person-name">
+            {{ experience.landlord }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="experience-card__timeline">
+      <div class="experience-card__date">
+        <p class="experience-card__label">Fecha de inicio</p>
+        <time class="experience-card__date-value">
+          {{ experience.startDate }}
+        </time>
+      </div>
+
+      <div class="experience-card__timeline-line" aria-hidden="true"></div>
+
+      <div class="experience-card__date experience-card__date--end">
+        <p class="experience-card__label">Fecha de finalización</p>
+        <time class="experience-card__date-value">
+          {{ experience.endDate }}
+        </time>
+      </div>
+    </div>
+
+    <footer class="experience-card__footer">
+      <p class="experience-card__message">
+        Esta experiencia puede ser valorada.
+      </p>
+
+      <button
+        class="experience-card__cta"
+        type="button"
+        [disabled]="!experience.canBeRated"
+      >
+        <span>Valorar experiencia</span>
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </button>
+    </footer>
+  </article>
+</section>

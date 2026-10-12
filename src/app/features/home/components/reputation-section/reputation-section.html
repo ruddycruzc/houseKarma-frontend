@@ -1,0 +1,93 @@
+<section
+  class="reputation"
+  aria-labelledby="reputation-title"
+>
+  <header class="reputation__header">
+    <p class="reputation__eyebrow">
+      Reputación HouseKarma
+    </p>
+
+    <div class="reputation__intro">
+      <h2
+        id="reputation-title"
+        class="reputation__title"
+      >
+        La confianza no se inventa. Se construye.
+      </h2>
+
+      <p class="reputation__description">
+        Cada valoración procede de una experiencia de alquiler
+        finalizada. La puntuación resume el recorrido; el detalle
+        aporta transparencia.
+      </p>
+    </div>
+  </header>
+
+  <div
+    class="reputation-card"
+    aria-label="Ejemplo ilustrativo de reputación de un perfil"
+  >
+    <div class="reputation-card__summary">
+      <p class="reputation-card__eyebrow">
+        Reputación general
+      </p>
+
+      <p
+        class="reputation-card__score"
+        aria-label="Puntuación de ejemplo: 4,9 sobre 5"
+      >
+        {{ overallScore.toFixed(1) }}
+      </p>
+
+      <div
+        class="reputation-card__stars"
+        role="img"
+        aria-label="Cinco estrellas ilustrativas"
+      >
+        @for (star of [1, 2, 3, 4, 5]; track star) {
+          <span aria-hidden="true">★</span>
+        }
+      </div>
+
+      <p class="reputation-card__meta">
+        Ejemplo de perfil · {{ experienceCount }} experiencias
+      </p>
+    </div>
+
+    <div
+      class="reputation-card__divider"
+      aria-hidden="true"
+    ></div>
+
+    <ul
+      class="reputation-card__categories"
+      aria-label="Puntuaciones por categoría"
+    >
+      @for (category of categories; track category.name) {
+        <li class="reputation-category">
+          <span class="reputation-category__name">
+            {{ category.name }}
+          </span>
+
+          <div
+            class="reputation-category__track"
+            role="progressbar"
+            [attr.aria-label]="category.name"
+            [attr.aria-valuenow]="category.score"
+            aria-valuemin="0"
+            aria-valuemax="5"
+          >
+            <span
+              class="reputation-category__fill"
+              [style.width.%]="(category.score / 5) * 100"
+            ></span>
+          </div>
+
+          <span class="reputation-category__score">
+            {{ category.score.toFixed(1) }}
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

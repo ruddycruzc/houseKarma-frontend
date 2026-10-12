@@ -1,0 +1,242 @@
+:host {
+  display: block;
+
+  --story-background: #fdf9f4;
+  --story-text: #493d34;
+  --story-border: #75685f;
+  --story-accent: #e69a96;
+
+  color: var(--story-text);
+  background: var(--story-background);
+}
+
+.rental-story {
+  padding: clamp(5rem, 12vw, 10rem) clamp(1.25rem, 3.4vw, 3.5rem);
+  overflow: hidden;
+}
+
+.rental-story__intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 3rem;
+  align-items: start;
+}
+
+.rental-story__eyebrow {
+  grid-column: 1 / -1;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.rental-story__title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: clamp(2.8rem, 6.8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.rental-story__description {
+  grid-column: 2;
+  justify-self: end;
+  max-width: 48rem;
+  margin: 3rem 0 0;
+  font-size: clamp(1.15rem, 2.1vw, 1.8rem);
+  line-height: 1.55;
+}
+
+/* Diagrama */
+
+.rental-story__diagram {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(7rem, 0.9fr)
+    minmax(0, 1fr)
+    minmax(7rem, 0.9fr)
+    minmax(0, 1fr);
+  align-items: center;
+  margin-top: clamp(6rem, 12vw, 10rem);
+}
+
+.story-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1rem, 2vw, 1.6rem);
+  border: 1px solid var(--story-border);
+  background: var(--story-background);
+}
+
+.story-card__number {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
+.story-card__title {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.story-card--home {
+  z-index: 1;
+  background: var(--story-accent);
+  transform: rotate(3deg);
+}
+
+.story-connection {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  height: 1px;
+  align-items: center;
+  justify-content: center;
+  background: var(--story-text);
+}
+
+.story-connection__label {
+  position: absolute;
+  bottom: 0.8rem;
+  padding: 0 0.5rem;
+  background: var(--story-background);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Tablet */
+
+@media (max-width: 899px) {
+  .rental-story {
+    padding-inline: 2rem;
+  }
+
+  .rental-story__diagram {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(5rem, 0.65fr)
+      minmax(0, 1fr)
+      minmax(5rem, 0.65fr)
+      minmax(0, 1fr);
+  }
+
+  .story-card {
+    padding: 1rem;
+  }
+
+  .story-card__title {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  }
+
+  .story-connection__label {
+    font-size: 0.7rem;
+  }
+}
+
+/* Móvil */
+
+@media (max-width: 599px) {
+  .rental-story {
+    padding: 5rem 1.25rem 6rem;
+  }
+
+  .rental-story__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .rental-story__eyebrow {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .rental-story__title {
+    max-width: 100%;
+    font-size: clamp(3rem, 10.5vw, 4.5rem);
+    line-height: 0.98;
+  }
+
+  .rental-story__description {
+    align-self: stretch;
+    margin-top: 2.5rem;
+    font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+    line-height: 1.65;
+  }
+
+  .rental-story__diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 7rem;
+  }
+
+  .story-card {
+    width: min(70%, 16.75rem);
+    aspect-ratio: 1 / 1;
+    flex: none;
+    padding: 1.8rem;
+  }
+
+  .story-card__number {
+    font-size: 1rem;
+  }
+
+  .story-card__title {
+    font-size: clamp(1.8rem, 7vw, 2.25rem);
+  }
+
+  .story-connection {
+    width: 1px;
+    height: 5.5rem;
+    flex: none;
+  }
+
+  .story-connection__label {
+    bottom: auto;
+    left: 1.25rem;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .story-card--home {
+    width: min(72%, 17rem);
+    margin-block: 0.5rem;
+    transform: rotate(3deg);
+  }
+}
+
+@media (max-width: 374px) {
+  .rental-story__title {
+    font-size: 2.7rem;
+  }
+
+  .story-card {
+    width: 76%;
+  }
+
+  .story-card--home {
+    width: 78%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-card--home {
+    transform: none;
+  }
+}
