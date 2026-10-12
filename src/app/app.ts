@@ -6,6 +6,7 @@ import { RentalStorySectionComponent } from './features/home/components/rental-s
 import { HowItWorksSectionComponent } from './features/home/components/how-it-works-section/how-it-works-section';
 import { AudiencesSectionComponent } from './features/home/components/audiences-section/audiences-section';
 import { ReputationSectionComponent } from './features/home/components/reputation-section/reputation-section';
+import { ExperienceSectionComponent } from './features/home/components/experience-section/experience-section';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { ReputationSectionComponent } from './features/home/components/reputatio
     RentalStorySectionComponent,
     HowItWorksSectionComponent,
     AudiencesSectionComponent,
-    ReputationSectionComponent],
+    ReputationSectionComponent, 
+    ExperienceSectionComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
