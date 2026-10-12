@@ -135,7 +135,7 @@
 @media (max-width: 650px) {
   .audiences {
     grid-template-columns: minmax(0, 1fr);
-    min-height: auto;
+    min-height: 0;
   }
 
   .audiences__panel {
