@@ -34,17 +34,17 @@ export class LandingHero {
         'HouseKarma conecta experiencias reales de alquiler con la confianza que generan.',
       cta: 'Descubre HouseKarma',
       image: '/images/hero/image1-hero-housekarma.jpg',
-      credit: 'HouseKarma',
+      credit: 'Warren Hansen',
       cards: [
         {
           eyebrow: 'REPUTACIÓN',
           title: '4.8',
-          description: 'Basada en experiencias reales',
+          description: 'Transparente y trazable',
         },
         {
           eyebrow: 'EXPERIENCIAS',
-          title: 'Verificadas',
-          description: 'Cada historia cuenta',
+          title: 'Finalizada',
+          description: 'Lista para valorar',
         },
       ],
     },
@@ -55,7 +55,7 @@ export class LandingHero {
         'Inquilinos y caseros pueden valorar su experiencia después de finalizar un alquiler.',
       cta: 'Cómo funciona',
       image: '/images/hero/image2-hero-housekarma.jpg',
-      credit: 'HouseKarma',
+      credit: 'Dima Solomin',
       cards: [
         {
           eyebrow: 'INQUILINO + VIVIENDA + CASERO',
@@ -70,23 +70,23 @@ export class LandingHero {
       ],
     },
     {
-      eyebrow: 'PERSONAS DETRÁS DEL ALQUILER',
+      eyebrow: 'PERFILES CON HISTORIA',
       title: 'Conoce a las personas detrás del alquiler.',
       description:
-        'Construye relaciones de confianza con información basada en experiencias reales.',
+        'Consulta perfiles y reputaciones antes de comenzar una nueva experiencia.',
       cta: 'Conoce la plataforma',
       image: '/images/hero/image3-hero-housekarma.jpg',
       credit: 'HouseKarma',
       cards: [
         {
-          eyebrow: 'TRANSPARENCIA',
-          title: 'Personas',
-          description: 'Cada perfil tiene una historia',
+          eyebrow: 'PERFIL VERIFICADO',
+          title: 'Elena M.',
+          description: 'Inquilina · 7 experiencias',
         },
         {
           eyebrow: 'CONFIANZA',
-          title: 'Experiencias reales',
-          description: 'Información para decidir mejor',
+          title: 'Excelente',
+          description: 'Comunicación 4.9/5',
         },
       ],
     },
@@ -106,7 +106,7 @@ export class LandingHero {
         },
         {
           eyebrow: 'VALORACIONES',
-          title: 'Verificadas',
+          title: '18',
           description: 'Basadas en experiencias finalizadas',
         },
       ],
