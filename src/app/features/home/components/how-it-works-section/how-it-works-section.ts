@@ -1,0 +1,9 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-how-it-works-section',
+  standalone: true,
+  templateUrl: './how-it-works-section.html',
+  styleUrl: './how-it-works-section.css',
+})
+export class HowItWorksSectionComponent {}
