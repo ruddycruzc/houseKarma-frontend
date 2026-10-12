@@ -4,10 +4,16 @@ import { LandingHeader } from './features/home/components/landing-header/landing
 import { LandingHero } from './features/home/components/landing-hero/landing-hero';
 import { RentalStorySectionComponent } from './features/home/components/rental-story-section/rental-story-section';
 import { HowItWorksSectionComponent } from './features/home/components/how-it-works-section/how-it-works-section';
+import { AudiencesSectionComponent } from './features/home/components/audiences-section/audiences-section';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LandingHeader, LandingHero, RentalStorySectionComponent, HowItWorksSectionComponent, HowItWorksSectionComponent],
+  imports: [RouterOutlet,
+    LandingHeader,
+    LandingHero,
+    RentalStorySectionComponent,
+    HowItWorksSectionComponent,
+    AudiencesSectionComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
