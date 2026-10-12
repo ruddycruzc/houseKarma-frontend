@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { LucideUserRound } from '@lucide/angular';
 
 @Component({
   selector: 'app-landing-header',
   
-  imports: [LucideUserRound],
+  imports: [RouterLink ,LucideUserRound],
   templateUrl: './landing-header.html',
   styleUrl: './landing-header.css',
 })
