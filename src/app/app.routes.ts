@@ -1,3 +1,22 @@
+
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+import { PublicLayout } from './layouts/public-layout/public-layout';
+import { Home } from './features/home/pages/home/home';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: PublicLayout,
+    children: [
+      {
+        path: '',
+        component: Home,
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
+];
