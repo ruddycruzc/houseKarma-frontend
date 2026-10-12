@@ -8,6 +8,7 @@ import { AudiencesSectionComponent } from './features/home/components/audiences-
 import { ReputationSectionComponent } from './features/home/components/reputation-section/reputation-section';
 import { ExperienceSectionComponent } from './features/home/components/experience-section/experience-section';
 import { FinalCtaSectionComponent } from './features/home/components/final-cta-section/final-cta-section';
+import { LandingFooterComponent } from './features/home/components/landing-footer/landing-footer';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +19,9 @@ import { FinalCtaSectionComponent } from './features/home/components/final-cta-s
     HowItWorksSectionComponent,
     AudiencesSectionComponent,
     ReputationSectionComponent,
-    ExperienceSectionComponent, 
-    FinalCtaSectionComponent],
+    ExperienceSectionComponent,
+    FinalCtaSectionComponent, 
+    LandingFooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
