@@ -1,0 +1,131 @@
+
+<main class="login-page">
+  <section class="login-layout" aria-label="Inicio de sesión en HouseKarma">
+    <aside class="login-visual">
+      <p class="visual-eyebrow">TU HISTORIA EN HOUSEKARMA</p>
+
+      <h2>Tu reputación ya está hablando.</h2>
+
+      <figure class="login-photo">
+        <img
+          src="./images/register/image-register.jpg"
+          alt="Luz natural entrando por la ventana de una vivienda"
+        />
+        <figcaption>Fotografía · Tuan Senjaya</figcaption>
+      </figure>
+
+      <div class="reputation-card">
+        <div class="reputation-score">
+          <strong>4,8</strong>
+          <span class="score-total">/ 5</span>
+        </div>
+
+        <div class="reputation-details">
+          <span class="reputation-label">REPUTACIÓN</span>
+          <span class="reputation-stars" aria-label="Cinco estrellas">
+            ★ ★ ★ ★ ★
+          </span>
+          <span class="reputation-caption">Construida con experiencias reales</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="login-form-panel" aria-labelledby="login-title">
+      <header class="login-heading">
+        <p class="eyebrow">TU EXPERIENCIA CONTINÚA AQUÍ</p>
+        <h1 id="login-title">Bienvenido de nuevo</h1>
+        <p>Accede a tu cuenta de HouseKarma.</p>
+      </header>
+
+      <form [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            placeholder="tu@email.com"
+            [attr.aria-invalid]="loginForm.controls.email.invalid && loginForm.controls.email.touched"
+            [attr.aria-describedby]="loginForm.controls.email.invalid && loginForm.controls.email.touched ? 'email-error' : null"
+          />
+
+          @if (loginForm.controls.email.touched && loginForm.controls.email.hasError('required')) {
+            <p class="field-error" id="email-error">
+              Introduce tu email.
+            </p>
+          } @else if (loginForm.controls.email.touched && loginForm.controls.email.hasError('email')) {
+            <p class="field-error" id="email-error">
+              Introduce un email válido.
+            </p>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="password">Contraseña</label>
+
+          <div class="password-input">
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              placeholder="Tu contraseña"
+              [attr.aria-invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched"
+              [attr.aria-describedby]="loginForm.controls.password.invalid && loginForm.controls.password.touched ? 'password-error' : null"
+            />
+
+            <button
+              type="button"
+              class="show-password"
+              (click)="togglePassword()"
+              [attr.aria-pressed]="showPassword()"
+              [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            >
+              {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+
+          @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
+            <p class="field-error" id="password-error">
+              Introduce tu contraseña.
+            </p>
+          }
+
+          <div class="forgot-password">
+            <a
+              href="#"
+              (click)="$event.preventDefault()"
+              aria-disabled="true"
+              title="Funcionalidad pendiente"
+            >
+              ¿Has olvidado tu contraseña?
+            </a>
+          </div>
+        </div>
+
+        @if (submitted() && loginForm.invalid) {
+          <div class="login-error" role="alert">
+            <span class="error-icon" aria-hidden="true">!</span>
+            <p>Revisa los campos señalados antes de continuar.</p>
+          </div>
+        }
+
+        <button class="submit-button" type="submit">
+          <span>Iniciar sesión</span>
+          <span class="submit-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="register-link">
+          ¿No tienes una cuenta?
+          <a routerLink="/register">Crear cuenta</a>
+        </p>
+
+        <p class="secure-note">
+          <span aria-hidden="true"></span>
+          Acceso seguro a tu historial y reputación
+        </p>
+      </form>
+    </section>
+  </section>
+</main>

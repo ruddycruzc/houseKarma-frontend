@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { Home } from './features/home/pages/home/home';
 import { Register } from './features/auth/pages/register/register';
-
+import { Login } from './features/auth/pages/login/login';
 export const routes: Routes = [
   {
     path: '',
@@ -16,6 +16,10 @@ export const routes: Routes = [
       {
         path: 'register',
         component: Register,
+      },
+      {
+        path: 'login',
+        component: Login,
       },
     ],
   },
