@@ -1,0 +1,264 @@
+:host {
+  display: block;
+
+  --reputation-background: #fdf9f4;
+  --reputation-text: #493d34;
+  --reputation-muted: #9b9189;
+  --reputation-border: #ded6cf;
+  --reputation-track: #e8e3de;
+  --reputation-accent: #e69a96;
+  --reputation-star: #7f2d28;
+
+  color: var(--reputation-text);
+  background: var(--reputation-background);
+}
+
+.reputation {
+  padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 2.8vw, 3rem);
+}
+
+.reputation__header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  column-gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.reputation__eyebrow,
+.reputation-card__eyebrow {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.reputation__intro {
+  max-width: 50rem;
+}
+
+.reputation__title {
+  margin: 0;
+  font-size: clamp(3rem, 5.2vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.reputation__description {
+  max-width: 43rem;
+  margin: 2rem 0 0;
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  line-height: 1.65;
+}
+
+/* Panel principal */
+
+.reputation-card {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.7fr) 1px minmax(0, 1.3fr);
+  column-gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: center;
+  margin-top: clamp(5rem, 9vw, 8rem);
+  padding: clamp(2rem, 5vw, 4.5rem);
+  border: 1px solid var(--reputation-border);
+}
+
+.reputation-card__summary {
+  min-width: 0;
+}
+
+.reputation-card__score {
+  margin: 1.25rem 0 0;
+  font-size: clamp(6rem, 9vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+
+.reputation-card__stars {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 0.6rem;
+  color: var(--reputation-star);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.reputation-card__meta {
+  margin: 1.8rem 0 0;
+  color: var(--reputation-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.reputation-card__divider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--reputation-border);
+}
+
+.reputation-card__categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reputation-category {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.9fr) minmax(4rem, 1fr) 2.5rem;
+  column-gap: 1.25rem;
+  align-items: center;
+}
+
+.reputation-category__name {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.reputation-category__track {
+  height: 5px;
+  overflow: hidden;
+  background: var(--reputation-track);
+}
+
+.reputation-category__fill {
+  display: block;
+  height: 100%;
+  background: var(--reputation-accent);
+  transition: width 250ms ease;
+}
+
+.reputation-category__score {
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .reputation__header {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+
+  .reputation__title {
+    max-width: 15ch;
+    font-size: clamp(3rem, 7vw, 4.5rem);
+  }
+
+  .reputation-card {
+    grid-template-columns: minmax(12rem, 0.7fr) 1px minmax(0, 1.3fr);
+    column-gap: 1.75rem;
+    padding: 2rem;
+  }
+
+  .reputation-category {
+    grid-template-columns: minmax(6rem, 0.9fr) minmax(3rem, 1fr) 2.2rem;
+    column-gap: 0.75rem;
+  }
+}
+
+/* Móvil */
+
+@media (max-width: 600px) {
+  .reputation {
+    padding: 5rem 1.25rem;
+  }
+
+  .reputation__header {
+    row-gap: 2.5rem;
+  }
+
+  .reputation__eyebrow,
+  .reputation-card__eyebrow {
+    font-size: 0.85rem;
+  }
+
+  .reputation__title {
+    max-width: 100%;
+    font-size: clamp(2.8rem, 10vw, 4.25rem);
+    line-height: 0.98;
+  }
+
+  .reputation__description {
+    margin-top: 2.5rem;
+    font-size: 1.2rem;
+    line-height: 1.65;
+  }
+
+  .reputation-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .reputation-card__score {
+    margin-top: 1.5rem;
+    font-size: clamp(7rem, 25vw, 9rem);
+  }
+
+  .reputation-card__stars {
+    gap: 0.65rem;
+    font-size: 1.25rem;
+  }
+
+  .reputation-card__meta {
+    margin-top: 1.8rem;
+    font-size: 0.95rem;
+  }
+
+  .reputation-card__divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .reputation-card__categories {
+    gap: 1.8rem;
+  }
+
+  .reputation-category {
+    grid-template-columns: minmax(0, 1fr) minmax(4rem, 1.1fr) 2.5rem;
+    column-gap: 0.75rem;
+  }
+
+  .reputation-category__name {
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+  }
+
+  .reputation-category__score {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 374px) {
+  .reputation-card {
+    padding-inline: 1rem;
+  }
+
+  .reputation-category {
+    grid-template-columns: minmax(0, 1fr) minmax(3rem, 0.9fr) 2.2rem;
+    column-gap: 0.5rem;
+  }
+
+  .reputation-category__name,
+  .reputation-category__score {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reputation-category__fill {
+    transition: none;
+  }
+}

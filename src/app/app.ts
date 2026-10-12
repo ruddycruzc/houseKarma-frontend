@@ -5,6 +5,7 @@ import { LandingHero } from './features/home/components/landing-hero/landing-her
 import { RentalStorySectionComponent } from './features/home/components/rental-story-section/rental-story-section';
 import { HowItWorksSectionComponent } from './features/home/components/how-it-works-section/how-it-works-section';
 import { AudiencesSectionComponent } from './features/home/components/audiences-section/audiences-section';
+import { ReputationSectionComponent } from './features/home/components/reputation-section/reputation-section';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ import { AudiencesSectionComponent } from './features/home/components/audiences-
     LandingHero,
     RentalStorySectionComponent,
     HowItWorksSectionComponent,
-    AudiencesSectionComponent],
+    AudiencesSectionComponent,
+    ReputationSectionComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
