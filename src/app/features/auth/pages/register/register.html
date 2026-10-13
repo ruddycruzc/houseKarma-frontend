@@ -1,4 +1,3 @@
-
 <main class="register-page">
   <section class="register-card" aria-labelledby="register-title">
     <header class="register-heading">
@@ -9,20 +8,61 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="submitForm()" novalidate>
       <div class="form-field">
-        <label for="fullName">Nombre</label>
+        <label for="nombre">Nombre</label>
         <input
-          id="fullName"
+          id="nombre"
           type="text"
-          formControlName="fullName"
-          autocomplete="name"
+          formControlName="nombre"
+          autocomplete="given-name"
           placeholder="Tu nombre"
-          [attr.aria-invalid]="registerForm.controls.fullName.invalid && registerForm.controls.fullName.touched"
-          [attr.aria-describedby]="registerForm.controls.fullName.invalid && registerForm.controls.fullName.touched ? 'fullName-error' : null"
+          [attr.aria-invalid]="
+            registerForm.controls.nombre.invalid &&
+            registerForm.controls.nombre.touched
+          "
+          [attr.aria-describedby]="
+            registerForm.controls.nombre.invalid &&
+            registerForm.controls.nombre.touched
+              ? 'nombre-error'
+              : null
+          "
         />
 
-        @if (registerForm.controls.fullName.touched && registerForm.controls.fullName.invalid) {
-          <p class="field-error" id="fullName-error">
-            Introduce tu nombre completo.
+        @if (
+          registerForm.controls.nombre.touched &&
+          registerForm.controls.nombre.invalid
+        ) {
+          <p class="field-error" id="nombre-error">
+            Introduce tu nombre.
+          </p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="apellidos">Apellidos</label>
+        <input
+          id="apellidos"
+          type="text"
+          formControlName="apellidos"
+          autocomplete="family-name"
+          placeholder="Tus apellidos"
+          [attr.aria-invalid]="
+            registerForm.controls.apellidos.invalid &&
+            registerForm.controls.apellidos.touched
+          "
+          [attr.aria-describedby]="
+            registerForm.controls.apellidos.invalid &&
+            registerForm.controls.apellidos.touched
+              ? 'apellidos-error'
+              : null
+          "
+        />
+
+        @if (
+          registerForm.controls.apellidos.touched &&
+          registerForm.controls.apellidos.invalid
+        ) {
+          <p class="field-error" id="apellidos-error">
+            Introduce tus apellidos.
           </p>
         }
       </div>
@@ -35,13 +75,67 @@
           formControlName="email"
           autocomplete="email"
           placeholder="tu@email.com"
-          [attr.aria-invalid]="registerForm.controls.email.invalid && registerForm.controls.email.touched"
-          [attr.aria-describedby]="registerForm.controls.email.invalid && registerForm.controls.email.touched ? 'email-error' : null"
+          [attr.aria-invalid]="
+            registerForm.controls.email.invalid &&
+            registerForm.controls.email.touched
+          "
+          [attr.aria-describedby]="
+            registerForm.controls.email.invalid &&
+            registerForm.controls.email.touched
+              ? 'email-error'
+              : null
+          "
         />
 
-        @if (registerForm.controls.email.touched && registerForm.controls.email.invalid) {
+        @if (
+          registerForm.controls.email.touched &&
+          registerForm.controls.email.invalid
+        ) {
           <p class="field-error" id="email-error">
             Introduce un email válido.
+          </p>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="confirmEmail">Confirmar email</label>
+        <input
+          id="confirmEmail"
+          type="email"
+          formControlName="confirmEmail"
+          autocomplete="email"
+          placeholder="Repite tu email"
+          [attr.aria-invalid]="
+            (
+              registerForm.controls.confirmEmail.invalid ||
+              emailsMismatch()
+            ) &&
+            registerForm.controls.confirmEmail.touched
+          "
+          [attr.aria-describedby]="
+            (
+              registerForm.controls.confirmEmail.invalid ||
+              emailsMismatch()
+            ) &&
+            registerForm.controls.confirmEmail.touched
+              ? 'confirmEmail-error'
+              : null
+          "
+        />
+
+        @if (
+          registerForm.controls.confirmEmail.touched &&
+          registerForm.controls.confirmEmail.invalid
+        ) {
+          <p class="field-error" id="confirmEmail-error">
+            Introduce un email válido para confirmarlo.
+          </p>
+        } @else if (
+          registerForm.controls.confirmEmail.touched &&
+          emailsMismatch()
+        ) {
+          <p class="field-error" id="confirmEmail-error">
+            Los emails no coinciden.
           </p>
         }
       </div>
@@ -57,7 +151,16 @@
               formControlName="password"
               autocomplete="new-password"
               placeholder="Mínimo 8 caracteres"
-              [attr.aria-invalid]="registerForm.controls.password.invalid && registerForm.controls.password.touched"
+              [attr.aria-invalid]="
+                registerForm.controls.password.invalid &&
+                registerForm.controls.password.touched
+              "
+              [attr.aria-describedby]="
+                registerForm.controls.password.invalid &&
+                registerForm.controls.password.touched
+                  ? 'password-error'
+                  : null
+              "
             />
 
             <button
@@ -65,14 +168,22 @@
               class="show-password"
               (click)="togglePassword()"
               [attr.aria-pressed]="showPassword()"
+              [attr.aria-label]="
+                showPassword()
+                  ? 'Ocultar contraseña'
+                  : 'Mostrar contraseña'
+              "
             >
               {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
             </button>
           </div>
 
-          @if (registerForm.controls.password.touched && registerForm.controls.password.invalid) {
-            <p class="field-error">
-              Utiliza al menos 8 caracteres.
+          @if (
+            registerForm.controls.password.touched &&
+            registerForm.controls.password.invalid
+          ) {
+            <p class="field-error" id="password-error">
+              Utiliza entre 8 y 72 caracteres.
             </p>
           }
         </div>
@@ -86,9 +197,23 @@
               [type]="showPassword() ? 'text' : 'password'"
               formControlName="confirmPassword"
               autocomplete="new-password"
-              placeholder="Mínimo 8 caracteres"
-              [attr.aria-invalid]="(registerForm.controls.confirmPassword.invalid || passwordMismatch()) && registerForm.controls.confirmPassword.touched"
-              [attr.aria-describedby]="(registerForm.controls.confirmPassword.invalid || passwordMismatch()) && registerForm.controls.confirmPassword.touched ? 'confirmPassword-error' : null"
+              placeholder="Repite tu contraseña"
+              [attr.aria-invalid]="
+                (
+                  registerForm.controls.confirmPassword.invalid ||
+                  passwordMismatch()
+                ) &&
+                registerForm.controls.confirmPassword.touched
+              "
+              [attr.aria-describedby]="
+                (
+                  registerForm.controls.confirmPassword.invalid ||
+                  passwordMismatch()
+                ) &&
+                registerForm.controls.confirmPassword.touched
+                  ? 'confirmPassword-error'
+                  : null
+              "
             />
 
             <button
@@ -96,21 +221,64 @@
               class="show-password"
               (click)="togglePassword()"
               [attr.aria-pressed]="showPassword()"
+              [attr.aria-label]="
+                showPassword()
+                  ? 'Ocultar contraseña'
+                  : 'Mostrar contraseña'
+              "
             >
               {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
             </button>
           </div>
 
-          @if (registerForm.controls.confirmPassword.touched && registerForm.controls.confirmPassword.invalid) {
+          @if (
+            registerForm.controls.confirmPassword.touched &&
+            registerForm.controls.confirmPassword.invalid
+          ) {
             <p class="field-error" id="confirmPassword-error">
               Confirma tu contraseña.
             </p>
-          } @else if (registerForm.controls.confirmPassword.touched && passwordMismatch()) {
+          } @else if (
+            registerForm.controls.confirmPassword.touched &&
+            passwordMismatch()
+          ) {
             <p class="field-error" id="confirmPassword-error">
               Las contraseñas no coinciden.
             </p>
           }
         </div>
+      </div>
+
+      <div class="form-field">
+        <label for="telefono">
+          Teléfono <span>(opcional)</span>
+        </label>
+        <input
+          id="telefono"
+          type="tel"
+          formControlName="telefono"
+          autocomplete="tel"
+          placeholder="Tu teléfono"
+          [attr.aria-invalid]="
+            registerForm.controls.telefono.invalid &&
+            registerForm.controls.telefono.touched
+          "
+          [attr.aria-describedby]="
+            registerForm.controls.telefono.invalid &&
+            registerForm.controls.telefono.touched
+              ? 'telefono-error'
+              : null
+          "
+        />
+
+        @if (
+          registerForm.controls.telefono.touched &&
+          registerForm.controls.telefono.invalid
+        ) {
+          <p class="field-error" id="telefono-error">
+            El teléfono no puede superar los 20 caracteres.
+          </p>
+        }
       </div>
 
       <fieldset class="role-fieldset">
@@ -125,11 +293,17 @@
             (click)="selectRole('INQUILINO')"
           >
             <span class="role-status">
-              {{ selectedRole() === 'INQUILINO' ? 'SELECCIONADO' : 'ELEGIR' }}
+              {{
+                selectedRole() === 'INQUILINO'
+                  ? 'SELECCIONADO'
+                  : 'ELEGIR'
+              }}
             </span>
 
             <strong>INQUILINO</strong>
-            <span>Quiero alquilar y construir mi reputación como inquilino.</span>
+            <span>
+              Quiero alquilar y construir mi reputación como inquilino.
+            </span>
           </button>
 
           <button
@@ -140,11 +314,17 @@
             (click)="selectRole('CASERO')"
           >
             <span class="role-status">
-              {{ selectedRole() === 'CASERO' ? 'SELECCIONADO' : 'ELEGIR' }}
+              {{
+                selectedRole() === 'CASERO'
+                  ? 'SELECCIONADO'
+                  : 'ELEGIR'
+              }}
             </span>
 
             <strong>CASERO</strong>
-            <span>Quiero alquilar mi vivienda y construir mi reputación como casero.</span>
+            <span>
+              Quiero alquilar mi vivienda y construir mi reputación como casero.
+            </span>
           </button>
         </div>
       </fieldset>
@@ -155,8 +335,27 @@
         </p>
       }
 
-      <button class="submit-button" type="submit">
-        <span>Crear cuenta</span>
+      @if (apiError()) {
+        <p class="form-error" role="alert">
+          {{ apiError() }}
+        </p>
+      }
+
+      @if (successMessage()) {
+        <p class="success-message" role="status">
+          {{ successMessage() }}
+          <a routerLink="/login">Iniciar sesión</a>
+        </p>
+      }
+
+      <button
+        class="submit-button"
+        type="submit"
+        [disabled]="loading()"
+      >
+        <span>
+          {{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+        </span>
         <span class="submit-arrow" aria-hidden="true">→</span>
       </button>
 

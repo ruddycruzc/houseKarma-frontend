@@ -1,5 +1,5 @@
-
-import { Component, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,23 +9,32 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '../../../../core/services/auth.service';
+import { RegisterRequest } from '../../../../core/models/auth.models';
 
 export type UserRole = 'INQUILINO' | 'CASERO';
 
-export const passwordsMatchValidator: ValidatorFn = (
+export const registrationFieldsMatchValidator: ValidatorFn = (
   control: AbstractControl,
 ): ValidationErrors | null => {
+  const email = control.get('email')?.value;
+  const confirmEmail = control.get('confirmEmail')?.value;
   const password = control.get('password')?.value;
   const confirmPassword = control.get('confirmPassword')?.value;
 
-  if (!password || !confirmPassword) {
-    return null;
+  const errors: ValidationErrors = {};
+
+  if (email && confirmEmail && email.trim().toLowerCase() !== confirmEmail.trim().toLowerCase()) {
+    errors['emailsMismatch'] = true;
   }
 
-  return password === confirmPassword
-    ? null
-    : { passwordsMismatch: true };
+  if (password && confirmPassword && password !== confirmPassword) {
+    errors['passwordsMismatch'] = true;
+  }
+
+  return Object.keys(errors).length ? errors : null;
 };
 
 @Component({
@@ -35,40 +44,55 @@ export const passwordsMatchValidator: ValidatorFn = (
   styleUrl: './register.css',
 })
 export class Register {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
   protected readonly selectedRole = signal<UserRole>('INQUILINO');
   protected readonly submitted = signal(false);
   protected readonly showPassword = signal(false);
+  protected readonly loading = signal(false);
+  protected readonly apiError = signal('');
+  protected readonly successMessage = signal('');
 
   protected readonly registerForm = new FormGroup(
     {
-      fullName: new FormControl('', {
+      nombre: new FormControl('', {
         nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.pattern(/\S/),
-          Validators.maxLength(100),
-        ],
+        validators: [Validators.required, Validators.pattern(/\S/), Validators.maxLength(100)],
+      }),
+      apellidos: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(/\S/), Validators.maxLength(150)],
       }),
       email: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required, Validators.email],
+        validators: [Validators.required, Validators.email, Validators.maxLength(255)],
+      }),
+      confirmEmail: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email, Validators.maxLength(255)],
       }),
       password: new FormControl('', {
         nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.minLength(8),
-        ],
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(72)],
       }),
       confirmPassword: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(72)],
+      }),
+      telefono: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.maxLength(20)],
       }),
     },
     {
-      validators: passwordsMatchValidator,
+      validators: registrationFieldsMatchValidator,
     },
   );
+
+  protected emailsMismatch(): boolean {
+    return this.registerForm.hasError('emailsMismatch');
+  }
 
   protected passwordMismatch(): boolean {
     return this.registerForm.hasError('passwordsMismatch');
@@ -84,15 +108,63 @@ export class Register {
 
   protected submitForm(): void {
     this.submitted.set(true);
+    this.apiError.set('');
+    this.successMessage.set('');
     this.registerForm.markAllAsTouched();
 
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid || this.loading()) {
       return;
     }
 
-    /*
-     * Pendiente de integración con el backend Spring Boot.
-     * La cuenta todavía no se crea ni se envían datos a ningún servicio.
-     */
+    const formValue = this.registerForm.getRawValue();
+
+    const request: RegisterRequest = {
+      nombre: formValue.nombre.trim(),
+      apellidos: formValue.apellidos.trim(),
+      email: formValue.email.trim(),
+      confirmarEmail: formValue.confirmEmail.trim(),
+      password: formValue.password,
+      confirmarPassword: formValue.confirmPassword,
+      telefono: formValue.telefono.trim() || undefined,
+      rol: this.selectedRole(),
+    };
+
+    this.loading.set(true);
+
+    this.authService.register(request).subscribe({
+      next: () => {
+        this.loading.set(false);
+
+        void this.router.navigate(['/login'], {
+          state: {
+            registrationSuccess: true,
+          },
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading.set(false);
+        this.apiError.set(this.getErrorMessage(error));
+      },
+    });
+  }
+
+  private getErrorMessage(error: HttpErrorResponse): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Comprueba que el backend esté iniciado.';
+    }
+
+    if (error.status === 409) {
+      return 'Ya existe una cuenta con ese email.';
+    }
+
+    if (error.status === 400) {
+      const message = error.error?.message;
+
+      return typeof message === 'string'
+        ? message
+        : 'No se pudo crear la cuenta. Revisa los datos introducidos.';
+    }
+
+    return 'Ha ocurrido un error al crear tu cuenta. Inténtalo de nuevo.';
   }
 }

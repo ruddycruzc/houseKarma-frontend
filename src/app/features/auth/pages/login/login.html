@@ -1,4 +1,3 @@
-
 <main class="login-page">
   <section class="login-layout" aria-label="Inicio de sesión en HouseKarma">
     <aside class="login-visual">
@@ -22,9 +21,7 @@
 
         <div class="reputation-details">
           <span class="reputation-label">REPUTACIÓN</span>
-          <span class="reputation-stars" aria-label="Cinco estrellas">
-            ★ ★ ★ ★ ★
-          </span>
+          <span class="reputation-stars" aria-label="Cinco estrellas"> ★ ★ ★ ★ ★ </span>
           <span class="reputation-caption">Construida con experiencias reales</span>
         </div>
       </div>
@@ -37,6 +34,12 @@
         <p>Accede a tu cuenta de HouseKarma.</p>
       </header>
 
+      @if (registrationSuccess()) {
+        <p class="success-message" role="status">
+          Tu cuenta se ha creado correctamente. Ya puedes iniciar sesión.
+        </p>
+      }
+
       <form [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
         <div class="form-field">
           <label for="email">Email</label>
@@ -46,18 +49,22 @@
             formControlName="email"
             autocomplete="email"
             placeholder="tu@email.com"
-            [attr.aria-invalid]="loginForm.controls.email.invalid && loginForm.controls.email.touched"
-            [attr.aria-describedby]="loginForm.controls.email.invalid && loginForm.controls.email.touched ? 'email-error' : null"
+            [attr.aria-invalid]="
+              loginForm.controls.email.invalid && loginForm.controls.email.touched
+            "
+            [attr.aria-describedby]="
+              loginForm.controls.email.invalid && loginForm.controls.email.touched
+                ? 'email-error'
+                : null
+            "
           />
 
           @if (loginForm.controls.email.touched && loginForm.controls.email.hasError('required')) {
-            <p class="field-error" id="email-error">
-              Introduce tu email.
-            </p>
-          } @else if (loginForm.controls.email.touched && loginForm.controls.email.hasError('email')) {
-            <p class="field-error" id="email-error">
-              Introduce un email válido.
-            </p>
+            <p class="field-error" id="email-error">Introduce tu email.</p>
+          } @else if (
+            loginForm.controls.email.touched && loginForm.controls.email.hasError('email')
+          ) {
+            <p class="field-error" id="email-error">Introduce un email válido.</p>
           }
         </div>
 
@@ -71,8 +78,14 @@
               formControlName="password"
               autocomplete="current-password"
               placeholder="Tu contraseña"
-              [attr.aria-invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched"
-              [attr.aria-describedby]="loginForm.controls.password.invalid && loginForm.controls.password.touched ? 'password-error' : null"
+              [attr.aria-invalid]="
+                loginForm.controls.password.invalid && loginForm.controls.password.touched
+              "
+              [attr.aria-describedby]="
+                loginForm.controls.password.invalid && loginForm.controls.password.touched
+                  ? 'password-error'
+                  : null
+              "
             />
 
             <button
@@ -87,9 +100,7 @@
           </div>
 
           @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
-            <p class="field-error" id="password-error">
-              Introduce tu contraseña.
-            </p>
+            <p class="field-error" id="password-error">Introduce tu contraseña.</p>
           }
 
           <div class="forgot-password">
