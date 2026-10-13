@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-tenant-layout',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './tenant-layout.html',
   styleUrl: './tenant-layout.css',
 })
