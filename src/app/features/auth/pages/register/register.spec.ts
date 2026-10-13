@@ -1,12 +1,8 @@
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import {
-  Register,
-  passwordsMatchValidator,
-} from './register';
+import { Register, registrationFieldsMatchValidator } from './register';
 
 describe('Register', () => {
   let fixture: ComponentFixture<Register>;
@@ -57,53 +53,41 @@ describe('Register', () => {
     });
 
     it('should reject a name containing only whitespace', () => {
-      component['registerForm'].controls.fullName.setValue('   ');
+      component['registerForm'].controls.nombre.setValue('   ');
 
-      expect(
-        component['registerForm'].controls.fullName.invalid,
-      ).toBe(true);
+      expect(component['registerForm'].controls.nombre.invalid).toBe(true);
     });
 
     it('should reject names longer than 100 characters', () => {
-      component['registerForm'].controls.fullName.setValue('a'.repeat(101));
+      component['registerForm'].controls.nombre.setValue('a'.repeat(101));
 
-      expect(
-        component['registerForm'].controls.fullName.hasError('maxlength'),
-      ).toBe(true);
+      expect(component['registerForm'].controls.nombre.hasError('maxlength')).toBe(true);
     });
 
     it('should reject an invalid email', () => {
       component['registerForm'].controls.email.setValue('correo-invalido');
 
-      expect(
-        component['registerForm'].controls.email.hasError('email'),
-      ).toBe(true);
+      expect(component['registerForm'].controls.email.hasError('email')).toBe(true);
     });
 
     it('should reject a password shorter than eight characters', () => {
       component['registerForm'].controls.password.setValue('abc123');
 
-      expect(
-        component['registerForm'].controls.password.hasError('minlength'),
-      ).toBe(true);
+      expect(component['registerForm'].controls.password.hasError('minlength')).toBe(true);
     });
 
     it('should reject passwords that do not match', () => {
       component['registerForm'].controls.password.setValue('Password123');
       component['registerForm'].controls.confirmPassword.setValue('Different123');
 
-      expect(
-        component['registerForm'].hasError('passwordsMismatch'),
-      ).toBe(true);
+      expect(component['registerForm'].hasError('passwordsMismatch')).toBe(true);
     });
 
     it('should accept matching passwords', () => {
       component['registerForm'].controls.password.setValue('Password123');
       component['registerForm'].controls.confirmPassword.setValue('Password123');
 
-      expect(
-        component['registerForm'].hasError('passwordsMismatch'),
-      ).toBe(false);
+      expect(component['registerForm'].hasError('passwordsMismatch')).toBe(false);
     });
 
     it('should validate matching passwords with the reusable validator', () => {
@@ -112,7 +96,7 @@ describe('Register', () => {
         confirmPassword: new FormControl('Password123'),
       });
 
-      expect(passwordsMatchValidator(form)).toBeNull();
+      expect(registrationFieldsMatchValidator(form)).toBeNull();
     });
 
     it('should report a mismatch with the reusable validator', () => {
@@ -121,17 +105,20 @@ describe('Register', () => {
         confirmPassword: new FormControl('Different123'),
       });
 
-      expect(passwordsMatchValidator(form)).toEqual({
+      expect(registrationFieldsMatchValidator(form)).toEqual({
         passwordsMismatch: true,
       });
     });
 
     it('should accept valid registration data', () => {
       component['registerForm'].setValue({
-        fullName: 'Alex García',
+        nombre: 'Alex',
+        apellidos: 'García',
         email: 'alex@example.com',
-        password: 'Password123',
-        confirmPassword: 'Password123',
+        confirmEmail: 'alex@example.com',
+        password: 'Password123!',
+        confirmPassword: 'Password123!',
+        telefono: '',
       });
 
       expect(component['registerForm'].valid).toBe(true);
@@ -157,9 +144,7 @@ describe('Register', () => {
       component['togglePassword']();
       fixture.detectChanges();
 
-      const passwordInput = fixture.nativeElement.querySelector(
-        '#password',
-      ) as HTMLInputElement;
+      const passwordInput = fixture.nativeElement.querySelector('#password') as HTMLInputElement;
 
       expect(passwordInput.type).toBe('text');
     });
@@ -170,7 +155,7 @@ describe('Register', () => {
       component['submitForm']();
 
       expect(component['submitted']()).toBe(true);
-      expect(component['registerForm'].controls.fullName.touched).toBe(true);
+      expect(component['registerForm'].controls.nombre.touched).toBe(true);
       expect(component['registerForm'].controls.email.touched).toBe(true);
     });
 
@@ -186,7 +171,7 @@ describe('Register', () => {
     it('should render all form fields and both role options', () => {
       const element = fixture.nativeElement as HTMLElement;
 
-      expect(element.querySelector('#fullName')).not.toBeNull();
+      expect(element.querySelector('#nombre')).not.toBeNull();
       expect(element.querySelector('#email')).not.toBeNull();
       expect(element.querySelector('#password')).not.toBeNull();
       expect(element.querySelector('#confirmPassword')).not.toBeNull();
@@ -194,9 +179,7 @@ describe('Register', () => {
     });
 
     it('should render the main submit button', () => {
-      const button = fixture.nativeElement.querySelector(
-        '.submit-button',
-      ) as HTMLButtonElement;
+      const button = fixture.nativeElement.querySelector('.submit-button') as HTMLButtonElement;
 
       expect(button).not.toBeNull();
       expect(button.type).toBe('submit');

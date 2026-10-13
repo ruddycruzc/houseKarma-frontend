@@ -1,8 +1,7 @@
-
 :host {
   display: block;
-  color: #493d34;
-  background: #fdf9f4;
+  color: var(--color-ink);
+  background: var(--color-paper);
 }
 
 .login-page {
@@ -14,8 +13,8 @@
   grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.18fr);
   max-width: 1600px;
   margin: auto;
-  border: 1px solid #e2d8cf;
-  background: #fffdfa;
+  border: var(--border-width) solid var(--color-line);
+  background: var(--color-paper);
 }
 
 .login-visual {
@@ -23,8 +22,8 @@
   min-width: 0;
   flex-direction: column;
   padding: clamp(28px, 3vw, 42px);
-  background: #493d34;
-  color: #fffdfa;
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 .visual-eyebrow,
@@ -70,7 +69,7 @@
   right: 12px;
   bottom: 12px;
   left: 12px;
-  color: #fffdfa;
+  color: var(--color-paper);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-shadow: 0 1px 4px #000;
@@ -83,7 +82,7 @@
   gap: 24px;
   padding: 26px;
   background: #e69a96;
-  color: #493d34;
+  color: var(--color-ink);
 }
 
 .reputation-score {
@@ -154,7 +153,7 @@
 
 .login-heading > p:last-child {
   margin: 22px 0 0;
-  color: #8e8177;
+  color: var(--color-muted);
   font-size: clamp(1.05rem, 1.8vw, 1.4rem);
   line-height: 1.5;
 }
@@ -178,11 +177,11 @@
   min-width: 0;
   min-height: 74px;
   padding: 18px 20px;
-  border: 1px solid #c9bdb3;
-  border-radius: 8px;
+  border: var(--border-width) solid #c9bdb3;
+  border-radius: var(--radius-md);
   outline: none;
-  background: #fffdfa;
-  color: #493d34;
+  background: var(--color-paper);
+  color: var(--color-ink);
   font: inherit;
   font-size: 1rem;
 }
@@ -228,7 +227,7 @@
 .show-password:focus-visible,
 .submit-button:focus-visible,
 .login-form-panel a:focus-visible {
-  outline: 3px solid #e69a96;
+  outline: 3px solid var(--color-coral);
   outline-offset: 3px;
 }
 
@@ -263,7 +262,7 @@
   margin: 0 0 30px;
   padding: 16px 18px;
   border-left: 2px solid #8b3029;
-  background: #f7f0ec;
+  background: var(--color-surface);
   color: #8b3029;
 }
 
@@ -295,14 +294,14 @@
   gap: 16px;
   padding: 18px 26px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: #e69a96;
-  color: #493d34;
+  color: var(--color-ink);
   font: inherit;
   font-size: 1.05rem;
   font-weight: 750;
   cursor: pointer;
-  transition: background-color 160ms ease;
+  transition: background-color var(--transition-fast);
 }
 
 .submit-button:hover {
@@ -315,13 +314,13 @@
 
 .register-link {
   margin: 36px 0 0;
-  color: #93867c;
+  color: var(--color-muted);
   font-size: 0.92rem;
   text-align: center;
 }
 
 .register-link a {
-  color: #493d34;
+  color: var(--color-ink);
   font-weight: 750;
   text-decoration: underline;
   text-underline-offset: 3px;

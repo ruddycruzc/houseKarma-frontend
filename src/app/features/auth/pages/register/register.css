@@ -1,23 +1,22 @@
-
 :host {
   display: block;
   min-width: 0;
-  color: #493d34;
+  color: var(--color-ink);
 }
 
 .register-page {
   display: flex;
   justify-content: center;
   padding: clamp(32px, 6vw, 76px) 24px;
-  background: #fdf9f4;
+  background: var(--color-paper);
 }
 
 .register-card {
   width: 100%;
   max-width: 700px;
   padding: clamp(28px, 5vw, 56px);
-  border: 1px solid #e2d8cf;
-  background: #fffdfa;
+  border: var(--border-width) solid var(--color-line);
+  background: var(--color-paper);
 }
 
 .register-heading {
@@ -42,7 +41,7 @@
 
 .register-heading > p:last-child {
   margin: 16px 0 0;
-  color: #8e8177;
+  color: var(--color-muted);
   font-size: clamp(1rem, 2vw, 1.25rem);
   line-height: 1.5;
 }
@@ -65,11 +64,11 @@
   min-width: 0;
   min-height: 58px;
   padding: 15px 18px;
-  border: 1px solid #c9bdb3;
-  border-radius: 8px;
+  border: var(--border-width) solid #c9bdb3;
+  border-radius: var(--radius-md);
   outline: none;
-  background: #fffdfa;
-  color: #493d34;
+  background: var(--color-paper);
+  color: var(--color-ink);
   font: inherit;
   font-size: 0.95rem;
   box-sizing: border-box;
@@ -146,31 +145,31 @@
   align-items: flex-start;
   gap: 12px;
   padding: 18px;
-  border: 1px solid #c9bdb3;
+  border: var(--border-width) solid #c9bdb3;
   border-radius: 9px;
-  background: #fffdfa;
-  color: #493d34;
+  background: var(--color-paper);
+  color: var(--color-ink);
   text-align: left;
   cursor: pointer;
   transition:
-    background-color 160ms ease,
-    border-color 160ms ease;
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .role-option.tenant.selected {
-  border-color: #E66D49;
-  background: #E66D49;
-  color: #493D34;
+  border-color: var(--color-coral);
+  background: var(--color-coral);
+  color: var(--color-ink);
 }
 
 .role-option.tenant.selected .role-status {
-  color: #493D34;
+  color: var(--color-ink);
 }
 
 .role-option.landlord.selected {
   border-color: #7f2d28;
   background: #e69a96;
-  color: #493d34;
+  color: var(--color-ink);
 }
 
 .role-option.landlord.selected .role-status {
@@ -186,7 +185,7 @@
 }
 
 .role-option:not(.selected) .role-status {
-  color: #93867c;
+  color: var(--color-muted);
 }
 
 .role-option.selected .role-status {
@@ -208,7 +207,7 @@
 .show-password:focus-visible,
 .submit-button:focus-visible,
 .login-link a:focus-visible {
-  outline: 3px solid #e69a96;
+  outline: 3px solid var(--color-coral);
   outline-offset: 3px;
 }
 
@@ -233,13 +232,13 @@
   gap: 16px;
   padding: 16px 22px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: #e69a96;
-  color: #493d34;
+  color: var(--color-ink);
   font: inherit;
   font-weight: 750;
   cursor: pointer;
-  transition: background-color 160ms ease;
+  transition: background-color var(--transition-fast);
 }
 
 .submit-button:hover {
@@ -252,13 +251,13 @@
 
 .login-link {
   margin: 28px 0 0;
-  color: #93867c;
+  color: var(--color-muted);
   font-size: 0.88rem;
   text-align: center;
 }
 
 .login-link a {
-  color: #493d34;
+  color: var(--color-ink);
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;

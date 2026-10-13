@@ -1,12 +1,6 @@
 :host {
   display: block;
-
-  --audiences-tenant-bg: #e69a96;
-  --audiences-landlord-bg: #7f2d28;
-  --audiences-text: #493d34;
-  --audiences-light: #fdf9f4;
-
-  color: var(--audiences-text);
+  color: var(--color-ink);
 }
 
 .audiences {
@@ -24,13 +18,13 @@
 }
 
 .audiences__panel--tenant {
-  color: var(--audiences-text);
-  background: var(--audiences-tenant-bg);
+  color: var(--color-ink);
+  background: #e69a96;
 }
 
 .audiences__panel--landlord {
-  color: var(--audiences-light);
-  background: var(--audiences-landlord-bg);
+  color: var(--color-paper);
+  background: #7f2d28;
 }
 
 .audiences__eyebrow {
@@ -73,7 +67,7 @@
   gap: 2rem;
   margin-top: 3.5rem;
   padding: 1.25rem 1.6rem;
-  border: 1px solid currentColor;
+  border: var(--border-width) solid currentColor;
   border-radius: 0.7rem;
   color: inherit;
   background: transparent;
@@ -83,14 +77,14 @@
   text-align: left;
   cursor: pointer;
   transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease;
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .audiences__arrow {
   flex: 0 0 auto;
-  transition: transform 180ms ease;
+  transition: transform var(--transition-fast);
 }
 
 .audiences__cta:hover .audiences__arrow {
@@ -98,13 +92,13 @@
 }
 
 .audiences__panel--tenant .audiences__cta:hover {
-  color: var(--audiences-tenant-bg);
-  background: var(--audiences-text);
+  color: #e69a96;
+  background: var(--color-ink);
 }
 
 .audiences__panel--landlord .audiences__cta:hover {
-  color: var(--audiences-landlord-bg);
-  background: var(--audiences-light);
+  color: #7f2d28;
+  background: var(--color-paper);
 }
 
 .audiences__cta:focus-visible {

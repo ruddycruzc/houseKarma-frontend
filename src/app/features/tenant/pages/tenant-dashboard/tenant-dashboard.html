@@ -1,1 +1,191 @@
-<p>tenant-dashboard works!</p>
+<div class="dashboard-shell">
+  <main class="dashboard-main">
+    <section class="hero-grid" aria-labelledby="welcome-title">
+      <div class="welcome-section">
+        <p class="eyebrow">Tu espacio en HouseKarma</p>
+        <h1 id="welcome-title">Hola,<br>{{ user.firstName }}.</h1>
+        <p class="welcome-copy">Tu reputación crece con cada experiencia.</p>
+      </div>
+
+      <section class="reputation-card" aria-labelledby="reputation-title">
+        <div class="reputation-score">
+          <p class="eyebrow">Tu reputación</p>
+          <div class="score-line">
+            <span class="score">{{ formatScore(user.reputation) }}</span>
+            <span class="score-caption">sobre 5</span>
+          </div>
+          <p class="rating-stars" aria-label="Valoración media de 4,8 sobre 5">★ ★ ★ ★ ★</p>
+          <p class="review-count">{{ user.totalExperiences }} experiencias</p>
+          <h2 id="reputation-title">Tu historial habla de cómo alquilas.</h2>
+        </div>
+
+        <div class="reputation-breakdown">
+          <h3>Lo que dicen tus<br class="desktop-break"> experiencias</h3>
+          <ul class="criteria-list">
+            @for (criterion of reputationCriteria; track criterion.label) {
+              <li>
+                <div class="criterion-heading">
+                  <span>{{ criterion.label }}</span>
+                  <strong>{{ formatScore(criterion.score) }}</strong>
+                </div>
+                <div
+                  class="score-track"
+                  role="meter"
+                  [attr.aria-label]="criterion.label"
+                  aria-valuemin="0"
+                  aria-valuemax="5"
+                  [attr.aria-valuenow]="criterion.score"
+                >
+                  <span [style.width.%]="criterion.score * 20"></span>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </section>
+    </section>
+
+    <section class="action-grid" aria-label="Acciones principales">
+      <div class="search-cta">
+        <p class="eyebrow">Tu próxima experiencia</p>
+        <h2>Buscar caseros</h2>
+        <p>Encuentra personas con experiencia verificable.</p>
+        <a class="button button-dark" routerLink="/inquilino/buscar-caseros">
+          Buscar caseros <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <nav class="quick-links" aria-label="Accesos rápidos">
+        <a class="quick-link" routerLink="/inquilino/experiencias">
+          <span class="quick-number">01</span>
+          <span class="quick-content">
+            <strong>Mis experiencias</strong>
+            <small>Consulta tus alquileres y su estado.</small>
+          </span>
+          <span class="quick-action">Consultar</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="quick-link" routerLink="/inquilino/perfil">
+          <span class="quick-number">02</span>
+          <span class="quick-content">
+            <strong>Editar perfil</strong>
+            <small>Actualiza la información que otros usuarios pueden consultar.</small>
+          </span>
+          <span class="quick-action">Editar</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </section>
+
+    <section class="experiences-section" aria-labelledby="experiences-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Experiencias verificadas</p>
+          <h2 id="experiences-title">Mis experiencias</h2>
+        </div>
+        <p>Tus relaciones de alquiler, de principio a fin.</p>
+      </div>
+
+      @if (pendingExperiences().length > 0) {
+        <aside class="pending-card" aria-label="Experiencia pendiente de valorar">
+          <div>
+            <p class="eyebrow">Lista para valorar</p>
+            <h3>Esta experiencia está lista para ser valorada.</h3>
+            <p>Tu valoración ayuda a construir una comunidad basada en experiencias reales.</p>
+          </div>
+          <a
+            class="button button-coral"
+            [routerLink]="['/inquilino/experiencias', pendingExperiences()[0].id]"
+          >
+            Valorar experiencia <span aria-hidden="true">→</span>
+          </a>
+        </aside>
+      }
+
+      <div class="experience-list">
+        @for (experience of experiences(); track experience.id; let i = $index) {
+          <article class="experience-row">
+            <span class="experience-index">{{ (i + 1).toString().padStart(2, '0') }}</span>
+
+            <div class="experience-property">
+              <p class="experience-type">Vivienda</p>
+              <h3>{{ experience.property }}</h3>
+              <p>{{ experience.location }}</p>
+            </div>
+
+            <dl class="experience-date">
+              <dt>Inicio</dt>
+              <dd>{{ experience.startDate }}</dd>
+            </dl>
+
+            <span class="date-separator" aria-hidden="true">—</span>
+
+            <dl class="experience-date">
+              <dt>Finalización</dt>
+              <dd>{{ experience.endDate }}</dd>
+            </dl>
+
+            <dl class="experience-landlord">
+              <dt>Casero</dt>
+              <dd>{{ experience.landlord }}</dd>
+            </dl>
+
+            <div class="experience-actions">
+              <p class="experience-status" [class]="experience.status.toLowerCase()">
+                <span aria-hidden="true">●</span>
+                {{ experience.status === 'ACTIVA'
+                  ? 'Activa'
+                  : experience.status === 'FINALIZADA'
+                    ? 'Finalizada'
+                    : 'Valorada' }}
+              </p>
+
+              <a
+                class="button"
+                [class.button-outline]="experience.action === 'Ver experiencia'"
+                [class.button-coral]="experience.action === 'Valorar experiencia'"
+                [routerLink]="['/inquilino/experiencias', experience.id]"
+              >
+                {{ experience.action }} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+
+      <a class="text-link" routerLink="/inquilino/experiencias">
+        Ver todas las experiencias <span aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="public-profile" aria-label="Tu perfil público">
+      <div class="public-profile-person">
+        <span class="avatar avatar-large">{{ user.initials }}</span>
+        <div>
+          <p class="eyebrow">Tu perfil público</p>
+          <h2>{{ user.fullName }}</h2>
+          <p class="profile-city">{{ user.city }}</p>
+        </div>
+      </div>
+
+      <span class="role-badge">Inquilino</span>
+
+      <p class="public-profile-copy">
+        Construye una reputación que puedas llevar contigo en cada alquiler.
+      </p>
+
+      <a class="button button-outline" routerLink="/inquilino/perfil">
+        Ver mi perfil <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="dashboard-footer">
+    <a class="brand brand-light" routerLink="/">
+      House<span>Karma</span>
+    </a>
+    <p>Experiencias que construyen reputación.</p>
+    <small>© 2026 HouseKarma</small>
+  </footer>
+</div>
