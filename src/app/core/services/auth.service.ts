@@ -1,13 +1,8 @@
-
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-import {
-  AuthResponse,
-  LoginRequest,
-  RegisterRequest,
-} from '../models/auth.models';
+import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,15 +17,13 @@ export class AuthService {
   }
 
   login(data: LoginRequest): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${this.apiUrl}/auth/login`, data)
-      .pipe(
-        tap((response) => {
-          localStorage.setItem('hk_token', response.token);
-          localStorage.setItem('hk_email', response.email);
-          localStorage.setItem('hk_role', response.rol);
-        }),
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, data).pipe(
+      tap((response) => {
+        localStorage.setItem('hk_token', response.token);
+        localStorage.setItem('hk_email', response.email);
+        localStorage.setItem('hk_role', response.rol);
+      }),
+    );
   }
 
   logout(): void {
@@ -45,5 +38,12 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return this.getToken() !== null;
+  }
+  getEmail(): string | null {
+    return localStorage.getItem('hk_email');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('hk_role');
   }
 }
