@@ -1,12 +1,15 @@
 
-import { Component, signal,inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router,RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +18,17 @@ import { Router,RouterLink } from '@angular/router';
   styleUrl: './login.css',
 })
 export class Login {
-  protected readonly submitted = signal(false);
-  protected readonly showPassword = signal(false);
-
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-protected readonly registrationSuccess =
-  signal(history.state?.registrationSuccess === true);
+  protected readonly submitted = signal(false);
+  protected readonly showPassword = signal(false);
+  protected readonly loading = signal(false);
+  protected readonly apiError = signal('');
+
+  protected readonly registrationSuccess = signal(
+    history.state?.registrationSuccess === true,
+  );
 
   protected readonly loginForm = new FormGroup({
     email: new FormControl('', {
@@ -40,15 +47,48 @@ protected readonly registrationSuccess =
 
   protected submitForm(): void {
     this.submitted.set(true);
+    this.apiError.set('');
     this.loginForm.markAllAsTouched();
 
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid || this.loading()) {
       return;
     }
 
-    /*
-     * Pendiente: integrar el endpoint de autenticación de Spring Boot.
-     * No se inicia sesión hasta conectar el backend.
-     */
+    this.loading.set(true);
+
+    this.authService.login(this.loginForm.getRawValue()).subscribe({
+      next: (response) => {
+        this.loading.set(false);
+
+        const destination =
+          response.rol === 'ADMIN'
+            ? '/admin/dashboard'
+            : response.rol === 'CASERO'
+              ? '/casero/dashboard'
+              : '/inquilino/dashboard';
+
+        void this.router.navigate([destination]);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading.set(false);
+        this.apiError.set(this.getErrorMessage(error));
+      },
+    });
+  }
+
+  private getErrorMessage(error: HttpErrorResponse): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Comprueba que el backend esté iniciado.';
+    }
+
+    if (error.status === 401 || error.status === 403) {
+      return 'El email o la contraseña no son correctos.';
+    }
+
+    if (error.status === 400) {
+      return 'Revisa el email y la contraseña introducidos.';
+    }
+
+    return 'Ha ocurrido un error al iniciar sesión. Inténtalo de nuevo.';
   }
 }

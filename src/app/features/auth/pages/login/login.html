@@ -115,6 +115,12 @@
           </div>
         </div>
 
+        @if (registrationSuccess()) {
+          <p class="success-message" role="status">
+            Tu cuenta se ha creado correctamente. Ya puedes iniciar sesión.
+          </p>
+        }
+
         @if (submitted() && loginForm.invalid) {
           <div class="login-error" role="alert">
             <span class="error-icon" aria-hidden="true">!</span>
@@ -122,8 +128,15 @@
           </div>
         }
 
-        <button class="submit-button" type="submit">
-          <span>Iniciar sesión</span>
+        @if (apiError()) {
+          <div class="login-error" role="alert">
+            <span class="error-icon" aria-hidden="true">!</span>
+            <p>{{ apiError() }}</p>
+          </div>
+        }
+
+        <button class="submit-button" type="submit" [disabled]="loading()">
+          <span>{{ loading() ? 'Iniciando sesión...' : 'Iniciar sesión' }}</span>
           <span class="submit-arrow" aria-hidden="true">→</span>
         </button>
 
