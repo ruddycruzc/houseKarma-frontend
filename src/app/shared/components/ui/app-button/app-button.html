@@ -1,0 +1,33 @@
+@if (routerLink(); as route) {
+  <a
+    class="app-button"
+    [class.app-button--primary]="variant() === 'primary'"
+    [class.app-button--secondary]="variant() === 'secondary'"
+    [class.app-button--outline]="variant() === 'outline'"
+    [class.app-button--dark]="variant() === 'dark'"
+    [class.app-button--compact]="size() === 'compact'"
+    [class.app-button--default]="size() === 'default'"
+    [class.app-button--large]="size() === 'large'"
+    [class.app-button--disabled]="disabled()"
+    [routerLink]="route"
+    [attr.aria-disabled]="disabled() ? 'true' : null"
+    [attr.tabindex]="disabled() ? -1 : null"
+  >
+    <ng-content />
+  </a>
+} @else {
+  <button
+    class="app-button"
+    [class.app-button--primary]="variant() === 'primary'"
+    [class.app-button--secondary]="variant() === 'secondary'"
+    [class.app-button--outline]="variant() === 'outline'"
+    [class.app-button--dark]="variant() === 'dark'"
+    [class.app-button--compact]="size() === 'compact'"
+    [class.app-button--default]="size() === 'default'"
+    [class.app-button--large]="size() === 'large'"
+    [type]="type()"
+    [disabled]="disabled()"
+  >
+    <ng-content />
+  </button>
+}
