@@ -1,60 +1,19 @@
 :host {
   display: block;
-
-  --paper: #fffdf9;
-  --surface: #f7f2ec;
-  --pink: #f8e2d9;
-  --ink: #493d34;
-  --muted: #92847a;
-  --line: #d9cfc6;
-  --coral: #ed6b49;
-  --coral-dark: #d95735;
-
-  color: var(--ink);
-  background: var(--paper);
-  font-family: inherit;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font: inherit;
 }
 
 .dashboard-shell {
   min-height: 100vh;
-  background: var(--paper);
-}
-
-.dashboard-main {
-  display: grid;
-  gap: 44px;
-  width: calc(100% - 40px);
-  max-width: 1180px;
-  margin: 0 auto;
 }
 
 .eyebrow {
   margin: 0 0 14px;
-  color: var(--coral-dark);
+  color: var(--color-tenant-accent);
   font-size: 0.58rem;
   font-weight: 800;
   letter-spacing: 0.16em;
   line-height: 1.5;
   text-transform: uppercase;
-}
-
-.hero-grid {
-  display: grid;
-  gap: 24px;
-  padding-top: 34px;
 }
 
 .welcome-section {
@@ -86,7 +45,7 @@ button {
 .reputation-card {
   min-width: 0;
   border: 1px solid #817368;
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 .reputation-score {
@@ -94,7 +53,7 @@ button {
 }
 
 .reputation-score > .eyebrow {
-  color: var(--muted);
+  color: var(--color-muted);
   margin-bottom: 10px;
 }
 
@@ -105,7 +64,7 @@ button {
 }
 
 .score {
-  color: var(--coral);
+  color: var(--color-tenant);
   font-size: clamp(4.5rem, 21vw, 6.2rem);
   font-weight: 500;
   letter-spacing: -0.095em;
@@ -119,14 +78,14 @@ button {
 
 .rating-stars {
   margin: 10px 0 0;
-  color: var(--coral);
+  color: var(--color-tenant);
   font-size: 0.78rem;
   letter-spacing: 0.12em;
 }
 
 .review-count {
   margin: 8px 0 0;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.62rem;
 }
 
@@ -170,7 +129,7 @@ button {
 }
 
 .criterion-heading strong {
-  color: var(--coral-dark);
+  color: var(--color-tenant-accent);
   font-size: 0.62rem;
 }
 
@@ -182,21 +141,16 @@ button {
 .score-track span {
   display: block;
   height: 100%;
-  background: var(--coral);
+  background: var(--color-tenant);
 }
 
 .desktop-break {
   display: none;
 }
 
-.action-grid {
-  display: grid;
-  gap: 24px;
-}
-
 .search-cta {
   padding: 24px 20px;
-  background: var(--coral);
+  background: var(--color-tenant);
   color: #493328;
 }
 
@@ -239,8 +193,8 @@ button {
 
 .button-dark {
   min-width: 136px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 .button-dark:hover {
@@ -248,12 +202,12 @@ button {
 }
 
 .button-coral {
-  background: var(--coral);
+  background: var(--color-tenant);
   color: white;
 }
 
 .button-coral:hover {
-  background: var(--coral-dark);
+  background: var(--color-tenant-accent);
 }
 
 .button-outline {
@@ -262,8 +216,8 @@ button {
 }
 
 .button-outline:hover {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 .quick-links {
@@ -276,12 +230,12 @@ button {
   align-items: start;
   gap: 10px;
   padding: 20px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .quick-number {
   padding-top: 3px;
-  color: var(--coral-dark);
+  color: var(--color-tenant-accent);
   font-size: 0.62rem;
 }
 
@@ -298,7 +252,7 @@ button {
 
 .quick-content small {
   max-width: 245px;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.69rem;
   line-height: 1.45;
 }
@@ -317,7 +271,7 @@ button {
 
 .experiences-section {
   padding-top: 28px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--color-line);
 }
 
 .section-heading {
@@ -347,12 +301,10 @@ button {
 }
 
 .pending-card {
-  display: grid;
-  gap: 18px;
   margin-bottom: 24px;
   padding: 20px 16px;
-  border-left: 3px solid var(--coral);
-  background: var(--pink);
+  border-left: 3px solid var(--color-tenant);
+  background: var(--color-pink);
 }
 
 .pending-card .eyebrow {
@@ -392,7 +344,7 @@ button {
 
 .experience-index {
   padding-top: 2px;
-  color: var(--coral-dark);
+  color: var(--color-tenant-accent);
   font-size: 0.62rem;
 }
 
@@ -402,7 +354,7 @@ button {
 
 .experience-type {
   margin: 0 0 6px;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -419,7 +371,7 @@ button {
 
 .experience-property > p:last-child {
   margin: 5px 0 0;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.64rem;
 }
 
@@ -432,7 +384,7 @@ button {
 
 .experience-date dt,
 .experience-landlord dt {
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -471,7 +423,7 @@ button {
 }
 
 .experience-status.activa {
-  color: var(--coral-dark);
+  color: var(--color-tenant-accent);
 }
 
 .experience-status.finalizada {
@@ -479,7 +431,7 @@ button {
 }
 
 .experience-status.valorada {
-  color: var(--ink);
+  color: var(--color-ink);
 }
 
 .experience-actions .button {
@@ -531,13 +483,13 @@ button {
 
 .profile-city {
   margin: 4px 0 0;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.66rem;
 }
 
 .public-profile-copy {
   margin: 0;
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: 0.7rem;
   line-height: 1.5;
 }
@@ -556,12 +508,12 @@ button {
   gap: 14px;
   margin-top: 42px;
   padding: 28px 20px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 .brand-light span {
-  color: var(--coral);
+  color: var(--color-tenant);
 }
 
 .dashboard-footer p,
@@ -577,15 +529,6 @@ button {
 }
 
 @media (min-width: 600px) {
-  .dashboard-main {
-    width: 88%;
-    gap: 56px;
-  }
-
-  .hero-grid {
-    padding-top: 54px;
-  }
-
   .welcome-section h1 {
     font-size: clamp(4.5rem, 9vw, 6rem);
   }
@@ -625,12 +568,6 @@ button {
 
   .search-cta h2 {
     font-size: clamp(2.8rem, 6vw, 4rem);
-  }
-
-  .pending-card {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    padding: 24px;
   }
 
   .pending-card .button {
@@ -684,18 +621,6 @@ button {
 }
 
 @media (min-width: 900px) {
-  .dashboard-main {
-    width: 86%;
-    gap: 76px;
-  }
-
-  .hero-grid {
-    grid-template-columns: minmax(190px, 0.58fr) minmax(0, 1.42fr);
-    align-items: stretch;
-    gap: 42px;
-    padding-top: 50px;
-  }
-
   .welcome-section {
     justify-content: space-between;
     min-height: 312px;
@@ -716,10 +641,6 @@ button {
     min-height: 312px;
   }
 
-  .reputation-score {
-    padding: 28px;
-  }
-
   .score {
     font-size: clamp(5.3rem, 8vw, 7rem);
   }
@@ -730,7 +651,7 @@ button {
   }
 
   .reputation-breakdown {
-    padding: 28px 24px;
+    padding:24px;
   }
 
   .reputation-breakdown h3 {
@@ -746,18 +667,7 @@ button {
     font-size: 0.62rem;
   }
 
-  .action-grid {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr);
-    align-items: stretch;
-    gap: 42px;
-  }
-
   .search-cta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    min-height: 200px;
     padding: 30px;
   }
 
@@ -854,14 +764,5 @@ button {
   .dashboard-footer {
     margin-top: 72px;
     padding: 34px 7%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition: none !important;
   }
 }

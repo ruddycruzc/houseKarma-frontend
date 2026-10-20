@@ -2,9 +2,3 @@
   display: block;
   min-height: 100vh;
 }
-
-.tenant-layout {
-  min-height: 100vh;
-  background: #fffdf9;
-  color: #493d34;
-}

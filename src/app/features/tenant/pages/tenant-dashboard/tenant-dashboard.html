@@ -1,9 +1,14 @@
 <div class="dashboard-shell">
-  <main class="dashboard-main">
-    <section class="hero-grid" aria-labelledby="welcome-title">
+  <main
+    class="dashboard-main grid w-[calc(100%-40px)] max-w-[1180px] grid-cols-1 gap-[44px] mx-auto min-[600px]:w-[88%] min-[600px]:gap-14 min-[900px]:w-[86%] min-[900px]:gap-[76px]"
+  >
+    <section
+      class="hero-grid grid grid-cols-1 gap-6 pt-[34px] min-[600px]:pt-[54px] min-[900px]:grid-cols-[minmax(190px,0.58fr)_minmax(0,1.42fr)] min-[900px]:items-stretch min-[900px]:gap-[42px] min-[900px]:pt-[50px]"
+      aria-labelledby="welcome-title"
+    >
       <div class="welcome-section">
         <p class="eyebrow">Tu espacio en HouseKarma</p>
-        <h1 id="welcome-title">Hola,<br>{{ user.firstName }}.</h1>
+        <h1 id="welcome-title">Hola,<br />{{ user.firstName }}.</h1>
         <p class="welcome-copy">Tu reputación crece con cada experiencia.</p>
       </div>
 
@@ -20,7 +25,10 @@
         </div>
 
         <div class="reputation-breakdown">
-          <h3>Lo que dicen tus<br class="desktop-break"> experiencias</h3>
+          <h3>
+            Lo que dicen tus<br class="desktop-break" />
+            experiencias
+          </h3>
           <ul class="criteria-list">
             @for (criterion of reputationCriteria; track criterion.label) {
               <li>
@@ -45,8 +53,13 @@
       </section>
     </section>
 
-    <section class="action-grid" aria-label="Acciones principales">
-      <div class="search-cta">
+    <section
+      class="action-grid grid grid-cols-1 gap-6 min-[900px]:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)] min-[900px]:items-stretch min-[900px]:gap-[42px]"
+      aria-label="Acciones principales"
+    >
+      <div
+        class="search-cta min-[900px]:flex min-[900px]:flex-col min-[900px]:items-start min-[900px]:justify-center min-[900px]:min-h-[200px]"
+      >
         <p class="eyebrow">Tu próxima experiencia</p>
         <h2>Buscar caseros</h2>
         <p>Encuentra personas con experiencia verificable.</p>
@@ -88,7 +101,10 @@
       </div>
 
       @if (pendingExperiences().length > 0) {
-        <aside class="pending-card" aria-label="Experiencia pendiente de valorar">
+        <aside
+          class="pending-card grid gap-[18px] min-[600px]:grid-cols-[minmax(0,1fr)_auto] min-[600px]:items-center min-[600px]:p-6"
+          aria-label="Experiencia pendiente de valorar"
+        >
           <div>
             <p class="eyebrow">Lista para valorar</p>
             <h3>Esta experiencia está lista para ser valorada.</h3>
@@ -134,11 +150,13 @@
             <div class="experience-actions">
               <p class="experience-status" [class]="experience.status.toLowerCase()">
                 <span aria-hidden="true">●</span>
-                {{ experience.status === 'ACTIVA'
-                  ? 'Activa'
-                  : experience.status === 'FINALIZADA'
-                    ? 'Finalizada'
-                    : 'Valorada' }}
+                {{
+                  experience.status === 'ACTIVA'
+                    ? 'Activa'
+                    : experience.status === 'FINALIZADA'
+                      ? 'Finalizada'
+                      : 'Valorada'
+                }}
               </p>
 
               <a
@@ -182,9 +200,7 @@
   </main>
 
   <footer class="dashboard-footer">
-    <a class="brand brand-light" routerLink="/">
-      House<span>Karma</span>
-    </a>
+    <a class="brand brand-light" routerLink="/"> House<span>Karma</span> </a>
     <p>Experiencias que construyen reputación.</p>
     <small>© 2026 HouseKarma</small>
   </footer>
