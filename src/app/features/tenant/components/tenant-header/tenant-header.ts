@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { UsuarioPerfil } from '../../../../core/models/usuario-perfil.model';
 
 @Component({
   selector: 'app-tenant-header',
@@ -9,16 +10,46 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './tenant-header.html',
   styleUrl: './tenant-header.css',
 })
-export class TenantHeader {
+export class TenantHeader implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   isMenuOpen = false;
 
-  user = {
-    fullName: '',
-    initials: '',
-  };
+  user: UsuarioPerfil | null = null;
+  isLoadingProfile = true;
+  profileError = false;
+
+  get fullName(): string {
+    if (!this.user) {
+      return '';
+    }
+
+    return `${this.user.nombre} ${this.user.apellidos}`.trim();
+  }
+
+  get initials(): string {
+    if (!this.user) {
+      return '';
+    }
+
+    return `${this.user.nombre.charAt(0)}${this.user.apellidos.charAt(0)}`.toUpperCase();
+  }
+
+ngOnInit(): void {
+  this.authService.getMyProfile().subscribe({
+    next: (profile) => {
+      
+      this.user = profile;
+      this.isLoadingProfile = false;
+    },
+    error: (error) => {
+      
+      this.profileError = true;
+      this.isLoadingProfile = false;
+    },
+  });
+}
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

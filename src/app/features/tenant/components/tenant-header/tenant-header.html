@@ -1,11 +1,5 @@
-
 <header class="tenant-header" (keydown.escape)="closeMenu()">
-  <a
-    class="tenant-brand"
-    routerLink="/"
-    aria-label="HouseKarma, inicio"
-    (click)="closeMenu()"
-  >
+  <a class="tenant-brand" routerLink="/" aria-label="HouseKarma, inicio" (click)="closeMenu()">
     House<span>Karma</span>
   </a>
 
@@ -20,43 +14,33 @@
       Inicio
     </a>
 
-    <a
-      routerLink="/inquilino/buscar-caseros"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/buscar-caseros" routerLinkActive="active" (click)="closeMenu()">
       Buscar caseros
     </a>
 
-    <a
-      routerLink="/inquilino/experiencias"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/experiencias" routerLinkActive="active" (click)="closeMenu()">
       Mis experiencias
     </a>
 
-    <a
-      routerLink="/inquilino/perfil"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/perfil" routerLinkActive="active" (click)="closeMenu()">
       Mi perfil
     </a>
   </nav>
 
   <!-- Acciones de usuario -->
   <div class="header-actions">
-    <a
-      class="profile-shortcut"
-      routerLink="/inquilino/perfil"
-      aria-label="Ver mi perfil"
-      (click)="closeMenu()"
-    >
-      <span class="avatar">{{ user.initials }}</span>
-      <span class="profile-name">{{ user.fullName }}</span>
-      <span class="role-badge">Inquilino</span>
-    </a>
+    @if (user; as profile) {
+      <a
+        class="profile-shortcut"
+        routerLink="/inquilino/perfil"
+        aria-label="Ver mi perfil"
+        (click)="closeMenu()"
+      >
+        <span class="avatar">{{ initials }}</span>
+        <span class="profile-name">{{ fullName }}</span>
+        <span class="role-badge">Inquilino</span>
+      </a>
+    }
 
     <button
       class="logout-button"
@@ -115,36 +99,18 @@
       Inicio
     </a>
 
-    <a
-      routerLink="/inquilino/buscar-caseros"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/buscar-caseros" routerLinkActive="active" (click)="closeMenu()">
       Buscar caseros
     </a>
 
-    <a
-      routerLink="/inquilino/experiencias"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/experiencias" routerLinkActive="active" (click)="closeMenu()">
       Mis experiencias
     </a>
 
-    <a
-      routerLink="/inquilino/perfil"
-      routerLinkActive="active"
-      (click)="closeMenu()"
-    >
+    <a routerLink="/inquilino/perfil" routerLinkActive="active" (click)="closeMenu()">
       Mi perfil
     </a>
 
-    <button
-      class="mobile-logout"
-      type="button"
-      (click)="logout()"
-    >
-      Cerrar sesión
-    </button>
+    <button class="mobile-logout" type="button" (click)="logout()">Cerrar sesión</button>
   </nav>
 </header>
