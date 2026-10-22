@@ -1,0 +1,91 @@
+<div class="dashboard-shell">
+  <main class="dashboard-main grid w-[calc(100%-40px)] max-w-[1180px] grid-cols-1 gap-[44px] mx-auto min-[600px]:w-[88%] min-[600px]:gap-14 min-[900px]:w-[86%] min-[900px]:gap-[76px]">
+
+    <section
+      class="hero-grid grid grid-cols-1 gap-6 pt-[34px] min-[600px]:pt-[54px] min-[900px]:grid-cols-[minmax(190px,0.58fr)_minmax(0,1.42fr)] min-[900px]:items-stretch min-[900px]:gap-[42px] min-[900px]:pt-[50px]"
+      aria-labelledby="welcome-title"
+    >
+      <div class="welcome-section">
+        <p class="eyebrow">Tu espacio en HouseKarma</p>
+        <h1 id="welcome-title">Hola,<br />{{ user().nombre }}.</h1>
+        <p class="welcome-copy">
+          Tu reputación empieza con cada experiencia.
+        </p>
+      </div>
+
+      <section class="reputation-card" aria-labelledby="reputation-title">
+        <div class="reputation-score">
+          <p class="eyebrow">Tu reputación</p>
+          <h2 id="reputation-title">Tu historia de alquiler empieza aquí.</h2>
+          <p>
+            Cuando tengas experiencias valoradas, podrás consultar
+            tu reputación y las opiniones recibidas.
+          </p>
+        </div>
+
+        <div class="reputation-breakdown">
+          <h3>Tu reputación, paso a paso</h3>
+          <p>
+            Todavía no hay valoraciones suficientes para mostrar
+            tus criterios de reputación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <section
+      class="action-grid grid grid-cols-1 gap-6 min-[900px]:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)] min-[900px]:items-stretch min-[900px]:gap-[42px]"
+      aria-label="Acciones principales"
+    >
+      <div class="search-cta">
+        <p class="eyebrow">Tu próxima experiencia</p>
+        <h2>Buscar caseros</h2>
+        <p>Encuentra personas con experiencia verificable.</p>
+        <a class="button button-dark" routerLink="/inquilino/buscar-caseros">
+          Buscar caseros <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <nav class="quick-links" aria-label="Accesos rápidos">
+        <a class="quick-link" routerLink="/inquilino/experiencias">
+          <span class="quick-number">01</span>
+          <span class="quick-content">
+            <strong>Mis experiencias</strong>
+            <small>Consulta tus alquileres y su estado.</small>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="quick-link" routerLink="/inquilino/perfil">
+          <span class="quick-number">02</span>
+          <span class="quick-content">
+            <strong>Mi perfil</strong>
+            <small>Consulta y actualiza tu información.</small>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </section>
+
+    <section class="public-profile" aria-label="Tu perfil público">
+      <div class="public-profile-person">
+        <span class="avatar avatar-large">{{ initials }}</span>
+        <div>
+          <p class="eyebrow">Tu perfil público</p>
+          <h2>{{ fullName }}</h2>
+          <p class="profile-city">{{ user().email }}</p>
+        </div>
+      </div>
+
+      <span class="role-badge">Inquilino</span>
+
+      <p class="public-profile-copy">
+        Construye una reputación que puedas llevar contigo en cada alquiler.
+      </p>
+
+      <a class="button button-outline" routerLink="/inquilino/perfil">
+        Ver mi perfil <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  </main>
+</div>
