@@ -1,6 +1,7 @@
-<header class="dashboard-header">
+
+<header class="tenant-header" (keydown.escape)="closeMenu()">
   <a
-    class="brand"
+    class="tenant-brand"
     routerLink="/"
     aria-label="HouseKarma, inicio"
     (click)="closeMenu()"
@@ -8,10 +9,8 @@
     House<span>Karma</span>
   </a>
 
-  <nav
-    class="desktop-nav"
-    aria-label="Navegación principal"
-  >
+  <!-- Navegación de escritorio -->
+  <nav class="tenant-navigation" aria-label="Navegación principal">
     <a
       routerLink="/inquilino/inicio"
       routerLinkActive="active"
@@ -46,6 +45,7 @@
     </a>
   </nav>
 
+  <!-- Acciones de usuario -->
   <div class="header-actions">
     <a
       class="profile-shortcut"
@@ -83,6 +83,7 @@
       </svg>
     </button>
 
+    <!-- Botón del menú móvil -->
     <button
       class="mobile-menu"
       [class.open]="isMenuOpen"
@@ -97,6 +98,7 @@
     </button>
   </div>
 
+  <!-- Navegación móvil -->
   <nav
     id="tenant-mobile-navigation"
     class="mobile-navigation"
@@ -104,10 +106,38 @@
     aria-label="Navegación móvil"
     [attr.inert]="!isMenuOpen ? '' : null"
   >
-    <a routerLink="/inquilino/inicio" (click)="closeMenu()">Inicio</a>
-    <a routerLink="/inquilino/buscar-caseros" (click)="closeMenu()">Buscar caseros</a>
-    <a routerLink="/inquilino/experiencias" (click)="closeMenu()">Mis experiencias</a>
-    <a routerLink="/inquilino/perfil" (click)="closeMenu()">Mi perfil</a>
+    <a
+      routerLink="/inquilino/inicio"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >
+      Inicio
+    </a>
+
+    <a
+      routerLink="/inquilino/buscar-caseros"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Buscar caseros
+    </a>
+
+    <a
+      routerLink="/inquilino/experiencias"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mis experiencias
+    </a>
+
+    <a
+      routerLink="/inquilino/perfil"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mi perfil
+    </a>
 
     <button
       class="mobile-logout"

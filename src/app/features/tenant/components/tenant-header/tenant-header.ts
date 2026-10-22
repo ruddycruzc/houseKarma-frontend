@@ -1,16 +1,12 @@
 import { Component, inject } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
-import { AuthService } from '../../../../../../core/services/auth.service';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-tenant-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
-  templateUrl:'./tenant-header.html',
+  templateUrl: './tenant-header.html',
   styleUrl: './tenant-header.css',
 })
 export class TenantHeader {
@@ -20,16 +16,22 @@ export class TenantHeader {
   isMenuOpen = false;
 
   user = {
-    fullName: 'Lucía Martínez',
-    initials: 'LM',
+    fullName: '',
+    initials: '',
   };
 
   toggleMenu(): void {
-    this.isMenuOpen= !this.isMenuOpen;
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   closeMenu(): void {
     this.isMenuOpen = false;
+  }
+
+  onMenuKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.closeMenu();
+    }
   }
 
   logout(): void {

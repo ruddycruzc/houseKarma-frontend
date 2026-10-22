@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AppButtonComponent } from '../../../../shared/components/ui/app-button/app-button';
 
 type ExperienceStatus = 'ACTIVA' | 'FINALIZADA' | 'VALORADA';
 
@@ -16,7 +17,7 @@ interface RentalExperience {
 
 @Component({
   selector: 'app-tenant-dashboard',
-  imports: [RouterLink],
+  imports: [RouterLink, AppButtonComponent],
   templateUrl: './tenant-dashboard.html',
   styleUrl: './tenant-dashboard.css',
 })

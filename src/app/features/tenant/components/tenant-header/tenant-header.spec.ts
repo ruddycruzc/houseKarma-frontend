@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+
 import { TenantHeader } from './tenant-header';
-import { AuthService } from '../../../../../../core/services/auth.service';
 
 describe('TenantHeader', () => {
   let component: TenantHeader;
@@ -10,15 +9,6 @@ describe('TenantHeader', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TenantHeader],
-      providers: [
-        provideRouter([]),
-        {
-          provide: AuthService,
-          useValue: {
-            logout: () => {},
-          },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TenantHeader);

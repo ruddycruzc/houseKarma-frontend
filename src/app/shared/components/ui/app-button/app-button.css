@@ -105,3 +105,11 @@ a.app-button {
 :host(.app-button-host--full-width) .app-button {
   width: 100%;
 }
+.button-arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-paper);
+}
