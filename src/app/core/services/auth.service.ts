@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
-
+import { UsuarioPerfil } from '../models/usuario-perfil.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -45,5 +45,9 @@ export class AuthService {
 
   getRole(): string | null {
     return localStorage.getItem('hk_role');
+  }
+
+  getMyProfile(): Observable<UsuarioPerfil> {
+    return this.http.get<UsuarioPerfil>(`${this.apiUrl}/usuarios/me`);
   }
 }
