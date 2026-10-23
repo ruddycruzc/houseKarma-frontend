@@ -269,66 +269,6 @@
   font-size: 0.7rem;
   font-weight: 700;
 }
-
-.public-profile {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  padding: 24px 0;
-  border-block: 1px solid #8e8176;
-}
-
-.public-profile-person {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.avatar-large {
-  width: 44px;
-  height: 44px;
-}
-
-.public-profile-person .eyebrow {
-  margin-bottom: 5px;
-  font-size: 0.52rem;
-}
-
-.public-profile-person h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-}
-
-.profile-city {
-  margin: 4px 0 0;
-  color: var(--color-muted);
-  font-size: 0.66rem;
-}
-
-.public-profile-copy {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.7rem;
-  line-height: 1.5;
-}
-
-.public-profile > .button {
-  justify-self: start;
-  min-width: 100%;
-}
-
-.public-profile > .role-badge {
-  justify-self: start;
-}
-
-.brand-light span {
-  color: var(--color-tenant);
-}
-
-
 @media (min-width: 600px) {
   .welcome-section h1 {
     font-size: clamp(4.5rem, 9vw, 6rem);
@@ -373,16 +313,6 @@
 
   .pending-card .button {
     justify-self: end;
-  }
-
-  .public-profile {
-    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 18px;
-  }
-
-  .public-profile > .button {
-    min-width: 110px;
   }
 }
 
@@ -463,13 +393,5 @@
     display: inline;
     padding-top: 3px;
   }
-  .public-profile {
-    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 0.9fr) auto;
-    gap: 22px;
-    padding: 28px 0;
-  }
-
-  .public-profile-copy {
-    max-width: 250px;
-  }
+  
 }

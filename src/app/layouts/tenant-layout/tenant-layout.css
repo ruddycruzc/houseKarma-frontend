@@ -2,3 +2,7 @@
   display: block;
   min-height: 100vh;
 }
+
+.tenant-layout {
+  min-height: 100vh;
+}

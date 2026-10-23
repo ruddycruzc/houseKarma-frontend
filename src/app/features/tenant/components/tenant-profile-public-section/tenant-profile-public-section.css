@@ -1,0 +1,184 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  color: var(--color-ink);
+}
+
+.public-profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  padding: 24px 0;
+  border-block: 1px solid #8e8176;
+}
+
+.public-profile-person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.avatar-large {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid #796b60;
+  border-radius: 50%;
+  color: var(--color-ink);
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.public-profile-person > div {
+  min-width: 0;
+}
+
+.public-profile-person .eyebrow {
+  margin: 0 0 5px;
+  color: var(--color-tenant-accent);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.public-profile-person h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.profile-city {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.role-badge {
+  justify-self: start;
+  padding: 4px 7px;
+  border: 1px solid var(--color-tenant);
+  color: var(--color-tenant-accent);
+  background: transparent;
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.public-profile-copy {
+  max-width: 250px;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+.profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 9px 12px;
+  border: 1px solid #796b60;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.profile-button:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.profile-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.profile-button-arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  color: inherit;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.profile-button:hover .profile-button-arrow {
+  transform: translateX(3px);
+}
+
+@media (min-width: 600px) {
+  .public-profile {
+    grid-template-columns: minmax(0, 1.2fr) auto;
+    align-items: center;
+    column-gap: 18px;
+    row-gap: 14px;
+  }
+
+  .public-profile-copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .public-profile > .profile-button {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 900px) {
+  .public-profile {
+    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 0.9fr) auto;
+    gap: 22px;
+    padding: 28px 0;
+  }
+
+  .public-profile-person {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .public-profile > .role-badge {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .public-profile-copy {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .public-profile > .profile-button {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+  }
+}

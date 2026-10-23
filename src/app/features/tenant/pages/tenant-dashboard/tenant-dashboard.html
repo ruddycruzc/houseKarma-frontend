@@ -1,12 +1,17 @@
-@if (isLoading) {
-  <main class="dashboard-main" aria-live="polite">
-    <p>Cargando tu perfil...</p>
-  </main>
-} @else if (hasError || !user) {
-  <main class="dashboard-main" aria-live="polite">
-    <p>No hemos podido cargar tu perfil.</p>
-    <p>Comprueba tu sesión e inténtalo de nuevo.</p>
-  </main>
-} @else {
-  <app-tenant-hero [user]="user" />
-}
+
+<main class="dashboard-main">
+  @if (isLoading) {
+    <p class="dashboard-message" aria-live="polite">
+      Cargando tu perfil...
+    </p>
+  } @else if (hasError || !user) {
+    <div class="dashboard-message" role="alert">
+      <p>No hemos podido cargar tu perfil.</p>
+      <p>Comprueba tu sesión e inténtalo de nuevo.</p>
+    </div>
+  } @else {
+    <app-tenant-hero [user]="user" />
+    <app-tenant-experiences />
+    <app-tenant-profile-public-section [user]="user" />
+  }
+</main>

@@ -1,0 +1,223 @@
+:host {
+  display: block;
+width: 100%;
+  min-height: 100vh;
+}
+
+.experiences-section {
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+.section-heading {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--color-tenant-accent);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+  max-width: 100%;
+  font-size: clamp(2.7rem, 12vw, 4.1rem);
+  font-weight: 650;
+  letter-spacing: -0.085em;
+  line-height: 0.88;
+  overflow-wrap: break-word;
+}
+
+.section-heading > p {
+  max-width: 280px;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.empty-state {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 20px;
+  border: 0;
+  border-left: 3px solid var(--color-tenant);
+  background: var(--color-pink);
+  color: var(--color-ink);
+}
+
+.empty-state-number,
+.experience-index {
+  color: var(--color-tenant-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.empty-state-content .eyebrow {
+  margin-bottom: 10px;
+}
+
+.empty-state h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.empty-state-content > p:last-child {
+  max-width: 520px;
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.experience-list {
+  border-top: 1px solid var(--color-line);
+}
+
+.experience-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.experience-index {
+  padding-top: 2px;
+}
+
+.experience-property {
+  min-width: 0;
+}
+
+.experience-type {
+  margin: 0 0 6px;
+  color: var(--color-muted);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.experience-property h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.experience-property > p:last-child {
+  margin: 5px 0 0;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+}
+
+.experience-date,
+.experience-landlord {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0 0 32px;
+}
+
+.experience-date dt,
+.experience-landlord dt {
+  color: var(--color-muted);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.experience-date dd,
+.experience-landlord dd {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.experience-actions {
+  grid-column: 2;
+  margin-left: 32px;
+}
+
+.experience-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.experience-status.activa {
+  color: var(--color-tenant-accent);
+}
+
+.experience-status.finalizada {
+  color: var(--color-muted);
+}
+
+.experience-status.valorada {
+  color: var(--color-ink);
+}
+
+@media (min-width: 600px) {
+  .section-heading {
+    grid-template-columns: 1fr minmax(180px, 0.7fr);
+    align-items: end;
+    margin-bottom: 34px;
+  }
+
+  .experience-row {
+    grid-template-columns: 22px minmax(0, 1.4fr) minmax(90px, 0.8fr);
+    align-items: start;
+    gap: 14px;
+  }
+
+  .experience-date,
+  .experience-landlord {
+    margin: 4px 0 0;
+  }
+
+  .experience-landlord,
+  .experience-actions {
+    grid-column: 2 / -1;
+  }
+
+  .experience-actions {
+    margin: 4px 0 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .section-heading h2 {
+    font-size: clamp(3.3rem, 5.4vw, 4.7rem);
+  }
+
+  .experience-row {
+    grid-template-columns:
+      22px minmax(0, 1.5fr) minmax(90px, 0.8fr)
+      minmax(90px, 0.8fr) minmax(100px, 0.8fr) minmax(90px, 0.7fr);
+    align-items: center;
+  }
+
+  .experience-landlord,
+  .experience-actions {
+    grid-column: auto;
+  }
+}

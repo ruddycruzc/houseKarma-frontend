@@ -1,0 +1,71 @@
+<section
+  class="experiences-section"
+  aria-labelledby="experiences-title"
+>
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Experiencias verificadas</p>
+      <h2 id="experiences-title">Mis experiencias</h2>
+    </div>
+
+    <p>Tus relaciones de alquiler, de principio a fin.</p>
+  </div>
+
+  @if (experiences().length === 0) {
+    <div class="empty-state">
+      <span class="empty-state-number" aria-hidden="true">01</span>
+
+      <div class="empty-state-content">
+        <p class="eyebrow">Tu historial comienza aquí</p>
+        <h3>Aún no tienes experiencias registradas.</h3>
+        <p>
+          Cuando registres tu primer alquiler, podrás consultar
+          aquí los detalles y el estado de tu experiencia.
+        </p>
+      </div>
+    </div>
+  } @else {
+    <div class="experience-list">
+      @for (experience of experiences(); track experience.id; let i = $index) {
+        <article class="experience-row">
+          <span class="experience-index">
+            {{ (i + 1).toString().padStart(2, '0') }}
+          </span>
+
+          <div class="experience-property">
+            <p class="experience-type">Vivienda</p>
+            <h3>{{ experience.property }}</h3>
+            <p>{{ experience.location }}</p>
+          </div>
+
+          <dl class="experience-date">
+            <dt>Inicio</dt>
+            <dd>{{ formatDate(experience.startDate) }}</dd>
+          </dl>
+
+          <dl class="experience-date">
+            <dt>Finalización</dt>
+            <dd>{{ formatDate(experience.endDate) }}</dd>
+          </dl>
+
+          <dl class="experience-landlord">
+            <dt>Casero</dt>
+            <dd>{{ experience.landlord }}</dd>
+          </dl>
+
+          <div class="experience-actions">
+            <p
+              class="experience-status"
+              [class.activa]="experience.status === 'ACTIVA'"
+              [class.finalizada]="experience.status === 'FINALIZADA'"
+              [class.valorada]="experience.status === 'VALORADA'"
+            >
+              <span aria-hidden="true">●</span>
+              {{ statusLabel(experience.status) }}
+            </p>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>
