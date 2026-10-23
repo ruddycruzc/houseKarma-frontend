@@ -1,4 +1,3 @@
-
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UsuarioPerfil } from '../../../../core/models/usuario-perfil.model';
