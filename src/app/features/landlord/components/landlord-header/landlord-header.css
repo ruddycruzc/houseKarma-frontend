@@ -1,0 +1,261 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--color-paper, #fdf9f4);
+}
+
+.landlord-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(1180px, 88%);
+  min-height: 82px;
+  margin-inline: auto;
+  border-bottom: 1px solid var(--color-line, #d8ccc1);
+}
+
+.landlord-brand {
+  flex-shrink: 0;
+  color: var(--color-ink, #493d34);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  text-decoration: none;
+}
+
+.landlord-brand span {
+  color: var(--color-landlord, #7f2d28);
+}
+
+.landlord-navigation {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 28px);
+}
+
+.landlord-navigation a {
+  position: relative;
+  color: var(--color-muted, #75685f);
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.landlord-navigation a::after {
+  position: absolute;
+  right: 0;
+  bottom: -6px;
+  left: 0;
+  height: 2px;
+  background: var(--color-landlord, #7f2d28);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+
+.landlord-navigation a:hover,
+.landlord-navigation a.active {
+  color: var(--color-ink, #493d34);
+}
+
+.landlord-navigation a:hover::after,
+.landlord-navigation a.active::after {
+  transform: scaleX(1);
+}
+
+.landlord-navigation a.active {
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.profile-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink, #493d34);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgb(127 45 40 / 20%);
+  border-radius: 50%;
+  background: rgb(127 45 40 / 12%);
+  color: var(--color-landlord, #7f2d28);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.profile-shortcut:hover .avatar {
+  background: rgb(127 45 40 / 20%);
+  transform: scale(1.04);
+}
+
+.role-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-surface, #fff);
+  color: var(--color-muted, #75685f);
+  font-size: 0.68rem;
+}
+
+.profile-loading,
+.profile-error {
+  color: var(--color-muted, #75685f);
+  font-size: 0.75rem;
+}
+
+.profile-error {
+  color: var(--color-landlord, #7f2d28);
+}
+
+.logout-button,
+.mobile-menu {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink, #493d34);
+  cursor: pointer;
+}
+
+.logout-button {
+  width: 36px;
+  height: 36px;
+}
+
+.logout-button:hover {
+  color: var(--color-landlord, #7f2d28);
+}
+
+.mobile-menu,
+.mobile-navigation {
+  display: none;
+}
+
+.landlord-brand:focus-visible,
+.landlord-navigation a:focus-visible,
+.profile-shortcut:focus-visible,
+.logout-button:focus-visible,
+.mobile-menu:focus-visible,
+.mobile-navigation a:focus-visible,
+.mobile-logout:focus-visible {
+  outline: 2px solid var(--color-landlord, #7f2d28);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .landlord-header {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 72px;
+    margin: 0;
+    padding-inline: 16px;
+    background: var(--color-paper, #fdf9f4);
+  }
+
+  .landlord-navigation {
+    display: none;
+  }
+
+  .profile-name,
+  .role-badge,
+  .logout-button {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .mobile-menu span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 180ms ease;
+  }
+
+  .mobile-menu.open span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .mobile-menu.open span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .mobile-navigation {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    border: 1px solid var(--color-line, #d8ccc1);
+    background: var(--color-surface, #fff);
+    box-shadow: 0 12px 28px rgb(73 61 52 / 10%);
+  }
+
+  .mobile-navigation--open {
+    display: flex;
+  }
+
+  .mobile-navigation a,
+  .mobile-logout {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.8rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-ink, #493d34);
+    font: inherit;
+    font-size: 0.9rem;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mobile-navigation a:hover,
+  .mobile-navigation a.active,
+  .mobile-logout:hover {
+    background: var(--color-paper, #fdf9f4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landlord-navigation a,
+  .landlord-navigation a::after,
+  .avatar,
+  .mobile-menu span {
+    transition: none;
+  }
+}

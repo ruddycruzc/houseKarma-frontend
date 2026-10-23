@@ -1,1 +1,151 @@
-<p>landlord-header works!</p>
+<header class="landlord-header" (keydown.escape)="closeMenu()">
+  <a
+    class="landlord-brand"
+    routerLink="/casero/dashboard"
+    aria-label="HouseKarma, inicio"
+    (click)="closeMenu()"
+  >
+    House<span>Karma</span>
+  </a>
+
+  <nav class="landlord-navigation" aria-label="Navegación principal">
+    <a
+      routerLink="/casero/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >
+      Inicio
+    </a>
+
+    <a
+      routerLink="/casero/experiencias"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Experiencias
+    </a>
+
+    <a
+      routerLink="/casero/inquilinos"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mis inquilinos
+    </a>
+
+    <a
+      routerLink="/casero/perfil"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mi perfil
+    </a>
+  </nav>
+
+  <div class="header-actions">
+    @if (user; as profile) {
+      <a
+        class="profile-shortcut"
+        routerLink="/casero/perfil"
+        aria-label="Ver mi perfil"
+        (click)="closeMenu()"
+      >
+        <span class="avatar">{{ initials }}</span>
+        <span class="profile-name">{{ fullName }}</span>
+        <span class="role-badge">Casero</span>
+      </a>
+    } @else if (isLoadingProfile) {
+      <span class="profile-loading" aria-label="Cargando perfil">
+        Cargando...
+      </span>
+    } @else if (profileError) {
+      <span class="profile-error" role="status">
+        Perfil no disponible
+      </span>
+    }
+
+    <button
+      class="logout-button"
+      type="button"
+      aria-label="Cerrar sesión"
+      title="Cerrar sesión"
+      (click)="logout()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+    </button>
+
+    <button
+      class="mobile-menu"
+      [class.open]="isMenuOpen"
+      type="button"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-controls="landlord-mobile-navigation"
+      [attr.aria-label]="isMenuOpen ? 'Cerrar menú' : 'Abrir menú'"
+      (click)="toggleMenu()"
+    >
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <nav
+    id="landlord-mobile-navigation"
+    class="mobile-navigation"
+    [class.mobile-navigation--open]="isMenuOpen"
+    aria-label="Navegación móvil"
+    [attr.inert]="!isMenuOpen ? '' : null"
+  >
+    <a
+      routerLink="/casero/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >
+      Inicio
+    </a>
+
+    <a
+      routerLink="/casero/experiencias"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Experiencias
+    </a>
+
+    <a
+      routerLink="/casero/inquilinos"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mis inquilinos
+    </a>
+
+    <a
+      routerLink="/casero/perfil"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Mi perfil
+    </a>
+
+    <button class="mobile-logout" type="button" (click)="logout()">
+      Cerrar sesión
+    </button>
+  </nav>
+</header>
