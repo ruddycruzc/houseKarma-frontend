@@ -37,10 +37,10 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'inicio',
+        redirectTo: 'dashboard',
       },
       {
-        path: 'inicio',
+        path: 'dashboard',
         component: TenantDashboard,
       },
     ],
@@ -52,10 +52,10 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'inicio',
+        redirectTo: 'dashboard',
       },
       {
-        path: 'inicio',
+        path: 'dashboard',
         component: LandlordDashboard,
       },
     ],
