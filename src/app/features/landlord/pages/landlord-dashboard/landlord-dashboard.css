@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--color-paper, #fdf9f4);
+  color: var(--color-ink, #493d34);
+}
+
+.dashboard-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 48px;
+
+  box-sizing: border-box;
+  width: calc(100% - 40px);
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-block: 36px;
+}
+
+app-landlord-hero {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.dashboard-message {
+  margin: 0;
+  padding: 24px;
+  border-left: 3px solid var(--color-landlord, #7f2d28);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-ink, #493d34);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.dashboard-message p {
+  margin: 0;
+}
+
+.dashboard-message p + p {
+  margin-top: 8px;
+}
+
+@media (min-width: 600px) {
+  .dashboard-main {
+    width: 88%;
+    gap: 56px;
+    padding-block: 48px;
+  }
+}
+
+@media (min-width: 900px) {
+  .dashboard-main {
+    width: 86%;
+    gap: 76px;
+    padding-block: 50px;
+  }
+}

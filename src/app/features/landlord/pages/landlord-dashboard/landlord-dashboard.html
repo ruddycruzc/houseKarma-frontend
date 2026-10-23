@@ -1,1 +1,14 @@
-<p>landlord-dashboard works!</p>
+<main class="dashboard-main">
+  @if (isLoading) {
+    <p class="dashboard-message" aria-live="polite">
+      Cargando tu perfil...
+    </p>
+  } @else if (hasError || !user) {
+    <div class="dashboard-message" role="alert">
+      <p>No hemos podido cargar tu perfil.</p>
+      <p>Comprueba tu sesión e inténtalo de nuevo.</p>
+    </div>
+  } @else {
+    <app-landlord-hero [user]="user" />
+  }
+</main>
