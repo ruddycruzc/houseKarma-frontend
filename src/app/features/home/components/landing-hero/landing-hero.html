@@ -1,5 +1,10 @@
 <section class="hero" aria-label="Descubre HouseKarma">
-  <div class="hero-content">
+      <div
+      class="grid grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]
+            items-center gap-[var(--hero-gap)]
+            max-[899px]:flex max-[899px]:flex-col
+            max-[899px]:items-stretch"
+    >
     <div class="hero-copy" aria-live="polite" aria-atomic="true">
       <p class="eyebrow">{{ currentSlide().eyebrow }}</p>
 
@@ -49,7 +54,11 @@
     </div>
   </div>
 
-  <div class="hero-footer">
+     <div
+      class="hero-footer grid grid-cols-[auto_minmax(0,1fr)_auto]
+         items-center gap-[var(--hero-footer-gap)]
+         mt-[var(--hero-footer-margin)] py-[var(--spacing-sm)]"
+      >
     <p class="slide-count" aria-live="polite">
       <strong>{{ (activeIndex() + 1).toString().padStart(2, '0') }}</strong>
       <span>/ {{ slides.length.toString().padStart(2, '0') }}</span>
