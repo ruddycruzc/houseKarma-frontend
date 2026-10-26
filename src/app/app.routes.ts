@@ -10,6 +10,7 @@ import { Login } from './features/auth/pages/login/login';
 
 import { TenantDashboard } from './features/tenant/pages/tenant-dashboard/tenant-dashboard';
 import { LandlordDashboard } from './features/landlord/pages/landlord-dashboard/landlord-dashboard';
+import { RateExperience } from './features/experiences/pages/rate-experience/rate-experience';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,10 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
       },
       {
+        path: 'experiencias/valorar',
+        component: RateExperience,
+      },
+      {
         path: 'dashboard',
         component: TenantDashboard,
       },
@@ -57,6 +62,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: LandlordDashboard,
+      },
+      {
+        path: 'experiencias/valorar',
+        component: RateExperience,
       },
     ],
   },
