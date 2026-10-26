@@ -1,0 +1,87 @@
+<section
+  class="pending-experience"
+  aria-labelledby="pending-title"
+>
+  <header class="pending-header">
+    <p class="eyebrow">Necesitas revisar</p>
+    <span class="pending-count">
+      {{ pendingCountLabel() }}
+    </span>
+  </header>
+
+  @if (experiences().length === 0) {
+    <div class="pending-empty">
+      <p class="empty-eyebrow">Todo al día</p>
+
+      <h2 id="pending-title">
+        No tienes experiencias pendientes de revisión.
+      </h2>
+
+      <p class="pending-description">
+        Cuando un inquilino registre una experiencia que requiera
+        tu confirmación, aparecerá aquí.
+      </p>
+    </div>
+  } @else {
+    @for (experience of experiences(); track experience.id; let first = $first) {
+      <article
+        class="pending-card"
+        [attr.aria-labelledby]="'pending-title-' + experience.id"
+      >
+        <div class="pending-body">
+          <h2 [id]="'pending-title-' + experience.id">
+            {{ experience.tenantName }}
+            ha registrado una experiencia de alquiler contigo.
+          </h2>
+
+          <p class="pending-description">
+            Revisa los datos y confirma si esta experiencia corresponde
+            a vuestra relación de alquiler.
+          </p>
+
+          <div class="experience-details">
+            <div class="property-details">
+              <p class="detail-label">Vivienda</p>
+
+              <h3>{{ experience.propertyName }}</h3>
+
+              <p class="property-location">
+                {{ experience.propertyLocation }}
+              </p>
+            </div>
+
+            <div class="experience-meta">
+              <div class="experience-date">
+                <time>{{ experience.experienceDateLabel }}</time>
+
+                <span class="date-line" aria-hidden="true"></span>
+
+                <span>Actualidad</span>
+              </div>
+
+              <p class="experience-status">
+                <span
+                  class="status-indicator"
+                  aria-hidden="true"
+                ></span>
+
+                Pendiente de confirmación
+              </p>
+            </div>
+          </div>
+
+          <div class="pending-actions">
+            <button
+              class="review-button"
+              type="button"
+              (click)="reviewExperience(experience.id)"
+            >
+              <span>Revisar experiencia</span>
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    }
+  }
+</section>

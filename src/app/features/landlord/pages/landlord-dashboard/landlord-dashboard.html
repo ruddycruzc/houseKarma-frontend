@@ -1,8 +1,6 @@
 <main class="dashboard-main">
   @if (isLoading) {
-    <p class="dashboard-message" aria-live="polite">
-      Cargando tu perfil...
-    </p>
+    <p class="dashboard-message" aria-live="polite">Cargando tu perfil...</p>
   } @else if (hasError || !user) {
     <div class="dashboard-message" role="alert">
       <p>No hemos podido cargar tu perfil.</p>
@@ -10,5 +8,17 @@
     </div>
   } @else {
     <app-landlord-hero [user]="user" />
+
+    
+    @if (isExperiencesLoading) {
+      <p class="dashboard-message" aria-live="polite">Cargando experiencias pendientes...</p>
+    } @else if (experiencesError) {
+      <div class="dashboard-message" role="alert">
+        <p>No hemos podido cargar las experiencias pendientes.</p>
+        <p>Inténtalo de nuevo más tarde.</p>
+      </div>
+    } @else {
+      <app-landlord-pending-experience [experiences]="pendingExperiences" />
+    }
   }
 </main>

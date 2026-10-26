@@ -1,0 +1,304 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+
+.pending-experience {
+  --pending-bg: var(--color-landlord);
+  --pending-accent: var(--color-primary);
+  --pending-text: var(--color-paper);
+  --pending-muted: var(--color-primary);
+  --pending-divider: var(--color-landlord-accent);
+
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  padding: 28px;
+  background-color: var(--pending-bg);
+  color: var(--pending-text);
+}
+
+
+.pending-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.eyebrow,
+.pending-count {
+  margin: 0;
+  color: var(--pending-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.pending-count {
+  flex-shrink: 0;
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.pending-card,
+.pending-empty {
+  min-width: 0;
+}
+
+.pending-body h2,
+.pending-empty h2 {
+  max-width: 900px;
+  margin: 0;
+  color: var(--pending-text);
+  font-size: clamp(2.5rem, 8.5vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.075em;
+  line-height: 0.99;
+  overflow-wrap: anywhere;
+}
+
+.pending-description {
+  max-width: 780px;
+  margin: 24px 0 0;
+  color: var(--pending-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.experience-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  padding-block: 28px;
+  border-top: 1px solid var(--pending-divider);
+  border-bottom: 1px solid var(--pending-divider);
+}
+
+.detail-label {
+  margin: 0 0 14px;
+  color: var(--pending-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.property-details h3 {
+  margin: 0;
+  color: var(--pending-text);
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.property-location {
+  margin: 10px 0 0;
+  color: var(--pending-text);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.experience-meta {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+}
+
+.experience-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: var(--pending-text);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.experience-date time,
+.experience-date > span:last-child {
+  flex-shrink: 0;
+}
+
+.date-line {
+  flex: 1;
+  min-width: 12px;
+  height: 1px;
+  background: var(--pending-divider);
+}
+
+.experience-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--pending-text);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.status-indicator {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border: 2px solid var(--pending-text);
+  border-radius: 50%;
+}
+
+.pending-actions {
+  margin-top: 28px;
+}
+
+.review-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-height: 56px;
+  padding: 16px 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--pending-accent);
+  color: var(--color-ink, #493d34);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.review-button:hover {
+  border-color: var(--pending-text);
+  background: #efb0ab;
+}
+
+.review-button:focus-visible {
+  outline: 3px solid var(--pending-text);
+  outline-offset: 4px;
+}
+
+.button-arrow {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.review-button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
+.pending-empty {
+  padding-block: 8px 24px;
+}
+
+.empty-eyebrow {
+  margin: 0 0 18px;
+  color: var(--pending-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pending-empty .pending-description {
+  max-width: 600px;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+  .pending-experience {
+    padding: 40px;
+  }
+
+  .pending-header {
+    margin-bottom: 88px;
+  }
+
+  .pending-body h2,
+  .pending-empty h2 {
+    font-size: clamp(3.2rem, 7vw, 5rem);
+  }
+
+  .pending-description {
+    margin-top: 28px;
+    font-size: 1rem;
+  }
+
+  .experience-details {
+    margin-top: 56px;
+    padding-block: 32px;
+  }
+
+  .pending-actions {
+    margin-top: 36px;
+  }
+
+  .review-button {
+    width: fit-content;
+    min-width: 265px;
+  }
+}
+
+/* Escritorio */
+@media (min-width: 900px) {
+  .pending-experience {
+    padding: 48px 4%;
+  }
+
+  .pending-header {
+    margin-bottom: 96px;
+  }
+
+  .pending-body h2,
+  .pending-empty h2 {
+    max-width: 1000px;
+    font-size: clamp(4rem, 5.5vw, 6rem);
+  }
+
+  .pending-description {
+    max-width: 850px;
+    margin-top: 30px;
+  }
+
+  .experience-details {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    align-items: center;
+    gap: 32px;
+    margin-top: 58px;
+    padding-block: 36px;
+  }
+
+  .experience-meta {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .pending-actions {
+    margin-top: 36px;
+  }
+}
+
+/* Reduce movimiento para quien lo tenga configurado */
+@media (prefers-reduced-motion: reduce) {
+  .review-button,
+  .button-arrow {
+    transition: none;
+  }
+}
