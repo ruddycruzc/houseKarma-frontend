@@ -414,10 +414,6 @@
 }
 
 @media (min-width: 600px) {
-  .rating-page {
-    padding-top: 34px;
-  }
-
   .page-heading {
     padding-block: 54px 40px;
   }
