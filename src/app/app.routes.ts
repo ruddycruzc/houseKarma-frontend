@@ -12,7 +12,7 @@ import { TenantDashboard } from './features/tenant/pages/tenant-dashboard/tenant
 import { LandlordDashboard } from './features/landlord/pages/landlord-dashboard/landlord-dashboard';
 import { RateExperience } from './features/experiences/pages/rate-experience/rate-experience';
 import { MyExperiences } from './features/experiences/pages/my-experiences/my-experiences';
-
+import { MyProfile } from './features/my-profile/my-profile';
 export const routes: Routes = [
   {
     path: '',
@@ -40,6 +40,10 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard',
+      },
+      {
+        path: 'perfil',
+        component: MyProfile,
       },
       {
         path: 'experiencias',
@@ -71,6 +75,10 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: LandlordDashboard,
+      },
+      {
+        path: 'perfil',
+        component: MyProfile,
       },
       {
         path: 'experiencias/valorar',
