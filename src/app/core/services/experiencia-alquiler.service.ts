@@ -2,7 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { ExperienciaAlquilerPendiente } from '../models/experiencia-alquiler.model';
+import {
+  ExperienciaAlquilerPendiente,
+  ExperienciaAlquilerListado,
+} from '../models/experiencia-alquiler.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,12 @@ export class ExperienciaAlquilerService {
   obtenerPendientesCasero(): Observable<ExperienciaAlquilerPendiente[]> {
     return this.http.get<ExperienciaAlquilerPendiente[]>(
       `${this.apiUrl}/pendientes/casero`,
+    );
+  }
+
+  obtenerMisExperiencias(): Observable<ExperienciaAlquilerListado[]> {
+    return this.http.get<ExperienciaAlquilerListado[]>(
+      `${this.apiUrl}/mis-experiencias`,
     );
   }
 }

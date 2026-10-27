@@ -1,185 +1,169 @@
 <main
-  class="rating-page"
+  class="rating-page min-h-screen bg-[var(--color-paper)] text-[var(--color-ink)]"
   [attr.data-role]="isTenant ? 'tenant' : 'landlord'"
   [class.tenant-theme]="isTenant"
   [class.landlord-theme]="!isTenant"
 >
+  <div class="mx-auto w-[calc(100%-32px)] max-w-5xl pb-20 sm:w-[calc(100%-48px)]">
+   
+    <app-experience-nav />
 
-  <nav class="breadcrumbs" aria-label="Ruta de navegación">
-    <a routerLink="../">Mis experiencias</a>
-    <span aria-hidden="true">/</span>
-    <span>Valorar experiencia</span>
-  </nav>
-
-  <header class="page-heading">
-    <p class="eyebrow">Valoración</p>
-    <h1>¿Cómo fue tu experiencia?</h1>
-    <p>
-      Tu valoración ayudará a construir la reputación de
-      {{ personName }} dentro de HouseKarma.
-    </p>
-  </header>
-
-  <section class="experience-summary" aria-labelledby="experience-title">
-    <p class="eyebrow">Experiencia finalizada</p>
-    <h2 id="experience-title">{{ propertyName }}</h2>
-    <p class="location">{{ propertyLocation }}</p>
-
-    <div class="dates">
-      <div>
-        <span>Inicio</span>
-        <strong>{{ startDate }}</strong>
-      </div>
-      <div>
-        <span>Finalización</span>
-        <strong>{{ endDate }}</strong>
-      </div>
-    </div>
-
-    <div class="person">
-      <span class="avatar" aria-hidden="true">
-        {{ personName.charAt(0) }}
-      </span>
-      <div>
-        <span class="role-label">{{ personRoleLabel }}</span>
-        <h3>{{ personName }}</h3>
-      </div>
-    </div>
-
-    <aside class="notice">
-      <strong>Valora únicamente lo que has vivido.</strong>
+    <header class="page-heading">
+      <p class="eyebrow">Valoración</p>
+      <h1>¿Cómo fue tu experiencia?</h1>
       <p>
-        Tu valoración debe reflejar tu experiencia real durante el alquiler.
+        Tu valoración ayudará a construir la reputación de
+        {{ personName }} dentro de HouseKarma.
       </p>
-    </aside>
-  </section>
+    </header>
 
-  @if (published()) {
-    <section class="success-message" role="status">
-      <h2>Vista previa completada</h2>
-      <p>
-        La interacción funciona correctamente. La publicación real se habilitará
-        cuando conectemos el backend de valoraciones.
-      </p>
-      <button type="button" class="secondary-button" (click)="published.set(false)">
-        Volver al formulario
-      </button>
+    <section class="experience-summary" aria-labelledby="experience-title">
+      <p class="eyebrow">Experiencia finalizada</p>
+      <h2 id="experience-title">{{ propertyName }}</h2>
+      <p class="location">{{ propertyLocation }}</p>
+
+      <div class="dates">
+        <div>
+          <span>Inicio</span>
+          <strong>{{ startDate }}</strong>
+        </div>
+        <div>
+          <span>Finalización</span>
+          <strong>{{ endDate }}</strong>
+        </div>
+      </div>
+
+      <div class="person">
+        <span class="avatar" aria-hidden="true">
+          {{ personName.charAt(0) }}
+        </span>
+        <div>
+          <span class="role-label">{{ personRoleLabel }}</span>
+          <h3>{{ personName }}</h3>
+        </div>
+      </div>
+
+      <aside class="notice">
+        <strong>Valora únicamente lo que has vivido.</strong>
+        <p>Tu valoración debe reflejar tu experiencia real durante el alquiler.</p>
+      </aside>
     </section>
-  } @else {
-    <form (ngSubmit)="previewRating()">
-      <section class="criteria-section">
-        <p class="eyebrow">
-          {{ isTenant ? 'La experiencia con tu casero' : 'La experiencia con tu inquilino' }}
+
+    @if (published()) {
+      <section class="success-message" role="status">
+        <h2>Vista previa completada</h2>
+        <p>
+          La interacción funciona correctamente. La publicación real se habilitará cuando conectemos
+          el backend de valoraciones.
         </p>
+        <button type="button" class="secondary-button" (click)="published.set(false)">
+          Volver al formulario
+        </button>
+      </section>
+    } @else {
+      <form (ngSubmit)="previewRating()">
+        <section class="criteria-section">
+          <p class="eyebrow">
+            {{ isTenant ? 'La experiencia con tu casero' : 'La experiencia con tu inquilino' }}
+          </p>
 
-        <h2>
-          {{ isTenant ? '¿Cómo fue la relación de alquiler?' : '¿Qué destacarías de esta experiencia?' }}
-        </h2>
+          <h2>
+            {{
+              isTenant
+                ? '¿Cómo fue la relación de alquiler?'
+                : '¿Qué destacarías de esta experiencia?'
+            }}
+          </h2>
 
-        <p class="section-description">
-          Puntúa cada categoría del 1 al 5, donde 1 es la puntuación más baja y 5 la más alta.
-        </p>
+          <p class="section-description">
+            Puntúa cada categoría del 1 al 5, donde 1 es la puntuación más baja y 5 la más alta.
+          </p>
 
-        @for (criterion of criteria; track criterion.id; let i = $index) {
-          <fieldset class="criterion">
-            <legend>
-              <span class="criterion-index">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          @for (criterion of criteria; track criterion.id; let i = $index) {
+            <fieldset class="criterion">
+              <legend>
+                <span class="criterion-index">{{ (i + 1).toString().padStart(2, '0') }}</span>
+                <span>{{ criterion.label }}</span>
+              </legend>
+
+              <p>{{ criterion.description }}</p>
+
+              <div class="rating-options" [attr.aria-label]="'Puntuación para ' + criterion.label">
+                @for (value of [1, 2, 3, 4, 5]; track value) {
+                  <button
+                    type="button"
+                    [class.selected]="ratings()[criterion.id] === value"
+                    [attr.aria-pressed]="ratings()[criterion.id] === value"
+                    [attr.aria-label]="value + ' de 5'"
+                    (click)="setRating(criterion.id, value)"
+                  >
+                    {{ value }}
+                  </button>
+                }
+              </div>
+            </fieldset>
+          }
+        </section>
+
+        <section class="comment-section">
+          <label for="rating-comment">¿Quieres añadir algo?</label>
+          <span class="optional-label">Opcional</span>
+
+          <textarea
+            id="rating-comment"
+            name="comment"
+            rows="5"
+            maxlength="500"
+            [ngModel]="comment()"
+            (ngModelChange)="comment.set($event)"
+            placeholder="Comparte tu experiencia para ayudar a otras personas..."
+          ></textarea>
+
+          <p class="character-count">{{ comment().length }} / 500</p>
+        </section>
+
+        @if (!allRated()) {
+          <p class="validation-message">Completa las cinco categorías para continuar.</p>
+        }
+
+        <div class="form-actions">
+          <button type="submit" class="primary-button" [disabled]="!allRated()">
+            Revisar valoración <span aria-hidden="true">→</span>
+          </button>
+
+          <a routerLink="../" class="cancel-link">Cancelar</a>
+        </div>
+      </form>
+
+      @if (showSummary()) {
+        <section class="review-summary" aria-labelledby="summary-title">
+          <p class="eyebrow">Antes de publicar</p>
+          <h2 id="summary-title">Tu valoración</h2>
+
+          @for (criterion of criteria; track criterion.id) {
+            <div class="summary-row">
               <span>{{ criterion.label }}</span>
-            </legend>
-
-            <p>{{ criterion.description }}</p>
-
-            <div class="rating-options" [attr.aria-label]="'Puntuación para ' + criterion.label">
-              @for (value of [1, 2, 3, 4, 5]; track value) {
-                <button
-                  type="button"
-                  [class.selected]="ratings()[criterion.id] === value"
-                  [attr.aria-pressed]="ratings()[criterion.id] === value"
-                  [attr.aria-label]="value + ' de 5'"
-                  (click)="setRating(criterion.id, value)"
-                >
-                  {{ value }}
-                </button>
-              }
+              <strong>{{ ratings()[criterion.id] }} / 5</strong>
             </div>
-          </fieldset>
-        }
-      </section>
+          }
 
-      <section class="comment-section">
-        <label for="rating-comment">¿Quieres añadir algo?</label>
-        <span class="optional-label">Opcional</span>
-
-        <textarea
-          id="rating-comment"
-          name="comment"
-          rows="5"
-          maxlength="500"
-          [ngModel]="comment()"
-          (ngModelChange)="comment.set($event)"
-          placeholder="Comparte tu experiencia para ayudar a otras personas..."
-        ></textarea>
-
-        <p class="character-count">{{ comment().length }} / 500</p>
-      </section>
-
-      @if (!allRated()) {
-        <p class="validation-message">
-          Completa las cinco categorías para continuar.
-        </p>
-      }
-
-      <div class="form-actions">
-        <button
-          type="submit"
-          class="primary-button"
-          [disabled]="!allRated()"
-        >
-          Revisar valoración <span aria-hidden="true">→</span>
-        </button>
-
-        <a routerLink="../" class="cancel-link">Cancelar</a>
-      </div>
-    </form>
-
-    @if (showSummary()) {
-      <section class="review-summary" aria-labelledby="summary-title">
-        <p class="eyebrow">Antes de publicar</p>
-        <h2 id="summary-title">Tu valoración</h2>
-
-        @for (criterion of criteria; track criterion.id) {
-          <div class="summary-row">
-            <span>{{ criterion.label }}</span>
-            <strong>{{ ratings()[criterion.id] }} / 5</strong>
+          <div class="average">
+            <span>Valoración media</span>
+            <strong>{{ averageRating().toFixed(1).replace('.', ',') }}</strong>
           </div>
-        }
 
-        <div class="average">
-          <span>Valoración media</span>
-          <strong>{{ averageRating().toFixed(1).replace('.', ',') }}</strong>
-        </div>
+          <div class="summary-comment">
+            <span>Comentario</span>
+            <p>{{ comment().trim() || 'Sin comentario adicional.' }}</p>
+          </div>
 
-        <div class="summary-comment">
-          <span>Comentario</span>
-          <p>{{ comment().trim() || 'Sin comentario adicional.' }}</p>
-        </div>
+          <button type="button" class="primary-button" (click)="publishRating()">
+            Confirmar vista previa <span aria-hidden="true">→</span>
+          </button>
 
-        <button
-          type="button"
-          class="primary-button"
-          (click)="publishRating()"
-        >
-          Confirmar vista previa <span aria-hidden="true">→</span>
-        </button>
-
-        <button
-          type="button"
-          class="cancel-link"
-          (click)="cancel()"
-        >
-          Volver a editar
-        </button>
-      </section>
+          <button type="button" class="cancel-link" (click)="cancel()">Volver a editar</button>
+        </section>
+      }
     }
-  }
+  </div>
 </main>

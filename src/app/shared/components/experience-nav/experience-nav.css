@@ -1,0 +1,48 @@
+:host {
+  display: block;
+}
+
+.experience-nav {
+  --nav-accent: var(--color-tenant-accent);
+  position: relative;
+}
+
+.experience-nav.landlord-theme {
+  --nav-accent: var(--color-landlord-accent);
+}
+
+.nav-link {
+  position: relative;
+  padding-block: 5px;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--nav-accent);
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
+
+.nav-link.active::after {
+  position: absolute;
+  right: 0;
+  bottom: -21px;
+  left: 0;
+  height: 2px;
+  background: var(--nav-accent);
+  content: '';
+}
+
+.nav-separator {
+  color: var(--color-line);
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--nav-accent);
+  outline-offset: 3px;
+}

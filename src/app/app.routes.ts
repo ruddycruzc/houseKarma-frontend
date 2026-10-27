@@ -11,6 +11,7 @@ import { Login } from './features/auth/pages/login/login';
 import { TenantDashboard } from './features/tenant/pages/tenant-dashboard/tenant-dashboard';
 import { LandlordDashboard } from './features/landlord/pages/landlord-dashboard/landlord-dashboard';
 import { RateExperience } from './features/experiences/pages/rate-experience/rate-experience';
+import { MyExperiences } from './features/experiences/pages/my-experiences/my-experiences';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,14 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard',
+      },
+      {
+        path: 'experiencias',
+        component: MyExperiences,
+      },
+      {
+        path: 'experiencias',
+        component: MyExperiences,
       },
       {
         path: 'experiencias/valorar',

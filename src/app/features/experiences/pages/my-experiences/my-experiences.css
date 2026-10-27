@@ -1,0 +1,552 @@
+:host {
+  display: block;
+}
+
+.experiences-page {
+  --experience-accent: var(--color-tenant-accent);
+  --experience-soft: var(--color-pink);
+
+  color: var(--color-ink);
+  font-family: var(--font);
+}
+
+.experiences-page.landlord-theme {
+  --experience-accent: var(--color-landlord-accent);
+  --experience-soft: var(--color-surface);
+}
+
+/* Navegación */
+
+.nav-link {
+  position: relative;
+  padding-block: 5px;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--experience-accent);
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
+
+.nav-link.active::after {
+  position: absolute;
+  right: 0;
+  bottom: -21px;
+  left: 0;
+  height: 2px;
+  background: var(--experience-accent);
+  content: '';
+}
+
+.nav-separator {
+  color: var(--color-line);
+}
+
+/* Cabecera */
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--experience-accent);
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.intro-title {
+  max-width: 480px;
+  margin: 0;
+  font-size: clamp(3.4rem, 8vw, 6.4rem);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.82;
+  overflow-wrap: anywhere;
+}
+
+/* Resumen */
+
+.stat-item {
+  display: flex;
+  min-width: 0;
+  min-height: 84px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 14px 18px 0;
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.stat-item:not(:first-child) {
+  padding-left: 14px;
+}
+
+.stat-item:nth-child(3n) {
+  border-right: 0;
+}
+
+.stat-item span {
+  color: var(--color-muted);
+  font-size: 0.61rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-item strong {
+  color: var(--experience-accent);
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+/* Búsqueda y filtros */
+.experience-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 11px 13px;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.75rem;
+}
+
+.experience-input::placeholder {
+  color: var(--color-muted);
+}
+
+.experience-input:focus-visible {
+  border-color: var(--experience-accent);
+  outline: 1px solid var(--experience-accent);
+  outline-offset: 1px;
+}
+
+.outline-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-ink);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.outline-button:hover {
+  border-color: var(--experience-accent);
+  color: var(--experience-accent);
+}
+
+.filter-chip {
+  padding: 8px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.filter-chip:hover,
+.filter-chip.selected {
+  border-color: var(--experience-accent);
+  color: var(--experience-accent);
+}
+
+.filter-chip.selected {
+  background: var(--experience-soft);
+}
+
+/* Experiencia destacada */
+.featured-experience h2 {
+  max-width: 580px;
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.featured-description {
+  max-width: 550px;
+  margin-top: 13px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.featured-person {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+
+.featured-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--color-muted);
+  font-size: 0.61rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.featured-person-name {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.featured-note {
+  margin-top: 16px;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+/* Estados */
+
+.status-badge {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: 0.61rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.status-pending {
+  border-color: #e8cda7;
+  background: #fff2df;
+  color: #925a22;
+}
+
+.status-active {
+  border-color: var(--experience-accent);
+  background: var(--experience-soft);
+  color: var(--experience-accent);
+}
+
+.status-confirmed {
+  border-color: #c6d7c3;
+  background: #e8efe5;
+  color: #426348;
+}
+
+.status-finished {
+  border-color: var(--color-line);
+  background: transparent;
+  color: var(--color-muted);
+}
+
+/* Grupos */
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 10px;
+}
+
+.section-heading h2 {
+  max-width: 500px;
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.95;
+}
+
+.section-count {
+  color: var(--experience-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* Tarjetas */
+.person-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.person-avatar {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--experience-accent);
+  border-radius: 50%;
+  color: var(--experience-accent);
+  font-size: 0.64rem;
+  font-weight: 700;
+}
+
+.person-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.person-role {
+  display: inline-block;
+  margin-bottom: 3px;
+  padding: 3px 5px;
+  border: 1px solid var(--color-line);
+  color: var(--experience-accent);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.person-heading h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.experience-card h4 {
+  margin: 20px 0 5px;
+  font-size: 0.91rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.property-city {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+}
+
+.experience-dates {
+  display: grid;
+  gap: 6px;
+  margin-top: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.experience-dates span {
+  color: var(--color-muted);
+  font-size: 0.59rem;
+  text-transform: uppercase;
+}
+
+.experience-dates strong {
+  font-size: 0.72rem;
+  font-weight: 550;
+}
+
+.card-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+}
+
+.small-note {
+  max-width: 480px;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  line-height: 1.6;
+}
+
+.card-link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-ink);
+  border-radius: 2px;
+  color: var(--color-ink);
+  font-size: 0.68rem;
+  text-decoration: none;
+}
+
+.card-link:hover {
+  border-color: var(--experience-accent);
+  color: var(--experience-accent);
+}
+
+.card-link-primary {
+  border-color: var(--experience-accent);
+  background: var(--experience-accent);
+  color: white;
+}
+
+.card-link-primary:hover {
+  background: transparent;
+  color: var(--experience-accent);
+}
+
+.rated-label {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+}
+
+.empty-message {
+  margin: 0;
+  padding-block: 22px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+/* Cierre */
+
+.experiences-footer {
+  margin-top: 54px;
+  padding: 28px 24px;
+  background: var(--experience-soft);
+}
+
+.experiences-footer h2 {
+  max-width: 560px;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 550;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.experiences-footer > p:last-child {
+  max-width: 470px;
+  margin: 16px 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+.nav-link,
+.experience-input,
+.outline-button,
+.filter-chip,
+.card-link {
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+/* Accesibilidad */
+
+.nav-link:focus-visible,
+.card-link:focus-visible,
+.outline-button:focus-visible,
+.filter-chip:focus-visible {
+  outline: 2px solid var(--experience-accent);
+  outline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .stat-item {
+    min-height: 90px;
+  }
+
+  .stat-item:nth-child(3n) {
+    border-right: 1px solid var(--color-line);
+  }
+
+  .stat-item:nth-child(6n) {
+    border-right: 0;
+  }
+
+  .featured-experience {
+    padding: 30px;
+  }
+
+  .experience-card {
+    padding-block: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-title {
+    font-size: clamp(3.2rem, 17vw, 4.5rem);
+  }
+
+  .stat-item {
+    min-height: 72px;
+    padding-right: 8px;
+  }
+
+  .stat-item:not(:first-child) {
+    padding-left: 10px;
+  }
+
+  .stat-item:nth-child(3n) {
+    border-right: 1px solid var(--color-line);
+  }
+
+  .stat-item:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .stat-item strong {
+    font-size: 1.45rem;
+  }
+
+  .featured-experience {
+    padding: 22px 17px;
+  }
+
+  .person-heading {
+    gap: 9px;
+  }
+
+  .person-avatar {
+    width: 35px;
+    height: 35px;
+  }
+
+  .person-heading .status-badge {
+    max-width: 110px;
+    text-align: center;
+  }
+
+  .card-action-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .card-link {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .experiences-footer {
+    padding: 24px 18px;
+  }
+}

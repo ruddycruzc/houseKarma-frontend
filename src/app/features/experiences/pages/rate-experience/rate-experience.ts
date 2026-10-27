@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ExperienceNav } from '../../../../shared/components/experience-nav/experience-nav';
 
 type RatingCriterion = {
   id: string;
@@ -12,7 +13,7 @@ type RatingCriterion = {
 @Component({
   selector: 'app-rate-experience',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ExperienceNav],
   templateUrl: './rate-experience.html',
   styleUrl: './rate-experience.css',
 })
@@ -26,7 +27,6 @@ export class RateExperience {
     ? 'María García'
     : 'Laura Fernández';
 
-  readonly personRole = this.isTenant ? 'CASERO' : 'INQUILINO';
   readonly personRoleLabel = this.isTenant ? 'Casero' : 'Inquilino';
 
   readonly propertyName = 'Piso en Gijón';

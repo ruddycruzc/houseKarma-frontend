@@ -1,0 +1,384 @@
+<main
+  class="experiences-page min-h-screen bg-[var(--color-paper)] text-[var(--color-ink)]"
+  [class.tenant-theme]="isTenant"
+  [class.landlord-theme]="!isTenant"
+>
+  <div class="mx-auto w-[calc(100%-32px)] max-w-5xl pb-20 sm:w-[calc(100%-48px)]">
+
+    <!-- Navegación -->
+   <app-experience-nav />
+
+    <!-- Cabecera -->
+    <header
+      class="intro-section grid gap-8 border-b border-[var(--color-line)] py-10 sm:py-14 md:grid-cols-[1fr_0.8fr] md:items-end"
+    >
+      <div>
+        <p class="eyebrow">Historial personal</p>
+        <h1 class="intro-title">
+          Mis<br class="hidden sm:block" /> experiencias
+        </h1>
+      </div>
+
+      <div class="max-w-sm">
+        @if (isTenant) {
+        <p class="intro-lead text-base font-[650] leading-[1.4]">
+            Tu historial de alquiler también construye tu reputación.
+          </p>
+          <p class="intro-description mt-3 text-[0.82rem] leading-[1.75] text-[var(--color-muted)]">
+            Consulta tus alquileres, revisa las experiencias registradas y
+            descubre cuándo puedes valorar a tus caseros.
+          </p>
+        } @else {
+          <p class="intro-lead">
+            Cada alquiler contribuye a construir tu reputación como casero.
+          </p>
+          <p class="intro-description">
+            Consulta las experiencias con tus inquilinos, revisa su estado y
+            comprueba qué acciones están pendientes.
+          </p>
+        }
+      </div>
+    </header>
+
+    <!-- Resumen -->
+    <section
+      class="stats-grid grid grid-cols-2 border-b border-[var(--color-line)] sm:grid-cols-3 lg:grid-cols-6"
+      aria-label="Resumen de experiencias"
+    >
+      <div class="stat-item">
+        <span>Todas</span>
+        <strong>{{ totalCount() }}</strong>
+      </div>
+
+      <div class="stat-item">
+        <span>Recientes</span>
+        <strong>{{ recentCount() }}</strong>
+      </div>
+
+      <div class="stat-item">
+        <span>Activas</span>
+        <strong>{{ activeCount() }}</strong>
+      </div>
+
+      <div class="stat-item">
+        <span>Pendientes</span>
+        <strong>{{ pendingCount() }}</strong>
+      </div>
+
+      <div class="stat-item">
+        <span>Finalizadas</span>
+        <strong>{{ finishedCount() }}</strong>
+      </div>
+
+      <div class="stat-item">
+        <span>Valoradas</span>
+        <strong>{{ ratedCount() }}</strong>
+      </div>
+    </section>
+
+    <!-- Búsqueda -->
+<section
+  class="filter-section border-b border-[var(--color-line)] py-6"
+  aria-label="Buscar y filtrar experiencias"
+>
+      <form
+        class="grid gap-2 sm:grid-cols-[1fr_auto]"
+        (submit)="$event.preventDefault(); applyFilter()"
+      >
+        <label class="sr-only" for="experience-search">
+          Buscar por persona o ciudad
+        </label>
+
+        <input
+          id="experience-search"
+          type="search"
+          class="experience-input"
+          [placeholder]="isTenant
+            ? 'Buscar por casero o ciudad...'
+            : 'Buscar por inquilino o ciudad...'"
+          [value]="searchTerm()"
+          (input)="searchTerm.set($any($event.target).value)"
+        />
+
+        <button type="submit" class="outline-button">
+          Buscar
+        </button>
+      </form>
+
+      <button
+        type="button"
+        class="outline-button mt-2 w-full"
+        [attr.aria-expanded]="filterOpen()"
+        (click)="toggleFilter()"
+      >
+        {{ filterOpen() ? 'Ocultar filtros' : 'Filtrar experiencias' }}
+        <span aria-hidden="true">{{ filterOpen() ? '−' : '+' }}</span>
+      </button>
+
+      @if (filterOpen()) {
+        <div class="filter-options mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="filter-chip"
+            [class.selected]="selectedFilter() === 'ALL'"
+            (click)="setFilter('ALL')"
+          >
+            Todas
+          </button>
+
+          <button
+            type="button"
+            class="filter-chip"
+            [class.selected]="selectedFilter() === 'ACTIVE'"
+            (click)="setFilter('ACTIVE')"
+          >
+            Activas
+          </button>
+
+          <button
+            type="button"
+            class="filter-chip"
+            [class.selected]="selectedFilter() === 'PENDING'"
+            (click)="setFilter('PENDING')"
+          >
+            Pendientes y confirmadas
+          </button>
+
+          <button
+            type="button"
+            class="filter-chip"
+            [class.selected]="selectedFilter() === 'FINISHED'"
+            (click)="setFilter('FINISHED')"
+          >
+            Finalizadas
+          </button>
+        </div>
+      }
+    </section>
+
+    <!-- Experiencia destacada -->
+    @if (featuredExperience(); as featured) {
+      <section
+  class="featured-experience mt-[30px] border-l-[3px] border-[var(--experience-accent)] bg-[var(--experience-soft)] px-[22px] py-[25px] max-sm:px-[17px] max-sm:py-[22px] sm:p-[30px]"
+>
+        <p class="eyebrow">
+          {{ isTenant ? 'Revisa tu historial' : 'Requiere tu atención' }}
+        </p>
+
+        <h2>{{ featuredTitle() }}</h2>
+
+        <p class="featured-description">
+          {{ featuredDescription() }}
+        </p>
+
+        <div class="featured-person">
+          <div>
+            <span class="featured-label">{{ otherPersonRole }}</span>
+            <p class="featured-person-name">
+              {{ otherPersonName(featured) }}
+            </p>
+          </div>
+
+          <span class="status-badge status-pending">
+            {{ statusLabel(featured.status) }}
+          </span>
+        </div>
+
+        <p class="featured-note">
+          La confirmación se gestionará cuando esté disponible la acción
+          correspondiente.
+        </p>
+      </section>
+    }
+
+    <!-- Alquileres actuales -->
+    <section class="experience-group" id="activas">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">
+            {{ isTenant ? 'Tus alquileres vigentes' : 'Viviendas alquiladas' }}
+          </p>
+          <h2>Alquileres actuales</h2>
+        </div>
+
+        <span class="section-count">{{ activeExperiences().length }}</span>
+      </div>
+
+      @if (activeExperiences().length === 0) {
+        <p class="empty-message">
+          No hay alquileres activos que coincidan con la búsqueda.
+        </p>
+      }
+
+      @for (experience of activeExperiences(); track experience.id) {
+        <article
+  class="experience-card border-b border-[var(--color-line)] py-[23px] sm:py-[26px]"
+>
+          <div class="person-heading">
+            <span class="person-avatar">
+              {{ otherPersonInitials(experience) }}
+            </span>
+
+            <div class="person-details">
+              <span class="person-role">{{ otherPersonRole }}</span>
+              <h3>{{ otherPersonName(experience) }}</h3>
+            </div>
+
+            <span class="status-badge status-active">
+              {{ statusLabel(experience.status) }}
+            </span>
+          </div>
+
+          <h4>{{ experience.propertyName }}</h4>
+          <p class="property-city">{{ experience.city }}</p>
+
+          <div class="experience-dates">
+            <span>Periodo del alquiler</span>
+            <strong>{{ experience.startDate }} · {{ experience.endDate }}</strong>
+          </div>
+
+          <div class="card-action-row">
+            <span class="small-note">{{ experience.description }}</span>
+          </div>
+        </article>
+      }
+    </section>
+
+    <!-- Pendientes y confirmadas -->
+    <section class="experience-group" id="pendientes">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Seguimiento</p>
+          <h2>Pendientes y confirmadas</h2>
+        </div>
+
+        <span class="section-count">{{ pendingExperiences().length }}</span>
+      </div>
+
+      @if (pendingExperiences().length === 0) {
+        <p class="empty-message">
+          No hay experiencias pendientes o confirmadas que coincidan con la búsqueda.
+        </p>
+      }
+
+      @for (experience of pendingExperiences(); track experience.id) {
+        <article class="experience-card">
+          <div class="person-heading">
+            <span class="person-avatar">
+              {{ otherPersonInitials(experience) }}
+            </span>
+
+            <div class="person-details">
+              <span class="person-role">{{ otherPersonRole }}</span>
+              <h3>{{ otherPersonName(experience) }}</h3>
+            </div>
+
+            <span
+              class="status-badge"
+              [class.status-pending]="experience.status === 'PENDING'"
+              [class.status-confirmed]="experience.status === 'CONFIRMED'"
+            >
+              {{ statusLabel(experience.status) }}
+            </span>
+          </div>
+
+          <h4>{{ experience.propertyName }}</h4>
+          <p class="property-city">{{ experience.city }}</p>
+
+          <div class="experience-dates">
+            <span>Periodo del alquiler</span>
+            <strong>{{ experience.startDate }} · {{ experience.endDate }}</strong>
+          </div>
+
+          <div class="card-action-row">
+            <span class="small-note">{{ experience.description }}</span>
+          </div>
+        </article>
+      }
+    </section>
+
+    <!-- Experiencias finalizadas -->
+    <section class="experience-group pt-[34px] sm:pt-[42px]" id="finalizadas">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Historial y reputación</p>
+          <h2>Experiencias finalizadas</h2>
+        </div>
+
+        <span class="section-count">{{ finishedExperiences().length }}</span>
+      </div>
+
+      @if (finishedExperiences().length === 0) {
+        <p class="empty-message">
+          No hay experiencias finalizadas que coincidan con la búsqueda.
+        </p>
+      }
+
+      @for (experience of finishedExperiences(); track experience.id) {
+        <article class="experience-card">
+          <div class="person-heading">
+            <span class="person-avatar">
+              {{ otherPersonInitials(experience) }}
+            </span>
+
+            <div class="person-details">
+              <span class="person-role">{{ otherPersonRole }}</span>
+              <h3>{{ otherPersonName(experience) }}</h3>
+            </div>
+
+            <span class="status-badge status-finished">
+              {{ statusLabel(experience.status) }}
+            </span>
+          </div>
+
+          <h4>{{ experience.propertyName }}</h4>
+          <p class="property-city">{{ experience.city }}</p>
+
+          <div class="experience-dates">
+            <span>Periodo del alquiler</span>
+            <strong>{{ experience.startDate }} · {{ experience.endDate }}</strong>
+          </div>
+
+          <div class="card-action-row">
+            <span class="small-note">
+              {{ experience.rated
+                ? 'Esta experiencia ya ha sido valorada.'
+                : 'El alquiler ha finalizado.' }}
+            </span>
+
+            @if (!experience.rated) {
+              <a
+                class="card-link card-link-primary"
+                [routerLink]="rateExperienceRoute"
+              >
+                Valorar experiencia
+                <span aria-hidden="true">→</span>
+              </a>
+            } @else {
+              <span class="rated-label">Ya valorada</span>
+            }
+          </div>
+        </article>
+      }
+    </section>
+
+    <!-- Cierre -->
+    <footer class="experiences-footer">
+      <p class="eyebrow">HouseKarma</p>
+
+      @if (isTenant) {
+        <h2>Tu experiencia también genera confianza.</h2>
+        <p>
+          Un historial transparente ayuda a construir mejores relaciones
+          entre inquilinos y caseros.
+        </p>
+      } @else {
+        <h2>La confianza también forma parte del alquiler.</h2>
+        <p>
+          Las experiencias compartidas ayudan a construir relaciones más
+          transparentes con tus inquilinos.
+        </p>
+      }
+    </footer>
+  </div>
+</main>
