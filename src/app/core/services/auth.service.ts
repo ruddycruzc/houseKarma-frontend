@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
 import { UsuarioPerfil } from '../models/usuario-perfil.model';
+import { ActualizarPerfilRequest } from '../models/actualizar-perfil.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -49,5 +50,9 @@ export class AuthService {
 
   getMyProfile(): Observable<UsuarioPerfil> {
     return this.http.get<UsuarioPerfil>(`${this.apiUrl}/usuarios/me`);
+  }
+
+  updateMyProfile(data: ActualizarPerfilRequest): Observable<UsuarioPerfil> {
+    return this.http.patch<UsuarioPerfil>(`${this.apiUrl}/usuarios/me`, data);
   }
 }
