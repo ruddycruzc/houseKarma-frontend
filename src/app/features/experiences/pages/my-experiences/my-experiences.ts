@@ -1,9 +1,13 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../../../../core/services/auth.service';
+import { ExperienciaAlquilerService } from '../../../../core/services/experiencia-alquiler.service';
+import { ExperienciaAlquiler } from '../../../../core/models/experiencia-alquiler.model';
+
 import { ExperienceNav } from '../../../../shared/components/experience-nav/experience-nav';
 
-type ExperienceStatus = 'ACTIVE' | 'PENDING' | 'CONFIRMED' | 'FINISHED';
+type ExperienceStatus = 'ACTIVE' | 'PENDING' | 'CONFIRMED' | 'FINISHED' | 'CANCELLED';
 
 type ExperienceFilter = 'ALL' | 'ACTIVE' | 'PENDING' | 'FINISHED';
 
@@ -16,200 +20,193 @@ interface MockExperience {
   propertyName: string;
   city: string;
   startDate: string;
-  endDate: string;
+endDate: string | null;
   status: ExperienceStatus;
   rated: boolean;
   recent: boolean;
   description: string;
+  confirmacionInquilino: boolean;
+  confirmacionCasero: boolean;
 }
 
 @Component({
   selector: 'app-my-experiences',
   standalone: true,
-  imports: [RouterLink, ExperienceNav],
+  imports: [ExperienceNav],
   templateUrl: './my-experiences.html',
   styleUrl: './my-experiences.css',
 })
-export class MyExperiences {
+export class MyExperiences implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly experienciaService = inject(ExperienciaAlquilerService);
+  private readonly router = inject(Router);
 
-  readonly role = this.authService.getRole();
-  readonly isTenant = this.role === 'INQUILINO';
+  readonly isTenant = this.authService.getRole() === 'INQUILINO';
 
+  readonly loading = signal(true);
+  readonly errorMessage = signal('');
+  readonly actionMessage = signal('');
+  readonly confirmingId = signal<number | null>(null);
+
+  readonly experiences = signal<MockExperience[]>([]);
   readonly searchTerm = signal('');
-  readonly appliedSearch = signal('');
-  readonly filterOpen = signal(false);
   readonly selectedFilter = signal<ExperienceFilter>('ALL');
-
-  // Datos ficticios para desarrollar la interfaz.
-  // Se sustituirán por la respuesta del backend.
-  readonly experiences = signal<MockExperience[]>([
-    {
-      id: 1,
-      tenantName: 'Laura Fernández',
-      tenantInitials: 'LF',
-      landlordName: 'Álvaro Díaz',
-      landlordInitials: 'AD',
-      propertyName: 'Apartamento en Oviedo',
-      city: 'Oviedo',
-      startDate: '01/03/2026',
-      endDate: 'Actualidad',
-      status: 'ACTIVE',
-      rated: false,
-      recent: true,
-      description: 'El alquiler está actualmente en curso.',
-    },
-    {
-      id: 2,
-      tenantName: 'Laura Fernández',
-      tenantInitials: 'LF',
-      landlordName: 'María García',
-      landlordInitials: 'MG',
-      propertyName: 'Piso en Gijón',
-      city: 'Gijón',
-      startDate: '01/06/2025',
-      endDate: '31/05/2026',
-      status: 'PENDING',
-      rated: false,
-      recent: true,
-      description: 'La experiencia está pendiente de confirmación.',
-    },
-    {
-      id: 3,
-      tenantName: 'Carlos López',
-      tenantInitials: 'CL',
-      landlordName: 'Elena Martín',
-      landlordInitials: 'EM',
-      propertyName: 'Apartamento en Gijón',
-      city: 'Gijón',
-      startDate: '01/02/2025',
-      endDate: '31/01/2026',
-      status: 'CONFIRMED',
-      rated: false,
-      recent: false,
-      description: 'La experiencia está confirmada por ambas partes.',
-    },
-    {
-      id: 4,
-      tenantName: 'Laura Fernández',
-      tenantInitials: 'LF',
-      landlordName: 'Nuria Soler',
-      landlordInitials: 'NS',
-      propertyName: 'Estudio en Santander',
-      city: 'Santander',
-      startDate: '01/09/2023',
-      endDate: '31/08/2024',
-      status: 'FINISHED',
-      rated: false,
-      recent: false,
-      description: 'El alquiler ha finalizado. Puedes valorar la experiencia.',
-    },
-    {
-      id: 5,
-      tenantName: 'Carlos López',
-      tenantInitials: 'CL',
-      landlordName: 'María García',
-      landlordInitials: 'MG',
-      propertyName: 'Piso en Avilés',
-      city: 'Avilés',
-      startDate: '01/09/2022',
-      endDate: '31/08/2023',
-      status: 'FINISHED',
-      rated: true,
-      recent: false,
-      description: 'Esta experiencia ya ha sido valorada.',
-    },
-  ]);
-  readonly rateExperienceRoute = this.isTenant
-  ? '/inquilino/experiencias/valorar'
-  : '/casero/experiencias/valorar';
-
-  readonly otherPersonRole = this.isTenant ? 'Casero' : 'Inquilino';
-
   readonly totalCount = computed(() => this.experiences().length);
 
   readonly recentCount = computed(
     () => this.experiences().filter((experience) => experience.recent).length,
   );
 
-  readonly activeCount = computed(
-    () =>
-      this.experiences().filter((experience) => experience.status === 'ACTIVE')
-        .length,
-  );
-
-  readonly pendingCount = computed(
-    () =>
-      this.experiences().filter((experience) => experience.status === 'PENDING')
-        .length,
-  );
-
-  readonly finishedCount = computed(
-    () =>
-      this.experiences().filter((experience) => experience.status === 'FINISHED')
-        .length,
-  );
-
-  readonly ratedCount = computed(
-    () => this.experiences().filter((experience) => experience.rated).length,
-  );
+  readonly otherPersonRole = this.isTenant ? 'Tu casero' : 'Tu inquilino';
 
   readonly activeExperiences = computed(() =>
-    this.filterExperiences().filter(
-      (experience) => experience.status === 'ACTIVE',
-    ),
+    this.filteredExperiences().filter((experience) => experience.status === 'ACTIVE'),
   );
 
   readonly pendingExperiences = computed(() =>
-    this.filterExperiences().filter(
-      (experience) =>
-        experience.status === 'PENDING' ||
-        experience.status === 'CONFIRMED',
+    this.filteredExperiences().filter(
+      (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
     ),
   );
 
   readonly finishedExperiences = computed(() =>
-    this.filterExperiences().filter(
-      (experience) => experience.status === 'FINISHED',
-    ),
+    this.filteredExperiences().filter((experience) => experience.status === 'FINISHED'),
+  );
+
+  readonly activeCount = computed(
+    () => this.experiences().filter((experience) => experience.status === 'ACTIVE').length,
+  );
+
+  readonly pendingCount = computed(
+    () =>
+      this.experiences().filter(
+        (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
+      ).length,
+  );
+
+  readonly finishedCount = computed(
+    () => this.experiences().filter((experience) => experience.status === 'FINISHED').length,
+  );
+
+  readonly ratedCount = computed(
+    () => this.finishedExperiences().filter((experience) => experience.rated).length,
   );
 
   readonly featuredExperience = computed(
     () =>
       this.experiences().find(
-        (experience) => experience.status === 'PENDING',
-      ) ?? null,
+        (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
+      ) ??
+      this.experiences()[0] ??
+      null,
   );
 
-  readonly featuredTitle = computed(() =>
-    this.isTenant
-      ? 'Hay una experiencia pendiente de tu atención.'
-      : 'Hay una experiencia pendiente de confirmación.',
-  );
+  readonly filteredExperiences = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+    const filter = this.selectedFilter();
 
-  readonly featuredDescription = computed(() => {
-    const experience = this.featuredExperience();
+    return this.experiences().filter((experience) => {
+      const matchesSearch =
+        !term ||
+        experience.propertyName.toLowerCase().includes(term) ||
+        experience.city.toLowerCase().includes(term) ||
+        this.otherPersonName(experience).toLowerCase().includes(term);
 
-    if (!experience) {
-      return 'Aquí aparecerán las experiencias que necesiten tu atención.';
-    }
+      const matchesFilter =
+        filter === 'ALL' ||
+        (filter === 'ACTIVE' && experience.status === 'ACTIVE') ||
+        (filter === 'PENDING' &&
+          (experience.status === 'PENDING' || experience.status === 'CONFIRMED')) ||
+        (filter === 'FINISHED' && experience.status === 'FINISHED');
 
-    const person = this.otherPersonName(experience);
-
-    return this.isTenant
-      ? `Revisa la experiencia registrada con ${person} y comprueba su estado.`
-      : `Revisa la experiencia registrada con ${person} y comprueba los datos antes de continuar.`;
+      return matchesSearch && matchesFilter;
+    });
   });
 
-  statusLabel(status: ExperienceStatus): string {
-    const labels: Record<ExperienceStatus, string> = {
-      ACTIVE: 'Activa',
-      PENDING: 'Pendiente de confirmación',
-      CONFIRMED: 'Confirmada',
-      FINISHED: 'Finalizada',
-    };
+  readonly rateExperienceRoute = this.isTenant
+    ? '/inquilino/experiencias/valorar'
+    : '/casero/experiencias/valorar';
 
-    return labels[status];
+  ngOnInit(): void {
+    this.loadExperiences();
+  }
+
+  loadExperiences(): void {
+    this.loading.set(true);
+    this.errorMessage.set('');
+
+    this.experienciaService.obtenerMisExperiencias().subscribe({
+      next: (data) => {
+        this.experiences.set(data.map((item) => this.mapExperience(item)));
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error al cargar las experiencias:', error);
+        this.errorMessage.set('No se han podido cargar tus experiencias. Inténtalo de nuevo.');
+        this.loading.set(false);
+      },
+    });
+  }
+
+  private mapExperience(item: ExperienciaAlquiler): MockExperience {
+    const tenantName = this.fullName(item.inquilinoNombre, item.inquilinoApellidos);
+
+    const landlordName = this.fullName(item.caseroNombre, item.caseroApellidos);
+
+    const propertyName = [item.viviendaDireccion, item.viviendaNumero, item.viviendaComplemento]
+      .filter(Boolean)
+      .join(', ');
+
+    const city = [item.viviendaLocalidad, item.viviendaProvincia].filter(Boolean).join(', ');
+
+    return {
+      id: item.id,
+      tenantName,
+      tenantInitials: this.getInitials(tenantName),
+      landlordName,
+      landlordInitials: this.getInitials(landlordName),
+      propertyName: propertyName || 'Vivienda sin dirección',
+      city: city || 'Ubicación no disponible',
+      startDate: item.fechaInicio,
+      endDate: item.fechaFin,
+      status: this.mapStatus(item.estado),
+      rated: false,
+      recent: false,
+      description: 'Experiencia de alquiler registrada en HouseKarma.',
+      confirmacionInquilino: item.confirmacionInquilino,
+      confirmacionCasero: item.confirmacionCasero,
+    };
+  }
+
+  private mapStatus(status: ExperienciaAlquiler['estado']): ExperienceStatus {
+    switch (status) {
+      case 'PENDIENTE_CONFIRMACION':
+        return 'PENDING';
+      case 'CONFIRMADA':
+        return 'CONFIRMED';
+      case 'FINALIZADA':
+        return 'FINISHED';
+      case 'CANCELADA':
+        return 'CANCELLED';
+      default:
+        return 'PENDING';
+    }
+  }
+
+  private fullName(
+    nombre: string | null | undefined,
+    apellidos: string | null | undefined,
+  ): string {
+    return [nombre, apellidos].filter(Boolean).join(' ') || 'Usuario';
+  }
+
+  private getInitials(name: string): string {
+    return name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join('');
   }
 
   otherPersonName(experience: MockExperience): string {
@@ -217,46 +214,74 @@ export class MyExperiences {
   }
 
   otherPersonInitials(experience: MockExperience): string {
-    return this.isTenant
-      ? experience.landlordInitials
-      : experience.tenantInitials;
+    return this.isTenant ? experience.landlordInitials : experience.tenantInitials;
   }
 
-  applyFilter(): void {
-    this.appliedSearch.set(this.searchTerm().trim().toLocaleLowerCase());
+  statusLabel(status: ExperienceStatus): string {
+    const labels: Record<ExperienceStatus, string> = {
+      ACTIVE: 'En curso',
+      PENDING: 'Pendiente de confirmación',
+      CONFIRMED: 'Confirmada',
+      FINISHED: 'Finalizada',
+      CANCELLED: 'Cancelada',
+    };
+
+    return labels[status];
   }
 
-  toggleFilter(): void {
-    this.filterOpen.update((open) => !open);
+  hasConfirmed(experience: MockExperience): boolean {
+    return this.isTenant ? experience.confirmacionInquilino : experience.confirmacionCasero;
+  }
+
+  confirmExperience(experience: MockExperience): void {
+    if (
+      this.confirmingId() !== null ||
+      experience.status !== 'PENDING' ||
+      this.hasConfirmed(experience)
+    ) {
+      return;
+    }
+
+    this.confirmingId.set(experience.id);
+    this.actionMessage.set('');
+
+    this.experienciaService.confirmarExperiencia(experience.id).subscribe({
+      next: () => {
+        this.actionMessage.set('Tu confirmación se ha registrado correctamente.');
+        this.loadExperiences();
+        this.confirmingId.set(null);
+      },
+      error: (error) => {
+        console.error('Error al confirmar la experiencia:', error);
+        this.actionMessage.set('No se ha podido confirmar la experiencia. Inténtalo de nuevo.');
+        this.confirmingId.set(null);
+      },
+    });
+  }
+
+  openRating(experience: MockExperience): void {
+    void this.router.navigate([this.rateExperienceRoute], {
+      queryParams: { experienciaId: experience.id },
+    });
+  }
+
+  setSearchTerm(value: string): void {
+    this.searchTerm.set(value);
   }
 
   setFilter(filter: ExperienceFilter): void {
     this.selectedFilter.set(filter);
   }
 
-  private filterExperiences(): MockExperience[] {
-    const search = this.appliedSearch();
-    const selectedFilter = this.selectedFilter();
+  navigateToSearch(): void {
+    const query = this.searchTerm().trim();
 
-    return this.experiences().filter((experience) => {
-      const personName = this.otherPersonName(experience).toLocaleLowerCase();
-
-      const matchesSearch =
-        !search ||
-        personName.includes(search) ||
-        experience.propertyName.toLocaleLowerCase().includes(search) ||
-        experience.city.toLocaleLowerCase().includes(search);
-
-      const matchesFilter =
-        selectedFilter === 'ALL' ||
-        (selectedFilter === 'ACTIVE' && experience.status === 'ACTIVE') ||
-        (selectedFilter === 'PENDING' &&
-          (experience.status === 'PENDING' ||
-            experience.status === 'CONFIRMED')) ||
-        (selectedFilter === 'FINISHED' &&
-          experience.status === 'FINISHED');
-
-      return matchesSearch && matchesFilter;
-    });
+    void this.router.navigate(
+      [this.isTenant
+        ? '/inquilino/experiencias/buscar'
+        : '/casero/experiencias/buscar'],
+      { queryParams: query ? { q: query } : {} },
+    );
   }
+
 }
