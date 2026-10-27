@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
+  ExperienciaAlquiler,
   ExperienciaAlquilerPendiente,
-  ExperienciaAlquilerListado,
 } from '../models/experiencia-alquiler.model';
 
 @Injectable({
@@ -14,15 +14,22 @@ export class ExperienciaAlquilerService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:8080/api/experiencias';
 
+  obtenerMisExperiencias(): Observable<ExperienciaAlquiler[]> {
+    return this.http.get<ExperienciaAlquiler[]>(
+      `${this.apiUrl}/mis-experiencias`,
+    );
+  }
+
   obtenerPendientesCasero(): Observable<ExperienciaAlquilerPendiente[]> {
     return this.http.get<ExperienciaAlquilerPendiente[]>(
       `${this.apiUrl}/pendientes/casero`,
     );
   }
 
-  obtenerMisExperiencias(): Observable<ExperienciaAlquilerListado[]> {
-    return this.http.get<ExperienciaAlquilerListado[]>(
-      `${this.apiUrl}/mis-experiencias`,
+  confirmarExperiencia(id: number): Observable<unknown> {
+    return this.http.patch(
+      `${this.apiUrl}/${id}/confirmacion`,
+      {},
     );
   }
 }
