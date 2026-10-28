@@ -36,9 +36,35 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('hk_token');
   }
+  isTokenExpired(token: string): boolean {
+    try {
+      const payload = token.split('.')[1];
+
+      if (!payload) {
+        return true;
+      }
+
+      const decodedPayload = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+
+      if (typeof decodedPayload.exp !== 'number') {
+        return true;
+      }
+
+      return decodedPayload.exp * 1000 <= Date.now();
+    } catch {
+      return true;
+    }
+  }
 
   isAuthenticated(): boolean {
-    return this.getToken() !== null;
+    const token = this.getToken();
+
+    if (!token || this.isTokenExpired(token)) {
+      this.logout();
+      return false;
+    }
+
+    return true;
   }
   getEmail(): string | null {
     return localStorage.getItem('hk_email');

@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth-guard';
+import { roleGuard } from './core/guards/role-guard';
 
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { TenantLayout } from './layouts/tenant-layout/tenant-layout';
@@ -35,6 +37,8 @@ export const routes: Routes = [
   {
     path: 'inquilino',
     component: TenantLayout,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['INQUILINO'] },
     children: [
       {
         path: '',
@@ -44,10 +48,6 @@ export const routes: Routes = [
       {
         path: 'perfil',
         component: MyProfile,
-      },
-      {
-        path: 'experiencias',
-        component: MyExperiences,
       },
       {
         path: 'experiencias',
@@ -66,6 +66,8 @@ export const routes: Routes = [
   {
     path: 'casero',
     component: LandlordLayout,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['CASERO'] },
     children: [
       {
         path: '',
