@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { UsuarioPerfil } from '../../core/models/usuario-perfil.model';
@@ -9,14 +10,14 @@ import { ActualizarPerfilRequest } from '../../core/models/actualizar-perfil.mod
 @Component({
   selector: 'app-my-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css',
 })
 export class MyProfile implements OnInit {
   private readonly authService = inject(AuthService);
 
-  profile: UsuarioPerfil | null = null;
+  readonly profile = signal<UsuarioPerfil | null>(null);
 
   form = {
     nombre: '',
@@ -25,18 +26,18 @@ export class MyProfile implements OnInit {
     avatar: '',
   };
 
-  loading = true;
-  saving = false;
-  editing = false;
-  errorMessage = '';
-  successMessage = '';
+  readonly loading = signal(true);
+  readonly saving = signal(false);
+  readonly editing = signal(false);
+  readonly errorMessage = signal('');
+  readonly successMessage = signal('');
 
   ngOnInit(): void {
     this.loadProfile();
   }
 
   get role(): 'tenant' | 'landlord' | 'admin' {
-    switch (this.profile?.rol) {
+    switch (this.profile()?.rol) {
       case 'INQUILINO':
         return 'tenant';
       case 'CASERO':
@@ -47,7 +48,7 @@ export class MyProfile implements OnInit {
   }
 
   get roleLabel(): string {
-    switch (this.profile?.rol) {
+    switch (this.profile()?.rol) {
       case 'INQUILINO':
         return 'Inquilino';
       case 'CASERO':
@@ -58,54 +59,66 @@ export class MyProfile implements OnInit {
   }
 
   get initials(): string {
-    if (!this.profile) return '';
+    const profile = this.profile();
 
-    return `${this.profile.nombre.charAt(0)}${this.profile.apellidos.charAt(0)}`
-      .toUpperCase();
+    if (!profile) return '';
+
+    return `${profile.nombre.charAt(0)}${profile.apellidos.charAt(0)}`.toUpperCase();
   }
 
   loadProfile(): void {
-    this.loading = true;
-    this.errorMessage = '';
+    this.loading.set(true);
+    this.errorMessage.set('');
 
     this.authService.getMyProfile().subscribe({
       next: (profile) => {
-        this.profile = profile;
+        this.profile.set(profile);
         this.fillForm(profile);
-        this.loading = false;
+        this.loading.set(false);
       },
       error: () => {
-        this.errorMessage =
-          'No se pudo cargar tu perfil. Comprueba tu sesión e inténtalo de nuevo.';
-        this.loading = false;
+        this.errorMessage.set(
+          'No se pudo cargar tu perfil. Comprueba tu sesión e inténtalo de nuevo.',
+        );
+        this.loading.set(false);
       },
     });
   }
 
   startEditing(): void {
-    if (!this.profile) return;
+    const profile = this.profile();
 
-    this.fillForm(this.profile);
-    this.editing = true;
-    this.errorMessage = '';
-    this.successMessage = '';
+    if (!profile) return;
+
+    this.fillForm(profile);
+    this.editing.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
   }
 
   cancelEditing(): void {
-    if (this.profile) this.fillForm(this.profile);
+    const profile = this.profile();
 
-    this.editing = false;
-    this.errorMessage = '';
+    if (profile) {
+      this.fillForm(profile);
+    }
+
+    this.editing.set(false);
+    this.errorMessage.set('');
   }
 
   saveProfile(): void {
-    if (this.saving || !this.profile) return;
+    const profile = this.profile();
+
+    if (this.saving() || !profile) return;
 
     const nombre = this.form.nombre.trim();
     const apellidos = this.form.apellidos.trim();
 
     if (!nombre || !apellidos) {
-      this.errorMessage = 'El nombre y los apellidos son obligatorios.';
+      this.errorMessage.set(
+        'El nombre y los apellidos son obligatorios.',
+      );
       return;
     }
 
@@ -116,30 +129,35 @@ export class MyProfile implements OnInit {
       avatar: this.form.avatar.trim() || null,
     };
 
-    this.saving = true;
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.saving.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
     this.authService.updateMyProfile(request).subscribe({
-      next: (profile) => {
-        this.profile = profile;
-        this.fillForm(profile);
-        this.editing = false;
-        this.saving = false;
-        this.successMessage = 'Tu perfil se ha actualizado correctamente.';
+      next: (updatedProfile) => {
+        this.profile.set(updatedProfile);
+        this.fillForm(updatedProfile);
+        this.editing.set(false);
+        this.saving.set(false);
+        this.successMessage.set(
+          'Tu perfil se ha actualizado correctamente.',
+        );
       },
       error: (error) => {
-        this.saving = false;
+        this.saving.set(false);
 
         if (error.status === 400) {
-          this.errorMessage =
-            'Revisa los datos introducidos y sus longitudes.';
+          this.errorMessage.set(
+            'Revisa los datos introducidos y sus longitudes.',
+          );
         } else if (error.status === 401) {
-          this.errorMessage =
-            'Tu sesión ha caducado. Inicia sesión de nuevo.';
+          this.errorMessage.set(
+            'Tu sesión ha caducado. Inicia sesión de nuevo.',
+          );
         } else {
-          this.errorMessage =
-            'No se pudieron guardar los cambios. Inténtalo de nuevo.';
+          this.errorMessage.set(
+            'No se pudieron guardar los cambios. Inténtalo de nuevo.',
+          );
         }
       },
     });

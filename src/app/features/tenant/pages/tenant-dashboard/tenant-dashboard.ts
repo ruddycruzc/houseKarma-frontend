@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UsuarioPerfil } from '../../../../core/models/usuario-perfil.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TenantHero } from '../../components/tenant-hero/tenant-hero';
@@ -15,19 +15,20 @@ import { TenantProfilePublicSection } from '../../components/tenant-profile-publ
 export class TenantDashboard implements OnInit {
   private readonly authService = inject(AuthService);
 
-  user: UsuarioPerfil | null = null;
-  isLoading = true;
-  hasError = false;
+  readonly user = signal<UsuarioPerfil | null>(null);
+  readonly isLoading = signal(true);
+  readonly hasError = signal(false);
 
   ngOnInit(): void {
     this.authService.getMyProfile().subscribe({
       next: (profile) => {
-        this.user = profile;
-        this.isLoading = false;
+        this.user.set(profile);
+        this.isLoading.set(false);
       },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
+      error: (error) => {
+        console.error('Error al cargar el perfil del dashboard:', error);
+        this.hasError.set(true);
+        this.isLoading.set(false);
       },
     });
   }

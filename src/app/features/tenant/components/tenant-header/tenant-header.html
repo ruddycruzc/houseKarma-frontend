@@ -29,7 +29,7 @@
 
   <!-- Acciones de usuario -->
   <div class="header-actions">
-    @if (user; as profile) {
+    @if (user(); as profile) {
       <a
         class="profile-shortcut"
         routerLink="/inquilino/perfil"

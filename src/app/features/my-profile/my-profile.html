@@ -1,24 +1,29 @@
 <main class="profile-page" [attr.data-role]="role">
   <div class="profile-container">
 
-    @if (loading) {
+    @if (loading()) {
       <section class="feedback-state" aria-live="polite">
         <span class="loading-indicator"></span>
         <p>Cargando tu perfil...</p>
       </section>
-    } @else if (errorMessage && !profile) {
+    } @else if (errorMessage() && !profile()) {
       <section class="feedback-state" aria-live="polite">
-        <p class="message message-error">{{ errorMessage }}</p>
-        <button class="button button-primary" (click)="loadProfile()">
+        <p class="message message-error">{{ errorMessage() }}</p>
+
+        <button
+          class="button button-primary"
+          type="button"
+          (click)="loadProfile()"
+        >
           Volver a intentarlo
         </button>
       </section>
-    } @else if (profile) {
+    } @else if (profile(); as user) {
 
       <section class="profile-hero">
         <div class="avatar">
-          @if (profile.avatar) {
-            <img [src]="profile.avatar" alt="Avatar del usuario" />
+          @if (user.avatar) {
+            <img [src]="user.avatar" alt="Avatar del usuario" />
           } @else {
             <span>{{ initials }}</span>
           }
@@ -26,8 +31,8 @@
 
         <div class="profile-identity">
           <span class="role-tag">{{ roleLabel }}</span>
-          <h1>{{ profile.nombre }} {{ profile.apellidos }}</h1>
-          <p class="profile-email">{{ profile.email }}</p>
+          <h1>{{ user.nombre }} {{ user.apellidos }}</h1>
+          <p class="profile-email">{{ user.email }}</p>
           <p class="profile-caption">Tu identidad en HouseKarma</p>
         </div>
 
@@ -35,19 +40,19 @@
           class="button button-primary edit-button"
           type="button"
           (click)="startEditing()"
-          [disabled]="editing"
+          [disabled]="editing()"
         >
           Editar perfil <span aria-hidden="true">→</span>
         </button>
       </section>
 
-      @if (successMessage) {
+      @if (successMessage()) {
         <p class="message message-success" role="status">
-          {{ successMessage }}
+          {{ successMessage() }}
         </p>
       }
 
-      @if (editing) {
+      @if (editing()) {
         <section class="edit-section" aria-labelledby="edit-heading">
           <div class="section-heading">
             <p class="eyebrow">INFORMACIÓN PERSONAL</p>
@@ -105,14 +110,20 @@
 
               <label class="form-field field-full">
                 <span>Correo electrónico</span>
-                <input type="email" [value]="profile.email" disabled />
-                <small>El correo no se puede modificar desde este formulario.</small>
+                <input
+                  type="email"
+                  [value]="user.email"
+                  disabled
+                />
+                <small>
+                  El correo no se puede modificar desde este formulario.
+                </small>
               </label>
             </div>
 
-            @if (errorMessage) {
+            @if (errorMessage()) {
               <p class="message message-error" role="alert">
-                {{ errorMessage }}
+                {{ errorMessage() }}
               </p>
             }
 
@@ -121,7 +132,7 @@
                 class="button button-secondary"
                 type="button"
                 (click)="cancelEditing()"
-                [disabled]="saving"
+                [disabled]="saving()"
               >
                 Cancelar
               </button>
@@ -129,9 +140,9 @@
               <button
                 class="button button-primary"
                 type="submit"
-                [disabled]="saving || profileForm.invalid"
+                [disabled]="saving() || profileForm.invalid"
               >
-                {{ saving ? 'Guardando...' : 'Guardar cambios' }}
+                {{ saving() ? 'Guardando...' : 'Guardar cambios' }}
               </button>
             </div>
           </form>
@@ -170,7 +181,7 @@
 
         <a
           class="text-link"
-          [href]="role === 'landlord'
+          [routerLink]="role === 'landlord'
             ? '/casero/dashboard'
             : '/inquilino/experiencias'"
         >
@@ -187,16 +198,19 @@
         <dl class="personal-data">
           <div>
             <dt>Nombre</dt>
-            <dd>{{ profile.nombre }} {{ profile.apellidos }}</dd>
+            <dd>{{ user.nombre }} {{ user.apellidos }}</dd>
           </div>
+
           <div>
             <dt>Correo electrónico</dt>
-            <dd>{{ profile.email }}</dd>
+            <dd>{{ user.email }}</dd>
           </div>
+
           <div>
             <dt>Teléfono</dt>
-            <dd>{{ profile.telefono || 'No indicado' }}</dd>
+            <dd>{{ user.telefono || 'No indicado' }}</dd>
           </div>
+
           <div>
             <dt>Tipo de cuenta</dt>
             <dd>{{ roleLabel }}</dd>
@@ -207,7 +221,7 @@
           class="text-link edit-link"
           type="button"
           (click)="startEditing()"
-          [disabled]="editing"
+          [disabled]="editing()"
         >
           Editar información personal <span aria-hidden="true">→</span>
         </button>
