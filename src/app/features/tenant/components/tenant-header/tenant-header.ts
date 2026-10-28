@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UsuarioPerfil } from '../../../../core/models/usuario-perfil.model';
@@ -70,4 +70,17 @@ ngOnInit(): void {
     this.closeMenu();
     void this.router.navigate(['/login']);
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+  const target = event.target;
+
+  if (!(target instanceof Element)) {
+    return;
+  }
+
+  if (!target.closest('app-tenant-header')) {
+    this.closeMenu();
+  }
+}
 }
