@@ -15,6 +15,9 @@ import { LandlordDashboard } from './features/landlord/pages/landlord-dashboard/
 import { RateExperience } from './features/experiences/pages/rate-experience/rate-experience';
 import { MyExperiences } from './features/experiences/pages/my-experiences/my-experiences';
 import { MyProfile } from './features/my-profile/my-profile';
+import { UserSearch } from './features/search-user/components/user-search/user-search';
+import { UserPublicProfile } from './features/search-user/pages/user-public-profile/user-public-profile';
+
 export const routes: Routes = [
   {
     path: '',
@@ -61,6 +64,14 @@ export const routes: Routes = [
         path: 'dashboard',
         component: TenantDashboard,
       },
+      {
+        path: 'buscar-usuarios',
+        component: UserSearch,
+      },
+      {
+        path: 'usuarios/:id',
+        component: UserPublicProfile,
+      },
     ],
   },
   {
@@ -85,6 +96,14 @@ export const routes: Routes = [
       {
         path: 'experiencias/valorar',
         component: RateExperience,
+      },
+      {
+        path: 'buscar-usuarios',
+        component: UserSearch,
+      },
+      {
+        path: 'usuarios/:id',
+        component: UserPublicProfile,
       },
     ],
   },

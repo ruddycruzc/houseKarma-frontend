@@ -1,6 +1,7 @@
 <div class="dashboard-shell">
-  <main class="dashboard-main grid w-[calc(100%-40px)] max-w-[1180px] grid-cols-1 gap-[44px] mx-auto min-[600px]:w-[88%] min-[600px]:gap-14 min-[900px]:w-[86%] min-[900px]:gap-[76px]">
-
+  <main
+    class="dashboard-main grid w-[calc(100%-40px)] max-w-[1180px] grid-cols-1 gap-[44px] mx-auto min-[600px]:w-[88%] min-[600px]:gap-14 min-[900px]:w-[86%] min-[900px]:gap-[76px]"
+  >
     <section
       class="hero-grid grid grid-cols-1 gap-6 pt-[34px] min-[600px]:pt-[54px] min-[900px]:grid-cols-[minmax(190px,0.58fr)_minmax(0,1.42fr)] min-[900px]:items-stretch min-[900px]:gap-[42px] min-[900px]:pt-[50px]"
       aria-labelledby="welcome-title"
@@ -8,9 +9,7 @@
       <div class="welcome-section">
         <p class="eyebrow">Tu espacio en HouseKarma</p>
         <h1 id="welcome-title">Hola,<br />{{ user().nombre }}.</h1>
-        <p class="welcome-copy">
-          Tu reputación empieza con cada experiencia.
-        </p>
+        <p class="welcome-copy">Tu reputación empieza con cada experiencia.</p>
       </div>
 
       <section class="reputation-card" aria-labelledby="reputation-title">
@@ -18,17 +17,14 @@
           <p class="eyebrow">Tu reputación</p>
           <h2 id="reputation-title">Tu historia de alquiler empieza aquí.</h2>
           <p>
-            Cuando tengas experiencias valoradas, podrás consultar
-            tu reputación y las opiniones recibidas.
+            Cuando tengas experiencias valoradas, podrás consultar tu reputación y las opiniones
+            recibidas.
           </p>
         </div>
 
         <div class="reputation-breakdown">
           <h3>Tu reputación, paso a paso</h3>
-          <p>
-            Todavía no hay valoraciones suficientes para mostrar
-            tus criterios de reputación.
-          </p>
+          <p>Todavía no hay valoraciones suficientes para mostrar tus criterios de reputación.</p>
         </div>
       </section>
     </section>
@@ -41,8 +37,9 @@
         <p class="eyebrow">Tu próxima experiencia</p>
         <h2>Buscar caseros</h2>
         <p>Encuentra personas con experiencia verificable.</p>
-        <a class="button button-dark" routerLink="/inquilino/buscar-caseros">
-          Buscar caseros <span aria-hidden="true">→</span>
+
+        <a class="button button-dark" routerLink="/inquilino/buscar-usuarios">
+          Buscar usuarios <span aria-hidden="true">→</span>
         </a>
       </div>
 

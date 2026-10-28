@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+[data-role='tenant'] {
+  --role: var(--color-tenant-accent);
+}
+
+[data-role='landlord'] {
+  --role: var(--color-landlord-accent);
+}

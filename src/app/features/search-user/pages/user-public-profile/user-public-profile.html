@@ -1,1 +1,77 @@
-<p>user-public-profile works!</p>
+<main
+  class="min-h-screen bg-[var(--color-paper)] px-4 py-10 text-[var(--color-ink)] sm:px-6 sm:py-14 lg:px-10"
+  [attr.data-role]="role"
+>
+  <div class="mx-auto max-w-5xl">
+    <a
+      [routerLink]="backRoute"
+      class="mb-10 inline-flex items-center gap-2 text-sm text-[var(--color-muted)] hover:text-[var(--color-ink)]"
+    >
+      <span aria-hidden="true">←</span>
+      Volver a la búsqueda
+    </a>
+
+    @if (loading()) {
+      <p class="py-12 text-sm text-[var(--color-muted)]" role="status">
+        Cargando perfil...
+      </p>
+    } @else if (error()) {
+      <section class="border-y border-[var(--color-line)] py-10" role="alert">
+        <h1 class="mb-3 text-3xl font-medium tracking-tight">
+          No se ha podido cargar este perfil.
+        </h1>
+        <p class="text-sm text-[var(--color-muted)]">
+          El usuario puede no existir o no estar disponible.
+        </p>
+      </section>
+    } @else if (user(); as profile) {
+      <section class="border-y border-[var(--color-line)] py-8 sm:py-12">
+        <p class="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--role)]">
+          Perfil público
+        </p>
+
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+          @if (profile.avatar) {
+            <img
+              class="size-24 rounded-full border border-[var(--color-line)] object-cover sm:size-32"
+              [src]="profile.avatar"
+              [alt]="'Avatar de ' + profile.nombre"
+            />
+          } @else {
+            <div
+              class="grid size-24 shrink-0 place-items-center rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] text-2xl font-semibold sm:size-32"
+              aria-hidden="true"
+            >
+              {{ initials }}
+            </div>
+          }
+
+          <div>
+            <span class="mb-3 inline-block border border-[var(--color-line)] px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--role)]">
+              {{ roleLabel }}
+            </span>
+
+            <h1 class="text-4xl font-medium leading-tight tracking-[-0.055em] sm:text-6xl">
+              {{ profile.nombre }} {{ profile.apellidos }}
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid gap-4 py-8 sm:grid-cols-[1fr_2fr] sm:gap-10 sm:py-12">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-[var(--role)]">
+          Reputación
+        </p>
+
+        <div>
+          <h2 class="mb-3 text-2xl font-medium tracking-tight sm:text-3xl">
+            La confianza se construye con experiencias reales.
+          </h2>
+          <p class="text-sm leading-relaxed text-[var(--color-muted)]">
+            Las valoraciones se mostrarán cuando estén disponibles los datos reales asociados a este perfil.
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</main>

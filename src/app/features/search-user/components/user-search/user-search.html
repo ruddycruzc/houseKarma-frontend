@@ -8,9 +8,7 @@
         Personas y experiencias reales
       </p>
 
-      <h1
-        class="max-w-3xl text-5xl font-semibold leading-[0.92] tracking-[-0.065em] sm:text-6xl lg:text-7xl"
-      >
+      <h1 class="max-w-3xl text-5xl font-semibold leading-[0.92] tracking-[-0.065em] sm:text-6xl lg:text-7xl">
         Conoce a la persona antes de alquilar.
       </h1>
 
@@ -53,9 +51,7 @@
     </form>
 
     <section aria-labelledby="results-title">
-      <div
-        class="mb-6 border-b border-[var(--color-line)] pb-5 sm:flex sm:items-end sm:justify-between sm:gap-6"
-      >
+      <div class="mb-6 border-b border-[var(--color-line)] pb-5 sm:flex sm:items-end sm:justify-between sm:gap-6">
         <div>
           <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--role)]">
             Resultados de búsqueda
@@ -71,7 +67,9 @@
       </div>
 
       @if (cargando()) {
-        <p class="py-8 text-sm text-[var(--color-muted)]" role="status">Buscando usuarios...</p>
+        <p class="py-8 text-sm text-[var(--color-muted)]" role="status">
+          Buscando usuarios...
+        </p>
       } @else if (error()) {
         <div class="border-y border-[var(--color-line)] py-8" role="alert">
           <h3 class="mb-2 text-xl font-medium">No se ha podido completar la búsqueda.</h3>
@@ -87,15 +85,11 @@
           </button>
         </div>
       } @else if (buscando() && resultados().length === 0) {
-        <div
-          class="border-y border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-12 sm:px-10 sm:py-16"
-        >
+        <div class="border-y border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-12 sm:px-10 sm:py-16">
           <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--role)]">
             Sin coincidencias
           </p>
-          <h3
-            class="mb-3 max-w-2xl text-3xl font-medium leading-tight tracking-[-0.05em] sm:text-4xl"
-          >
+          <h3 class="mb-3 max-w-2xl text-3xl font-medium leading-tight tracking-[-0.05em] sm:text-4xl">
             No encontramos usuarios con ese nombre.
           </h3>
           <p class="max-w-xl text-sm leading-relaxed text-[var(--color-muted)]">
@@ -123,9 +117,7 @@
                 }
 
                 <div class="min-w-0">
-                  <span
-                    class="mb-2 inline-block border border-[var(--color-line)] px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[var(--role)]"
-                  >
+                  <span class="mb-2 inline-block border border-[var(--color-line)] px-2 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-[var(--role)]">
                     {{ usuario.rol === 'CASERO' ? 'Casero' : 'Inquilino' }}
                   </span>
                   <h3 class="break-words text-xl font-medium tracking-[-0.04em] sm:text-2xl">
@@ -134,22 +126,25 @@
                 </div>
               </div>
 
-              <p class="text-xs leading-relaxed text-[var(--color-muted)]">
-                Perfil registrado en HouseKarma
-              </p>
+              <a
+                [routerLink]="[
+                  role === 'landlord' ? '/casero/usuarios' : '/inquilino/usuarios',
+                  usuario.id
+                ]"
+                class="inline-flex min-h-10 items-center justify-between gap-4 border border-[var(--color-ink)] px-4 py-2 text-sm font-semibold transition-colors hover:border-[var(--role)] hover:text-[var(--role)]"
+              >
+                Ver perfil
+                <span aria-hidden="true">→</span>
+              </a>
             </li>
           }
         </ul>
       } @else {
-        <div
-          class="border-y border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-12 sm:px-10 sm:py-16"
-        >
+        <div class="border-y border-[var(--color-line)] bg-[var(--color-surface)] px-6 py-12 sm:px-10 sm:py-16">
           <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--role)]">
             Antes de iniciar un alquiler
           </p>
-          <h3
-            class="mb-4 max-w-2xl text-3xl font-medium leading-tight tracking-[-0.05em] sm:text-4xl"
-          >
+          <h3 class="mb-4 max-w-2xl text-3xl font-medium leading-tight tracking-[-0.05em] sm:text-4xl">
             Busca a una persona para conocer su perfil.
           </h3>
           <p class="max-w-xl text-sm leading-relaxed text-[var(--color-muted)]">

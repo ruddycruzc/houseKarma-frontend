@@ -5,11 +5,12 @@ import { finalize, Subscription } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UsuarioService } from '../../../../core/services/usuario.service';
 import { UsuarioBusqueda } from '../../../../core/models/usuario-busqueda.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-search',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './user-search.html',
   styleUrl: './user-search.css',
 })

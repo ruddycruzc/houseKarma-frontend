@@ -6,7 +6,7 @@
   <!-- Navegación de escritorio -->
   <nav class="tenant-navigation" aria-label="Navegación principal">
     <a
-      routerLink="/inquilino/inicio"
+      routerLink="/inquilino/dashboard"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       (click)="closeMenu()"
@@ -14,9 +14,9 @@
       Inicio
     </a>
 
-    <a routerLink="/inquilino/buscar-caseros" routerLinkActive="active" (click)="closeMenu()">
-      Buscar caseros
-    </a>
+    <a routerLink="/inquilino/buscar-usuarios" routerLinkActive="active" (click)="closeMenu()">
+      Buscar usuarios</a
+    >
 
     <a routerLink="/inquilino/experiencias" routerLinkActive="active" (click)="closeMenu()">
       Mis experiencias
@@ -91,7 +91,7 @@
     [attr.inert]="!isMenuOpen ? '' : null"
   >
     <a
-      routerLink="/inquilino/inicio"
+      routerLink="/inquilino/dashboard"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       (click)="closeMenu()"
@@ -99,9 +99,7 @@
       Inicio
     </a>
 
-    <a routerLink="/inquilino/buscar-caseros" routerLinkActive="active" (click)="closeMenu()">
-      Buscar caseros
-    </a>
+    <a routerLink="/inquilino/buscar-usuarios">Buscar usuarios</a>
 
     <a routerLink="/inquilino/experiencias" routerLinkActive="active" (click)="closeMenu()">
       Mis experiencias
