@@ -1,8 +1,7 @@
-
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { UsuarioPublico } from '../models/usuario-publico.model';
 import { UsuarioBusqueda } from '../models/usuario-busqueda.model';
 
 @Injectable({
@@ -15,9 +14,10 @@ export class UsuarioService {
   buscarUsuarios(termino: string): Observable<UsuarioBusqueda[]> {
     const params = new HttpParams().set('termino', termino.trim());
 
-    return this.http.get<UsuarioBusqueda[]>(
-      `${this.apiUrl}/buscar-usuarios`,
-      { params },
-    );
+    return this.http.get<UsuarioBusqueda[]>(`${this.apiUrl}/buscar-usuarios`, { params });
+  }
+
+  obtenerPerfilPublico(id: number): Observable<UsuarioPublico> {
+    return this.http.get<UsuarioPublico>(`${this.apiUrl}/${id}`);
   }
 }
