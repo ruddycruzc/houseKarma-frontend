@@ -5,12 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { UsuarioPerfil } from '../../core/models/usuario-perfil.model';
 import { ActualizarPerfilRequest } from '../../core/models/actualizar-perfil.model';
-import { ExperienceNav } from '../../shared/components/experience-nav/experience-nav';
 
 @Component({
   selector: 'app-my-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, ExperienceNav],
+  imports: [CommonModule, FormsModule],
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css',
 })
