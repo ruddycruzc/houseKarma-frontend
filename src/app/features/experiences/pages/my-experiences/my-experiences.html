@@ -59,7 +59,7 @@
 
       <!-- Resumen -->
       <section
-        class="stats-grid grid grid-cols-2 border-b border-[var(--color-line)] sm:grid-cols-3 lg:grid-cols-6"
+        class="stats-grid grid grid-cols-2 border-b border-[var(--color-line)] sm:grid-cols-3 lg:grid-cols-5"
         aria-label="Resumen de experiencias"
       >
         <div class="stat-item">
@@ -68,48 +68,41 @@
         </div>
 
         <div class="stat-item">
-          <span>Recientes</span>
-          <strong>{{ recentCount() }}</strong>
-        </div>
-
-        <div class="stat-item">
-          <span>Activas</span>
-          <strong>{{ activeCount() }}</strong>
-        </div>
-
-        <div class="stat-item">
           <span>Pendientes</span>
-          <strong>{{ pendingCount() }}</strong>
+          <strong>{{ pendingExperiences().length }}</strong>
+        </div>
+
+        <div class="stat-item">
+          <span>Confirmadas</span>
+          <strong>{{ confirmedExperiences().length }}</strong>
         </div>
 
         <div class="stat-item">
           <span>Finalizadas</span>
-          <strong>{{ finishedCount() }}</strong>
+          <strong>{{ finishedExperiences().length }}</strong>
         </div>
 
         <div class="stat-item">
-          <span>Valoradas</span>
-          <strong>{{ ratedCount() }}</strong>
+          <span>Canceladas</span>
+          <strong>{{ cancelledExperiences().length }}</strong>
         </div>
       </section>
 
       <!-- Búsqueda -->
       <section class="search-panel my-7 sm:my-9" aria-label="Buscar experiencias">
         <div class="search-panel-content">
-          <p class="search-panel-eyebrow">
-            {{ isTenant ? 'Encuentra información sobre caseros' : 'Encuentra información sobre inquilinos' }}
-          </p>
+          <p class="search-panel-eyebrow">Filtra tu historial</p>
 
           <h2 class="search-panel-title">
-            Buscar<br />
+            Buscar en<br />
             experiencias
           </h2>
 
           <p class="search-panel-description">
-            Personas reales. Experiencias verificables.
+            Encuentra una experiencia por persona, vivienda o ciudad.
           </p>
 
-          <form class="search-form" (submit)="$event.preventDefault(); navigateToSearch()">
+          <form class="search-form" (submit)="$event.preventDefault()">
             <label class="sr-only" for="experience-search">
               Buscar por persona, vivienda o ciudad
             </label>
@@ -133,7 +126,7 @@
             </div>
 
             <button type="submit" class="search-submit">
-              <span>Buscar experiencias</span>
+              <span>Filtrar historial</span>
               <svg class="search-submit-icon" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" aria-hidden="true">
@@ -144,7 +137,7 @@
           </form>
 
           <p class="search-panel-note">
-            Consulta el historial disponible en HouseKarma.
+            Los resultados se actualizan mientras escribes.
           </p>
         </div>
       </section>
@@ -161,7 +154,7 @@
           <h2>{{ featured.propertyName }}</h2>
 
           <p class="featured-description">
-            {{ featured.description }}
+            {{ featured.city }}
           </p>
 
           <div class="featured-person">
@@ -172,12 +165,16 @@
               </p>
             </div>
 
-            <span class="status-badge status-pending">
+            <span
+              class="status-badge"
+              [class.status-pending]="featured.status === 'PENDIENTE_CONFIRMACION'"
+              [class.status-confirmed]="featured.status === 'CONFIRMADA'"
+            >
               {{ statusLabel(featured.status) }}
             </span>
           </div>
 
-          @if (featured.status === 'PENDING' && !hasConfirmed(featured)) {
+          @if (featured.status === 'PENDIENTE_CONFIRMACION' && !hasConfirmed(featured)) {
             <button
               type="button"
               class="outline-button mt-4"
@@ -186,7 +183,7 @@
             >
               {{ confirmingId() === featured.id ? 'Confirmando...' : 'Confirmar experiencia' }}
             </button>
-          } @else if (featured.status === 'PENDING') {
+          } @else if (featured.status === 'PENDIENTE_CONFIRMACION') {
             <p class="featured-note">
               Ya has confirmado tu participación. Falta la confirmación de la otra parte.
             </p>
@@ -194,24 +191,24 @@
         </section>
       }
 
-      <!-- Alquileres actuales -->
-      <section class="experience-group" id="activas">
+      <!-- Experiencias confirmadas -->
+      <section class="experience-group" id="confirmadas">
         <div class="section-heading">
           <div>
             <p class="eyebrow">
-              {{ isTenant ? 'Tus alquileres vigentes' : 'Viviendas alquiladas' }}
+              {{ isTenant ? 'Participación confirmada' : 'Relaciones de alquiler confirmadas' }}
             </p>
-            <h2>Alquileres actuales</h2>
+            <h2>Experiencias confirmadas</h2>
           </div>
 
-          <span class="section-count">{{ activeExperiences().length }}</span>
+          <span class="section-count">{{ confirmedExperiences().length }}</span>
         </div>
 
-        @if (activeExperiences().length === 0) {
-          <p class="empty-message">No hay alquileres activos que coincidan con la búsqueda.</p>
+        @if (confirmedExperiences().length === 0) {
+          <p class="empty-message">No hay experiencias confirmadas que coincidan con la búsqueda.</p>
         }
 
-        @for (experience of activeExperiences(); track experience.id) {
+        @for (experience of confirmedExperiences(); track experience.id) {
           <article
             class="experience-card border-b border-[var(--color-line)] py-[23px] sm:py-[26px]"
           >
@@ -225,7 +222,7 @@
                 <h3>{{ otherPersonName(experience) }}</h3>
               </div>
 
-              <span class="status-badge status-active">
+              <span class="status-badge status-confirmed">
                 {{ statusLabel(experience.status) }}
               </span>
             </div>
@@ -240,19 +237,16 @@
               </strong>
             </div>
 
-            <div class="card-action-row">
-              <span class="small-note">{{ experience.description }}</span>
-            </div>
           </article>
         }
       </section>
 
-      <!-- Pendientes y confirmadas -->
+      <!-- Experiencias pendientes -->
       <section class="experience-group" id="pendientes">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Seguimiento</p>
-            <h2>Pendientes y confirmadas</h2>
+            <h2>Pendientes de confirmación</h2>
           </div>
 
           <span class="section-count">{{ pendingExperiences().length }}</span>
@@ -260,7 +254,7 @@
 
         @if (pendingExperiences().length === 0) {
           <p class="empty-message">
-            No hay experiencias pendientes o confirmadas que coincidan con la búsqueda.
+            No hay experiencias pendientes que coincidan con la búsqueda.
           </p>
         }
 
@@ -278,8 +272,7 @@
 
               <span
                 class="status-badge"
-                [class.status-pending]="experience.status === 'PENDING'"
-                [class.status-confirmed]="experience.status === 'CONFIRMED'"
+                [class.status-pending]="experience.status === 'PENDIENTE_CONFIRMACION'"
               >
                 {{ statusLabel(experience.status) }}
               </span>
@@ -290,13 +283,11 @@
 
             <div class="experience-dates">
               <span>Periodo del alquiler</span>
-              <strong>{{ experience.startDate }} · {{ experience.endDate }}</strong>
+              <strong>{{ experience.startDate }} · {{ experience.endDate || 'Sin fecha de fin' }}</strong>
             </div>
 
             <div class="card-action-row">
-              <span class="small-note">{{ experience.description }}</span>
-
-              @if (experience.status === 'PENDING' && !hasConfirmed(experience)) {
+              @if (!hasConfirmed(experience)) {
                 <button
                   type="button"
                   class="outline-button"
@@ -307,7 +298,7 @@
                     confirmingId() === experience.id ? 'Confirmando...' : 'Confirmar experiencia'
                   }}
                 </button>
-              } @else if (experience.status === 'PENDING') {
+              } @else {
                 <span class="small-note"> Has confirmado tu participación. </span>
               }
             </div>
@@ -354,30 +345,53 @@
 
             <div class="experience-dates">
               <span>Periodo del alquiler</span>
-              <strong>{{ experience.startDate }} · {{ experience.endDate }}</strong>
+              <strong>{{ experience.startDate }} · {{ experience.endDate || 'Sin fecha de fin' }}</strong>
             </div>
 
             <div class="card-action-row">
-              <span class="small-note">
-                {{
-                  experience.rated
-                    ? 'Esta experiencia ya ha sido valorada.'
-                    : 'El alquiler ha finalizado.'
-                }}
-              </span>
+              <span class="small-note">La experiencia ha finalizado.</span>
+              <button
+                type="button"
+                class="card-link card-link-primary"
+                (click)="openRating(experience)"
+              >
+                Valorar experiencia
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </article>
+        }
+      </section>
 
-              @if (!experience.rated) {
-                <button
-                  type="button"
-                  class="card-link card-link-primary"
-                  (click)="openRating(experience)"
-                >
-                  Valorar experiencia
-                  <span aria-hidden="true">→</span>
-                </button>
-              } @else {
-                <span class="rated-label">Ya valorada</span>
-              }
+      <section class="experience-group pt-[34px] sm:pt-[42px]" id="canceladas">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Estado de la experiencia</p>
+            <h2>Experiencias canceladas</h2>
+          </div>
+
+          <span class="section-count">{{ cancelledExperiences().length }}</span>
+        </div>
+
+        @if (cancelledExperiences().length === 0) {
+          <p class="empty-message">No hay experiencias canceladas que coincidan con la búsqueda.</p>
+        }
+
+        @for (experience of cancelledExperiences(); track experience.id) {
+          <article class="experience-card">
+            <div class="person-heading">
+              <span class="person-avatar">{{ otherPersonInitials(experience) }}</span>
+              <div class="person-details">
+                <span class="person-role">{{ otherPersonRole }}</span>
+                <h3>{{ otherPersonName(experience) }}</h3>
+              </div>
+              <span class="status-badge">{{ statusLabel(experience.status) }}</span>
+            </div>
+            <h4>{{ experience.propertyName }}</h4>
+            <p class="property-city">{{ experience.city }}</p>
+            <div class="experience-dates">
+              <span>Periodo del alquiler</span>
+              <strong>{{ experience.startDate }} · {{ experience.endDate || 'Sin fecha de fin' }}</strong>
             </div>
           </article>
         }

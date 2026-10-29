@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, finalize, shareReplay, tap } from 'rxjs';
 
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
 import { UsuarioPerfil } from '../models/usuario-perfil.model';
@@ -12,12 +12,15 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl = 'http://localhost:8080/api';
+  private profileRequest: Observable<UsuarioPerfil> | null = null;
 
   register(data: RegisterRequest): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/usuarios`, data);
   }
 
   login(data: LoginRequest): Observable<AuthResponse> {
+    this.profileRequest = null;
+
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, data).pipe(
       tap((response) => {
         localStorage.setItem('hk_token', response.token);
@@ -28,6 +31,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.profileRequest = null;
     localStorage.removeItem('hk_token');
     localStorage.removeItem('hk_email');
     localStorage.removeItem('hk_role');
@@ -75,7 +79,21 @@ export class AuthService {
   }
 
   getMyProfile(): Observable<UsuarioPerfil> {
-    return this.http.get<UsuarioPerfil>(`${this.apiUrl}/usuarios/me`);
+    if (!this.profileRequest) {
+      const profileRequest: Observable<UsuarioPerfil> = this.http
+        .get<UsuarioPerfil>(`${this.apiUrl}/usuarios/me`)
+        .pipe(
+          finalize(() => {
+            if (this.profileRequest === profileRequest) {
+              this.profileRequest = null;
+            }
+          }),
+          shareReplay({ bufferSize: 1, refCount: false }),
+        );
+      this.profileRequest = profileRequest;
+    }
+
+    return this.profileRequest;
   }
 
   updateMyProfile(data: ActualizarPerfilRequest): Observable<UsuarioPerfil> {

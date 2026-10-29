@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsuarioPerfil } from '../../../../core/models/usuario-perfil.model';
 import { ExperienciaAlquilerPendiente } from '../../../../core/models/experiencia-alquiler.model';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -19,6 +20,7 @@ import {
 export class LandlordDashboard implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly experienciaService = inject(ExperienciaAlquilerService);
+  private readonly router = inject(Router);
 
   user: UsuarioPerfil | null = null;
   isLoading = true;
@@ -31,6 +33,12 @@ export class LandlordDashboard implements OnInit {
   ngOnInit(): void {
     this.loadProfile();
     this.loadPendingExperiences();
+  }
+
+  reviewExperience(experienceId: number | string): void {
+    void this.router.navigate(['/casero/experiencias'], {
+      queryParams: { experienciaId: experienceId },
+    });
   }
 
   private loadProfile(): void {

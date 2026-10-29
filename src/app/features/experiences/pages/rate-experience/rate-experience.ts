@@ -31,8 +31,10 @@ export class RateExperience implements OnInit {
 
   readonly role = this.authService.getRole();
   readonly isTenant = this.role === 'INQUILINO';
+  readonly historyRoute = this.isTenant ? '/inquilino/experiencias' : '/casero/experiencias';
 
   readonly loading = signal(true);
+  readonly experienceReady = signal(false);
   readonly submitting = signal(false);
   readonly errorMessage = signal('');
   readonly showSummary = signal(false);
@@ -127,6 +129,7 @@ export class RateExperience implements OnInit {
       const id = Number(params.get('experienciaId'));
 
       if (!Number.isInteger(id) || id <= 0) {
+        this.experienceReady.set(false);
         this.errorMessage.set(
           'No se ha indicado una experiencia válida para valorar.',
         );
@@ -141,6 +144,7 @@ export class RateExperience implements OnInit {
 
   private cargarExperiencia(id: number): void {
     this.loading.set(true);
+    this.experienceReady.set(false);
     this.errorMessage.set('');
 
     this.experienciaService.obtenerMisExperiencias().subscribe({
@@ -164,6 +168,7 @@ export class RateExperience implements OnInit {
         }
 
         this.asignarDatosExperiencia(experiencia);
+        this.experienceReady.set(true);
         this.loading.set(false);
       },
       error: () => {
@@ -233,7 +238,12 @@ export class RateExperience implements OnInit {
   }
 
   publishRating(): void {
-    if (!this.allRated() || this.experienciaId === null || this.submitting()) {
+    if (
+      !this.experienceReady() ||
+      !this.allRated() ||
+      this.experienciaId === null ||
+      this.submitting()
+    ) {
       return;
     }
 
@@ -255,14 +265,15 @@ export class RateExperience implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.submitting.set(false);
+        const detail = this.getProblemDetail(error);
 
-        if (error.status === 409) {
+        if (error.status === 409 || detail === 'Ya has valorado esta experiencia') {
           this.errorMessage.set(
             'Ya has valorado esta experiencia.',
           );
         } else if (error.status === 400) {
           this.errorMessage.set(
-            error.error?.detail ??
+            detail ??
               'La valoración no es válida. Revisa los criterios e inténtalo de nuevo.',
           );
         } else {
@@ -272,6 +283,21 @@ export class RateExperience implements OnInit {
         }
       },
     });
+  }
+
+  private getProblemDetail(error: HttpErrorResponse): string | null {
+    const body: unknown = error.error;
+
+    if (
+      typeof body === 'object' &&
+      body !== null &&
+      'detail' in body &&
+      typeof body.detail === 'string'
+    ) {
+      return body.detail;
+    }
+
+    return null;
   }
 
   cancel(): void {

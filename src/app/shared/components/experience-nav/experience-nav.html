@@ -28,12 +28,14 @@
     <span class="nav-separator" aria-hidden="true">/</span>
   </ng-container>
 
-  <a
-    [routerLink]="rateExperienceRoute"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="nav-link"
-  >
-    Valorar experiencia
-  </a>
+  <ng-container *ngIf="isTenant">
+    <a
+      [routerLink]="rateExperienceRoute"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      Valorar experiencia
+    </a>
+  </ng-container>
 </nav>

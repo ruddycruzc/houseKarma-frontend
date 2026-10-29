@@ -1,17 +1,16 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../../core/services/auth.service';
 import { ExperienciaAlquilerService } from '../../../../core/services/experiencia-alquiler.service';
-import { ExperienciaAlquiler } from '../../../../core/models/experiencia-alquiler.model';
+import {
+  EstadoExperiencia,
+  ExperienciaAlquiler,
+} from '../../../../core/models/experiencia-alquiler.model';
 
 import { ExperienceNav } from '../../../../shared/components/experience-nav/experience-nav';
 
-type ExperienceStatus = 'ACTIVE' | 'PENDING' | 'CONFIRMED' | 'FINISHED' | 'CANCELLED';
-
-type ExperienceFilter = 'ALL' | 'ACTIVE' | 'PENDING' | 'FINISHED';
-
-interface MockExperience {
+interface ExperienceViewModel {
   id: number;
   tenantName: string;
   tenantInitials: string;
@@ -20,11 +19,8 @@ interface MockExperience {
   propertyName: string;
   city: string;
   startDate: string;
-endDate: string | null;
-  status: ExperienceStatus;
-  rated: boolean;
-  recent: boolean;
-  description: string;
+  endDate: string | null;
+  status: EstadoExperiencia;
   confirmacionInquilino: boolean;
   confirmacionCasero: boolean;
 }
@@ -38,6 +34,7 @@ endDate: string | null;
 })
 export class MyExperiences implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
   private readonly experienciaService = inject(ExperienciaAlquilerService);
   private readonly router = inject(Router);
 
@@ -47,80 +44,53 @@ export class MyExperiences implements OnInit {
   readonly errorMessage = signal('');
   readonly actionMessage = signal('');
   readonly confirmingId = signal<number | null>(null);
+  readonly reviewTargetId = signal<number | null>(null);
 
-  readonly experiences = signal<MockExperience[]>([]);
+  readonly experiences = signal<ExperienceViewModel[]>([]);
   readonly searchTerm = signal('');
-  readonly selectedFilter = signal<ExperienceFilter>('ALL');
   readonly totalCount = computed(() => this.experiences().length);
-
-  readonly recentCount = computed(
-    () => this.experiences().filter((experience) => experience.recent).length,
-  );
 
   readonly otherPersonRole = this.isTenant ? 'Tu casero' : 'Tu inquilino';
 
-  readonly activeExperiences = computed(() =>
-    this.filteredExperiences().filter((experience) => experience.status === 'ACTIVE'),
-  );
+  readonly filteredExperiences = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+
+    return this.experiences().filter((experience) =>
+      [
+        experience.propertyName,
+        experience.city,
+        this.otherPersonName(experience),
+      ].some((value) => value.toLowerCase().includes(term)),
+    );
+  });
 
   readonly pendingExperiences = computed(() =>
     this.filteredExperiences().filter(
-      (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
+      (experience) => experience.status === 'PENDIENTE_CONFIRMACION',
     ),
   );
 
+  readonly confirmedExperiences = computed(() =>
+    this.filteredExperiences().filter((experience) => experience.status === 'CONFIRMADA'),
+  );
+
   readonly finishedExperiences = computed(() =>
-    this.filteredExperiences().filter((experience) => experience.status === 'FINISHED'),
+    this.filteredExperiences().filter((experience) => experience.status === 'FINALIZADA'),
   );
 
-  readonly activeCount = computed(
-    () => this.experiences().filter((experience) => experience.status === 'ACTIVE').length,
+  readonly cancelledExperiences = computed(() =>
+    this.filteredExperiences().filter((experience) => experience.status === 'CANCELADA'),
   );
 
-  readonly pendingCount = computed(
-    () =>
-      this.experiences().filter(
-        (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
-      ).length,
-  );
+  readonly featuredExperience = computed(() => {
+    const pending = this.pendingExperiences();
+    const reviewTargetId = this.reviewTargetId();
 
-  readonly finishedCount = computed(
-    () => this.experiences().filter((experience) => experience.status === 'FINISHED').length,
-  );
-
-  readonly ratedCount = computed(
-    () => this.finishedExperiences().filter((experience) => experience.rated).length,
-  );
-
-  readonly featuredExperience = computed(
-    () =>
-      this.experiences().find(
-        (experience) => experience.status === 'PENDING' || experience.status === 'CONFIRMED',
-      ) ??
-      this.experiences()[0] ??
-      null,
-  );
-
-  readonly filteredExperiences = computed(() => {
-    const term = this.searchTerm().trim().toLowerCase();
-    const filter = this.selectedFilter();
-
-    return this.experiences().filter((experience) => {
-      const matchesSearch =
-        !term ||
-        experience.propertyName.toLowerCase().includes(term) ||
-        experience.city.toLowerCase().includes(term) ||
-        this.otherPersonName(experience).toLowerCase().includes(term);
-
-      const matchesFilter =
-        filter === 'ALL' ||
-        (filter === 'ACTIVE' && experience.status === 'ACTIVE') ||
-        (filter === 'PENDING' &&
-          (experience.status === 'PENDING' || experience.status === 'CONFIRMED')) ||
-        (filter === 'FINISHED' && experience.status === 'FINISHED');
-
-      return matchesSearch && matchesFilter;
-    });
+    return (
+      pending.find((experience) => experience.id === reviewTargetId) ??
+      pending[0] ??
+      null
+    );
   });
 
   readonly rateExperienceRoute = this.isTenant
@@ -128,6 +98,11 @@ export class MyExperiences implements OnInit {
     : '/casero/experiencias/valorar';
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      const id = Number(params.get('experienciaId'));
+      this.reviewTargetId.set(Number.isInteger(id) && id > 0 ? id : null);
+    });
+
     this.loadExperiences();
   }
 
@@ -148,16 +123,9 @@ export class MyExperiences implements OnInit {
     });
   }
 
-  private mapExperience(item: ExperienciaAlquiler): MockExperience {
+  private mapExperience(item: ExperienciaAlquiler): ExperienceViewModel {
     const tenantName = this.fullName(item.inquilinoNombre, item.inquilinoApellidos);
-
     const landlordName = this.fullName(item.caseroNombre, item.caseroApellidos);
-
-    const propertyName = [item.viviendaDireccion, item.viviendaNumero, item.viviendaComplemento]
-      .filter(Boolean)
-      .join(', ');
-
-    const city = [item.viviendaLocalidad, item.viviendaProvincia].filter(Boolean).join(', ');
 
     return {
       id: item.id,
@@ -165,32 +133,22 @@ export class MyExperiences implements OnInit {
       tenantInitials: this.getInitials(tenantName),
       landlordName,
       landlordInitials: this.getInitials(landlordName),
-      propertyName: propertyName || 'Vivienda sin dirección',
-      city: city || 'Ubicación no disponible',
+      propertyName: [
+        item.viviendaDireccion,
+        item.viviendaNumero,
+        item.viviendaComplemento,
+      ]
+        .filter((part) => part?.trim())
+        .join(', ') || 'Vivienda sin dirección',
+      city: [item.viviendaLocalidad, item.viviendaProvincia]
+        .filter((part) => part?.trim())
+        .join(', ') || 'Ubicación no disponible',
       startDate: item.fechaInicio,
       endDate: item.fechaFin,
-      status: this.mapStatus(item.estado),
-      rated: false,
-      recent: false,
-      description: 'Experiencia de alquiler registrada en HouseKarma.',
+      status: item.estado,
       confirmacionInquilino: item.confirmacionInquilino,
       confirmacionCasero: item.confirmacionCasero,
     };
-  }
-
-  private mapStatus(status: ExperienciaAlquiler['estado']): ExperienceStatus {
-    switch (status) {
-      case 'PENDIENTE_CONFIRMACION':
-        return 'PENDING';
-      case 'CONFIRMADA':
-        return 'CONFIRMED';
-      case 'FINALIZADA':
-        return 'FINISHED';
-      case 'CANCELADA':
-        return 'CANCELLED';
-      default:
-        return 'PENDING';
-    }
   }
 
   private fullName(
@@ -209,34 +167,33 @@ export class MyExperiences implements OnInit {
       .join('');
   }
 
-  otherPersonName(experience: MockExperience): string {
+  otherPersonName(experience: ExperienceViewModel): string {
     return this.isTenant ? experience.landlordName : experience.tenantName;
   }
 
-  otherPersonInitials(experience: MockExperience): string {
+  otherPersonInitials(experience: ExperienceViewModel): string {
     return this.isTenant ? experience.landlordInitials : experience.tenantInitials;
   }
 
-  statusLabel(status: ExperienceStatus): string {
-    const labels: Record<ExperienceStatus, string> = {
-      ACTIVE: 'En curso',
-      PENDING: 'Pendiente de confirmación',
-      CONFIRMED: 'Confirmada',
-      FINISHED: 'Finalizada',
-      CANCELLED: 'Cancelada',
+  statusLabel(status: EstadoExperiencia): string {
+    const labels: Record<EstadoExperiencia, string> = {
+      PENDIENTE_CONFIRMACION: 'Pendiente de confirmación',
+      CONFIRMADA: 'Confirmada',
+      FINALIZADA: 'Finalizada',
+      CANCELADA: 'Cancelada',
     };
 
     return labels[status];
   }
 
-  hasConfirmed(experience: MockExperience): boolean {
+  hasConfirmed(experience: ExperienceViewModel): boolean {
     return this.isTenant ? experience.confirmacionInquilino : experience.confirmacionCasero;
   }
 
-  confirmExperience(experience: MockExperience): void {
+  confirmExperience(experience: ExperienceViewModel): void {
     if (
       this.confirmingId() !== null ||
-      experience.status !== 'PENDING' ||
+      experience.status !== 'PENDIENTE_CONFIRMACION' ||
       this.hasConfirmed(experience)
     ) {
       return;
@@ -259,7 +216,7 @@ export class MyExperiences implements OnInit {
     });
   }
 
-  openRating(experience: MockExperience): void {
+  openRating(experience: ExperienceViewModel): void {
     void this.router.navigate([this.rateExperienceRoute], {
       queryParams: { experienciaId: experience.id },
     });
@@ -268,20 +225,4 @@ export class MyExperiences implements OnInit {
   setSearchTerm(value: string): void {
     this.searchTerm.set(value);
   }
-
-  setFilter(filter: ExperienceFilter): void {
-    this.selectedFilter.set(filter);
-  }
-
-  navigateToSearch(): void {
-    const query = this.searchTerm().trim();
-
-    void this.router.navigate(
-      [this.isTenant
-        ? '/inquilino/experiencias/buscar'
-        : '/casero/experiencias/buscar'],
-      { queryParams: query ? { q: query } : {} },
-    );
-  }
-
 }

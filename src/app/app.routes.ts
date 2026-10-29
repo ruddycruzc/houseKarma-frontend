@@ -55,6 +55,7 @@ export const routes: Routes = [
       },
       {
         path: 'experiencias',
+        pathMatch: 'full',
         component: MyExperiences,
       },
       {
@@ -91,6 +92,10 @@ export const routes: Routes = [
         component: LandlordDashboard,
       },
       {
+        path: 'experiencias',
+        component: MyExperiences,
+      },
+      {
         path: 'perfil',
         component: MyProfile,
       },
@@ -98,10 +103,10 @@ export const routes: Routes = [
         path: 'experiencias/valorar',
         component: RateExperience,
       },
-{
-  path: 'experiencias/nueva',
-  component: AddExperience,
-},
+      {
+        path: 'experiencias/nueva',
+        component: AddExperience,
+      },
       {
         path: 'buscar-usuarios',
         component: UserSearch,

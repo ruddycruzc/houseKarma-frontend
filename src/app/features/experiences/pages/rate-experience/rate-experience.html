@@ -17,6 +17,7 @@
 
     <app-experience-nav />
 
+    @if (experienceReady()) {
     <header class="page-heading">
       <p class="eyebrow">Valoración</p>
       <h1>¿Cómo fue tu experiencia?</h1>
@@ -65,7 +66,7 @@
           Tu valoración se ha guardado correctamente. Gracias por contribuir a la reputación de
           HouseKarma.
         </p>
-        <a routerLink="../" class="secondary-button"> Volver a mis experiencias </a>
+        <a [routerLink]="historyRoute" class="secondary-button"> Volver a mis experiencias </a>
       </section>
     } @else {
       <form (ngSubmit)="previewRating()">
@@ -142,7 +143,7 @@
             Revisar valoración <span aria-hidden="true">→</span>
           </button>
 
-          <a routerLink="../" class="cancel-link">Cancelar</a>
+          <a [routerLink]="historyRoute" class="cancel-link">Cancelar</a>
         </div>
       </form>
 
@@ -183,6 +184,7 @@
           </button>
         </section>
       }
+    }
     }
   </div>
 </main>

@@ -18,7 +18,10 @@
         <p>Inténtalo de nuevo más tarde.</p>
       </div>
     } @else {
-      <app-landlord-pending-experience [experiences]="pendingExperiences" />
+      <app-landlord-pending-experience
+        [experiences]="pendingExperiences"
+        (reviewRequested)="reviewExperience($event)"
+      />
     }
   }
 </main>
