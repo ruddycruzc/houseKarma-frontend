@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { LandlordHeader } from './landlord-header';
 
@@ -9,6 +10,7 @@ describe('LandlordHeader', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LandlordHeader],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LandlordHeader);

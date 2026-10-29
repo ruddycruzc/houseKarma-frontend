@@ -13,6 +13,8 @@ describe('LandlordPendingExperience', () => {
 
     fixture = TestBed.createComponent(LandlordPendingExperience);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('experiences', []);
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
