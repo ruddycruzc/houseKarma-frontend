@@ -5,7 +5,16 @@
   [class.landlord-theme]="!isTenant"
 >
   <div class="mx-auto w-[calc(100%-32px)] max-w-5xl pb-20 sm:w-[calc(100%-48px)]">
-   
+    @if (loading()) {
+      <section class="notice" role="status">Cargando los datos de la experiencia...</section>
+    }
+
+    @if (errorMessage()) {
+      <section class="validation-message" role="alert">
+        {{ errorMessage() }}
+      </section>
+    }
+
     <app-experience-nav />
 
     <header class="page-heading">
@@ -51,14 +60,12 @@
 
     @if (published()) {
       <section class="success-message" role="status">
-        <h2>Vista previa completada</h2>
+        <h2>¡Valoración publicada!</h2>
         <p>
-          La interacción funciona correctamente. La publicación real se habilitará cuando conectemos
-          el backend de valoraciones.
+          Tu valoración se ha guardado correctamente. Gracias por contribuir a la reputación de
+          HouseKarma.
         </p>
-        <button type="button" class="secondary-button" (click)="published.set(false)">
-          Volver al formulario
-        </button>
+        <a routerLink="../" class="secondary-button"> Volver a mis experiencias </a>
       </section>
     } @else {
       <form (ngSubmit)="previewRating()">
@@ -127,7 +134,11 @@
         }
 
         <div class="form-actions">
-          <button type="submit" class="primary-button" [disabled]="!allRated()">
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="!allRated() || loading() || submitting()"
+          >
             Revisar valoración <span aria-hidden="true">→</span>
           </button>
 
@@ -157,11 +168,19 @@
             <p>{{ comment().trim() || 'Sin comentario adicional.' }}</p>
           </div>
 
-          <button type="button" class="primary-button" (click)="publishRating()">
-            Confirmar vista previa <span aria-hidden="true">→</span>
+          <button
+            type="button"
+            class="primary-button"
+            [disabled]="submitting()"
+            (click)="publishRating()"
+          >
+            {{ submitting() ? 'Publicando...' : 'Publicar valoración' }}
+            <span aria-hidden="true">→</span>
           </button>
 
-          <button type="button" class="cancel-link" (click)="cancel()">Volver a editar</button>
+          <button type="button" class="cancel-link" [disabled]="submitting()" (click)="cancel()">
+            Volver a editar
+          </button>
         </section>
       }
     }

@@ -17,6 +17,7 @@ import { MyExperiences } from './features/experiences/pages/my-experiences/my-ex
 import { MyProfile } from './features/my-profile/my-profile';
 import { UserSearch } from './features/search-user/components/user-search/user-search';
 import { UserPublicProfile } from './features/search-user/pages/user-public-profile/user-public-profile';
+import { AddExperience } from './features/experiences/components/add-experience/add-experience';
 
 export const routes: Routes = [
   {
@@ -97,6 +98,10 @@ export const routes: Routes = [
         path: 'experiencias/valorar',
         component: RateExperience,
       },
+{
+  path: 'experiencias/nueva',
+  component: AddExperience,
+},
       {
         path: 'buscar-usuarios',
         component: UserSearch,

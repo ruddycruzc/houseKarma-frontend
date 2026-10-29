@@ -14,6 +14,20 @@
 
   <span class="nav-separator" aria-hidden="true">/</span>
 
+  <!-- Solo visible para el casero -->
+  <ng-container *ngIf="!isTenant">
+    <a
+      [routerLink]="addExperienceRoute"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      Registrar experiencia
+    </a>
+
+    <span class="nav-separator" aria-hidden="true">/</span>
+  </ng-container>
+
   <a
     [routerLink]="rateExperienceRoute"
     routerLinkActive="active"

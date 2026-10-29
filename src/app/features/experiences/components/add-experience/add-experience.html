@@ -1,0 +1,169 @@
+
+<section class="experience-page">
+  <div class="experience-container">
+    <a class="back-link" routerLink="/casero/dashboard">
+      ← Volver al panel
+    </a>
+
+    <header class="page-header">
+      <span class="eyebrow">EXPERIENCIAS</span>
+      <h1>Registrar un alquiler</h1>
+      <p>
+        Registra la experiencia de alquiler para que ambas partes
+        puedan confirmar su participación y construir su reputación.
+      </p>
+    </header>
+
+    <form class="experience-card" (ngSubmit)="registrar()">
+      <div class="section-heading">
+        <span class="step-number">01</span>
+        <div>
+          <h2>Datos del alquiler</h2>
+          <p>Indica la vivienda y las fechas de la experiencia.</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="vivienda">Vivienda</label>
+
+        <select
+          id="vivienda"
+          name="viviendaId"
+          [(ngModel)]="viviendaId"
+          required
+          [disabled]="cargandoViviendas() || viviendas().length === 0"
+        >
+          <option [ngValue]="null" disabled>
+            {{ cargandoViviendas() ? 'Cargando viviendas...' : 'Selecciona una vivienda' }}
+          </option>
+
+          <option *ngFor="let vivienda of viviendas()" [ngValue]="vivienda.id">
+            {{ vivienda.direccion }}, {{ vivienda.numero }}
+            <ng-container *ngIf="vivienda.complemento">
+              {{ vivienda.complemento }},
+            </ng-container>
+            {{ vivienda.localidad }}
+          </option>
+        </select>
+
+        <p class="field-hint" *ngIf="!cargandoViviendas() && viviendas().length === 0">
+          No tienes viviendas disponibles para seleccionar.
+        </p>
+      </div>
+
+      <div class="section-heading tenant-heading">
+        <span class="step-number">02</span>
+        <div>
+          <h2>Identificar al inquilino</h2>
+          <p>Busca a la persona con la que se realizó el alquiler.</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="busqueda">Nombre o apellidos</label>
+
+        <div class="search-row">
+          <input
+            id="busqueda"
+            name="terminoBusqueda"
+            type="search"
+            [(ngModel)]="terminoBusqueda"
+            placeholder="Ej. María García"
+            autocomplete="off"
+          />
+
+          <button
+            class="search-button"
+            type="button"
+            (click)="buscarInquilinos()"
+            [disabled]="buscandoInquilinos()"
+          >
+            {{ buscandoInquilinos() ? 'Buscando...' : 'Buscar' }}
+          </button>
+        </div>
+
+        <p class="field-hint" *ngIf="errorBusqueda()">
+          {{ errorBusqueda() }}
+        </p>
+      </div>
+
+      <div class="field" *ngIf="inquilinos().length > 0">
+        <label for="inquilino">Resultados de búsqueda</label>
+
+        <select
+          id="inquilino"
+          name="inquilinoId"
+          [(ngModel)]="inquilinoId"
+          required
+        >
+          <option [ngValue]="null" disabled>Selecciona un inquilino</option>
+
+          <option *ngFor="let inquilino of inquilinos()" [ngValue]="inquilino.id">
+            {{ inquilino.nombre }} {{ inquilino.apellidos }}
+          </option>
+        </select>
+      </div>
+
+      <div class="section-heading tenant-heading">
+        <span class="step-number">03</span>
+        <div>
+          <h2>Duración del alquiler</h2>
+          <p>La fecha de fin puede dejarse vacía si el alquiler continúa.</p>
+        </div>
+      </div>
+
+      <div class="date-grid">
+        <div class="field">
+          <label for="fechaInicio">Fecha de inicio</label>
+          <input
+            id="fechaInicio"
+            name="fechaInicio"
+            type="date"
+            [(ngModel)]="fechaInicio"
+            [max]="fechaFin || null"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="fechaFin">Fecha de fin <span>(opcional)</span></label>
+          <input
+            id="fechaFin"
+            name="fechaFin"
+            type="date"
+            [(ngModel)]="fechaFin"
+            [min]="fechaInicio || null"
+          />
+        </div>
+      </div>
+
+      <div class="notice">
+        <span class="notice-mark">i</span>
+        <p>
+          Al registrar la experiencia, el inquilino deberá confirmar
+          su participación antes de que el alquiler pueda avanzar
+          hacia su valoración.
+        </p>
+      </div>
+
+      <p class="feedback error-message" *ngIf="error()">
+        {{ error() }}
+      </p>
+
+      <div class="success-message" *ngIf="exito()" role="status">
+        <strong>Experiencia registrada correctamente.</strong>
+        <p>Queda pendiente de confirmación por parte del inquilino.</p>
+      </div>
+
+      <div class="form-actions">
+        <button
+          class="submit-button"
+          type="submit"
+          [disabled]="enviando() || cargandoViviendas() || viviendas().length === 0"
+        >
+          {{ enviando() ? 'Registrando...' : 'Registrar experiencia' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

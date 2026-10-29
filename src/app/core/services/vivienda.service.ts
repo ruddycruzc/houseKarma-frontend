@@ -13,4 +13,7 @@ export class ViviendaService {
   listarTodas(): Observable<Vivienda[]> {
     return this.http.get<Vivienda[]>(this.apiUrl);
   }
+  listarMisViviendas(): Observable<Vivienda[]> {
+  return this.http.get<Vivienda[]>(`${this.apiUrl}/mis-viviendas`);
+}
 }

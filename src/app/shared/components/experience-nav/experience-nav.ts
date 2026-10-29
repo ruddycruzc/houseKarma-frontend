@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-experience-nav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [CommonModule,RouterLink, RouterLinkActive],
   templateUrl: './experience-nav.html',
   styleUrl: './experience-nav.css',
 })
@@ -28,4 +29,6 @@ export class ExperienceNav {
   readonly rateExperienceRoute = this.isTenant
     ? '/inquilino/experiencias/valorar'
     : '/casero/experiencias/valorar';
+
+  readonly addExperienceRoute = '/casero/experiencias/nueva';
 }
