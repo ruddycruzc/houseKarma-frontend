@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../../core/services/auth.service';
 import { RegisterRequest } from '../../../../core/models/auth.models';
+import { getApiErrorMessage } from '../../../../core/utils/api-error-message';
 
 export type UserRole = 'INQUILINO' | 'CASERO';
 
@@ -26,7 +27,7 @@ export const registrationFieldsMatchValidator: ValidatorFn = (
 
   const errors: ValidationErrors = {};
 
-  if (email && confirmEmail && email.trim().toLowerCase() !== confirmEmail.trim().toLowerCase()) {
+  if (email && confirmEmail && email.trim() !== confirmEmail.trim()) {
     errors['emailsMismatch'] = true;
   }
 
@@ -158,13 +159,15 @@ export class Register {
     }
 
     if (error.status === 400) {
-      const message = error.error?.message;
-
-      return typeof message === 'string'
-        ? message
-        : 'No se pudo crear la cuenta. Revisa los datos introducidos.';
+      return getApiErrorMessage(
+        error,
+        'No se pudo crear la cuenta. Revisa los datos introducidos.',
+      );
     }
 
-    return 'Ha ocurrido un error al crear tu cuenta. Inténtalo de nuevo.';
+    return getApiErrorMessage(
+      error,
+      'Ha ocurrido un error al crear tu cuenta. Inténtalo de nuevo.',
+    );
   }
 }

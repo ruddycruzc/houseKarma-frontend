@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {
   ExperienciaAlquiler,
   ExperienciaAlquilerPendiente,
+  ExperienciaAlquilerResponse,
 } from '../models/experiencia-alquiler.model';
 
 @Injectable({
@@ -30,7 +31,7 @@ export class ExperienciaAlquilerService {
     inquilinoId: number | null;
     fechaInicio: string;
     fechaFin: string | null;
-  }) {
-    return this.http.post<ExperienciaAlquiler>(this.apiUrl, request);
+  }): Observable<ExperienciaAlquilerResponse> {
+    return this.http.post<ExperienciaAlquilerResponse>(this.apiUrl, request);
   }
 }

@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { of } from 'rxjs';
 
 import { Register, registrationFieldsMatchValidator } from './register';
+import { AuthService } from '../../../../core/services/auth.service';
 
 describe('Register', () => {
   let fixture: ComponentFixture<Register>;
@@ -11,7 +13,13 @@ describe('Register', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Register],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: { register: () => of({}) },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Register);
@@ -90,6 +98,20 @@ describe('Register', () => {
       expect(component['registerForm'].hasError('passwordsMismatch')).toBe(false);
     });
 
+    it('should reject email confirmation that differs only by letter case', () => {
+      component['registerForm'].controls.email.setValue('Alex@example.com');
+      component['registerForm'].controls.confirmEmail.setValue('alex@example.com');
+
+      expect(component['registerForm'].hasError('emailsMismatch')).toBe(true);
+    });
+
+    it('should accept matching emails with surrounding whitespace', () => {
+      component['registerForm'].controls.email.setValue(' alex@example.com ');
+      component['registerForm'].controls.confirmEmail.setValue('alex@example.com');
+
+      expect(component['registerForm'].hasError('emailsMismatch')).toBe(false);
+    });
+
     it('should validate matching passwords with the reusable validator', () => {
       const form = new FormGroup({
         password: new FormControl('Password123'),
@@ -163,7 +185,7 @@ describe('Register', () => {
       component['submitForm']();
       fixture.detectChanges();
 
-      const alert = fixture.nativeElement.querySelector('[role="alert]');
+      const alert = fixture.nativeElement.querySelector('[role="alert"]');
 
       expect(alert).not.toBeNull();
     });

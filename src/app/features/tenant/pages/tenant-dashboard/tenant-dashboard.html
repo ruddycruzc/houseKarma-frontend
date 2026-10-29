@@ -10,7 +10,11 @@
     </div>
   } @else if (user(); as profile) {
     <app-tenant-hero [user]="profile" />
-    <app-tenant-experiences />
+    <app-tenant-experiences
+      [experiences]="experiences()"
+      [loading]="isExperiencesLoading()"
+      [hasError]="hasExperiencesError()"
+    />
     <app-tenant-profile-public-section [user]="profile" />
   } @else {
     <div class="dashboard-message" role="alert">

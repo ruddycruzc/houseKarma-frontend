@@ -27,6 +27,19 @@ export interface ExperienciaAlquiler {
   fechaRegistro: string;
 }
 
+export interface ExperienciaAlquilerResponse {
+  id: number;
+  viviendaId: number;
+  inquilinoId: number;
+  caseroId: number;
+  fechaInicio: string;
+  fechaFin: string | null;
+  estado: EstadoExperiencia;
+  confirmacionInquilino: boolean;
+  confirmacionCasero: boolean;
+  fechaRegistro: string;
+}
+
 export interface ExperienciaAlquilerPendiente {
   id: number;
   inquilinoNombre: string;

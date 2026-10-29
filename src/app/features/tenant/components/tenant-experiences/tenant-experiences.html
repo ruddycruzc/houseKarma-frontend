@@ -11,7 +11,13 @@
     <p>Tus relaciones de alquiler, de principio a fin.</p>
   </div>
 
-  @if (experiences().length === 0) {
+  @if (loading()) {
+    <p class="empty-state" role="status">Cargando tus experiencias...</p>
+  } @else if (hasError()) {
+    <p class="empty-state" role="alert">
+      No se han podido cargar tus experiencias. Inténtalo de nuevo más tarde.
+    </p>
+  } @else if (experiences().length === 0) {
     <div class="empty-state">
       <span class="empty-state-number" aria-hidden="true">01</span>
 
@@ -56,9 +62,10 @@
           <div class="experience-actions">
             <p
               class="experience-status"
-              [class.activa]="experience.status === 'ACTIVA'"
+              [class.pendiente]="experience.status === 'PENDIENTE_CONFIRMACION'"
+              [class.confirmada]="experience.status === 'CONFIRMADA'"
               [class.finalizada]="experience.status === 'FINALIZADA'"
-              [class.valorada]="experience.status === 'VALORADA'"
+              [class.cancelada]="experience.status === 'CANCELADA'"
             >
               <span aria-hidden="true">●</span>
               {{ statusLabel(experience.status) }}

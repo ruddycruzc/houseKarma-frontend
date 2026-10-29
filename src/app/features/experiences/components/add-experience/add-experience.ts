@@ -11,6 +11,7 @@ import { ExperienciaAlquilerService } from '../../../../core/services/experienci
 import { Vivienda } from '../../../../core/models/vivienda.model';
 import { UsuarioBusqueda } from '../../../../core/models/usuario-busqueda.model';
 import { RouterLink } from '@angular/router';
+import { getApiErrorMessage } from '../../../../core/utils/api-error-message';
 
 @Component({
   selector: 'app-add-experience',
@@ -131,10 +132,12 @@ export class AddExperience implements OnInit {
         this.fechaFin = '';
         this.inquilinos.set([]);
       },
-      error: (err) => {
+      error: (error: unknown) => {
         this.error.set(
-          err?.error?.message ??
-          'No se pudo registrar la experiencia. Comprueba los datos e inténtalo de nuevo.',
+          getApiErrorMessage(
+            error,
+            'No se pudo registrar la experiencia. Comprueba los datos e inténtalo de nuevo.',
+          ),
         );
         this.enviando.set(false);
       },

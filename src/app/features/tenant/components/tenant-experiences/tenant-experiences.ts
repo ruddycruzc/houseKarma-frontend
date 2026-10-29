@@ -1,7 +1,8 @@
 
 import { Component, input } from '@angular/core';
+import { EstadoExperiencia } from '../../../../core/models/experiencia-alquiler.model';
 
-export type ExperienceStatus = 'ACTIVA' | 'FINALIZADA' | 'VALORADA';
+export type ExperienceStatus = EstadoExperiencia;
 
 export interface TenantExperience {
   id: number;
@@ -22,6 +23,8 @@ export interface TenantExperience {
 })
 export class TenantExperiences {
   readonly experiences = input<TenantExperience[]>([]);
+  readonly loading = input(false);
+  readonly hasError = input(false);
 
   protected formatDate(date: string | null): string {
     if (!date) return 'Sin finalizar';
@@ -39,9 +42,10 @@ export class TenantExperiences {
 
   protected statusLabel(status: ExperienceStatus): string {
     const labels: Record<ExperienceStatus, string> = {
-      ACTIVA: 'Activa',
+      PENDIENTE_CONFIRMACION: 'Pendiente de confirmación',
+      CONFIRMADA: 'Confirmada',
       FINALIZADA: 'Finalizada',
-      VALORADA: 'Valorada',
+      CANCELADA: 'Cancelada',
     };
 
     return labels[status];
